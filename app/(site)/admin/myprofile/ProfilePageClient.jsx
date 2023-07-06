@@ -43,7 +43,6 @@ const ProfilePageClient = ({
 
         axios.put(`/api/artists/${artist.id}`, data)
             .then(res => {
-                console.log("DATA RES:", res.data)
                 toast.success("Profile updated")
             })
             .catch(err => {

@@ -34,6 +34,7 @@ export async function getCurrentUser() {
             emailVerified:
                 currentUser.emailVerified?.toISOString() || null,
             artistProfileId: session.user.artistProfileId,
+            favoriteIds: session.user.favoriteIds,
         };
     } catch (error) {
         return null;

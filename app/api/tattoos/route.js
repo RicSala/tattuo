@@ -23,8 +23,6 @@ export async function POST(request) {
     })
 
 
-    console.log("ARTIST PROFILE", artistProfile)
-
     const body = await request.json();
 
     const {

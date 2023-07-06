@@ -6,6 +6,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
 import prisma from '@/libs/prismadb';
+import { getFavoriteIdsOfUser } from '@/actions/getFavoriteIdsOfUser';
 
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
@@ -92,7 +93,10 @@ export const authOptions = {
                 token.artistProfileId = artistProfile.id
             }
 
+            const favoriteIds = await getFavoriteIdsOfUser(dbUser)
+
             token.role = dbUser.role
+            token.favoriteIds = favoriteIds
 
 
             return token
@@ -102,6 +106,7 @@ export const authOptions = {
 
             if (session && session.user) {
                 session.user.role = token.role
+                session.user.favoriteIds = token.favoriteIds
                 session.user.id = token.sub
                 if (token.artistProfileId) {
                     session.user.artistProfileId = token.artistProfileId

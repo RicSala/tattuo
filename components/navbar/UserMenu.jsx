@@ -14,11 +14,7 @@ const UserMenu = ({
     currentUser,
 }) => {
 
-    console.log("CURRENT USER -->", currentUser)
-
     const userFromFE = useSession();
-    console.log("userFromFE", userFromFE)
-
     // Snippet to close the menu when clicking outside of it
     const menuRef = useRef(null);
     const router = useRouter();
@@ -59,13 +55,13 @@ const UserMenu = ({
 
         <>
             <MenuItem
-                onMouseEnter={() => router.prefetch("/properties")}
-                onClick={() => { router.push("/properties") }}
+                onMouseEnter={() => router.prefetch("/my-tattoos")}
+                onClick={() => { router.push("/admin/my-tattoos") }}
                 label="Mis tatuajes"
             />
             <MenuItem
-                onMouseEnter={() => router.prefetch("admin/myprofile")}
-                onClick={() => { router.push("admin/myprofile") }}
+                onMouseEnter={() => router.prefetch("/admin/myprofile")}
+                onClick={() => { router.push("/admin/myprofile") }}
                 label="Mi perfil"
             />
             <MenuItem
