@@ -55,7 +55,7 @@ export const authOptions = {
     // custom pages
     pages: {
         signIn: '/',
-        newUser: '/auth/register',
+        newUser: '/',
     },
 
     debug: process.env.NODE_ENV === 'development',
