@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js" // Specify the Prisma client - 
+}
+
+datasource db {
+  provider = "mongodb" // Specify the MongoDB database adapter
+  url      = env("MONGO_URL")
+}
+
+model User {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  // name type decorator defaultauto map-to-mongo-_id ??
+  name            String?
+  email           String?   @unique
+  emailVerified   DateTime?
+  image           String?
+  hashedPassword  String?
+  confirmPassword String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  role            UserRole  @default(CLIENT)
+
+  // RELATIONS
+  accounts Account[]
+  artist   ArtistProfile?
+  saves    SavedTattoo[]
+
+  // messages Message[]
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String // REVIEW:  what is the db.String decorator for?
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  // RELATIONS
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId]) // the combination of provider and providerAccountId must be unique
+}
+
+model ArtistProfile {
+  // DB fields
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @unique @db.ObjectId // relation scalar field (used in the `@relation` attribute above
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Profile fields
+  bio             String?
+  location        String?
+  phone           String?
+  website         String?
+  instagram       String?
+  facebook        String?
+  twitter         String?
+  youtube         String?
+  tiktok          String?
+  mainImage       String?
+  images          String[]
+  styles          String[]
+  pricePerHour    Int?
+  pricePerSession Int?
+  maxPrice        Int?
+  tattoos         Tattoo[]
+}
+
+model Tattoo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title         String
+  description   String
+  imageSrc      String
+  category      String
+  locationValue String
+  // numLikes      Int      @default(0)
+
+  // RELATIONS
+  artistProfileId String?        @db.ObjectId
+  ArtistProfile   ArtistProfile? @relation(fields: [artistProfileId], references: [id])
+
+  saves SavedTattoo[]
+}
+
+enum UserRole {
+  ADMIN
+  CLIENT
+  ARTIST
+}
+
+model SavedTattoo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tattooId String @db.ObjectId
+  tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tattooId])
+  @@map("Save")
+}
