@@ -4,16 +4,20 @@ import { AiOutlineMenu } from 'react-icons/ai';
 // import Avatar from '../Avatar';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 // import MenuItem from './MenuItem';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Avatar from '../Avatar';
 import { UiContext } from '@/providers/ui/UiProvider';
 import MenuItem from './MenuItem';
-import { useSession } from 'next-auth/react';
 
 const UserMenu = ({
     currentUser,
 }) => {
+
+    console.log("CURRENT USER", currentUser)
+
+    const userFromFE = useSession();
+    console.log("userFromFE", userFromFE)
 
     // Snippet to close the menu when clicking outside of it
     const menuRef = useRef(null);
@@ -49,6 +53,72 @@ const UserMenu = ({
 
     //     onOpenRentModal();
     // }, [currentUser, onOpenLoginModal, onOpenRentModal])
+
+
+    const artistMenu = (
+
+        <>
+            <MenuItem
+                onMouseEnter={() => router.prefetch("/properties")}
+                onClick={() => { router.push("/properties") }}
+                label="Mis tatuajes"
+            />
+            <MenuItem
+                onMouseEnter={() => router.prefetch("/reservations")}
+                onClick={() => { router.push("/reservations") }}
+                label="Mi perfil"
+            />
+            <MenuItem
+                onClick={onOpenRentModal}
+                label="Blog"
+            />
+            <hr />
+            <MenuItem
+                onClick={() => signOut()}
+                label="Salir"
+            />
+        </>
+    )
+
+    const clientMenu = (
+
+        <>
+            <MenuItem
+                onMouseEnter={() => router.prefetch("/properties")}
+                onClick={() => { router.push("/properties") }}
+                label="Mis tatuadores favoritos"
+            />
+            <MenuItem
+                onMouseEnter={() => router.prefetch("/reservations")}
+                onClick={() => { router.push("/reservations") }}
+                label="Mis tatuajes guardados"
+            />
+            <MenuItem
+                onClick={onOpenRentModal}
+                label="Mi perfil"
+            />
+            <hr />
+            <MenuItem
+                onClick={() => signOut()}
+                label="Salir"
+            />
+        </>
+    )
+
+
+    const loginMenu = (
+        <>
+            <MenuItem
+                onClick={onOpenLoginModal}
+                label="Login"
+            />
+            <MenuItem
+                onClick={onOpenRegisterModal}
+                label="Sign Up"
+            />
+        </>
+    )
+
 
 
     return (
@@ -117,41 +187,9 @@ const UserMenu = ({
                 ">
 
                     <div className="flex flex-col cursor-pointer">
-                        {currentUser ?
-
-                            <>
-                                <MenuItem
-                                    onMouseEnter={() => router.prefetch("/properties")}
-                                    onClick={() => { router.push("/properties") }}
-                                    label="Mis tatuajes"
-                                />
-                                <MenuItem
-                                    onMouseEnter={() => router.prefetch("/reservations")}
-                                    onClick={() => { router.push("/reservations") }}
-                                    label="Mi perfil"
-                                />
-                                <MenuItem
-                                    onClick={onOpenRentModal}
-                                    label="Blog"
-                                />
-                                <hr />
-                                <MenuItem
-                                    onClick={() => signOut()}
-                                    label="Salir"
-                                />
-
-                            </>
-                            :
-                            <>
-                                <MenuItem
-                                    onClick={onOpenLoginModal}
-                                    label="Login"
-                                />
-                                <MenuItem
-                                    onClick={onOpenRegisterModal}
-                                    label="Sign Up"
-                                />
-                            </>}
+                        {currentUser && currentUser.role === 'ARTIST' && artistMenu}
+                        {currentUser && currentUser.role === 'CLIENT' && clientMenu}
+                        {!currentUser && loginMenu}
 
                     </div>
 

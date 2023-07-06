@@ -72,6 +72,29 @@ export const authOptions = {
     //REVIEW: When we use the Prisma adapter, who decides which fields are gonna be saved in the session?
     // how do I add more fields to the session?
     callbacks: {
+
+        async signIn(user, account, profile) {
+            // console.log("SIGN IN", user)
+            return true
+        },
+
+        async jwt({ token }) {
+
+            const dbUser = await prisma.user.findUnique({ where: { id: token.sub } })
+
+            token.role = dbUser.role
+
+
+            return token
+        },
+
+        async session({ session, token }) {
+
+            if (session && session.user) {
+                session.user.role = token.role
+            }
+            return session
+        }
     }
 
 

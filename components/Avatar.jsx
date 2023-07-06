@@ -17,7 +17,7 @@ export default function Avatar({
                     <Image src={user.profilePic} className="rounded-full h-8 w-8" alt="Profile Pic" width={200} height={200} />
                     :
                     <span className="font-semibold text-xl tracking-tight">
-                        {user.name.split(" ").map((word) => word[0])}
+                        {/* {user.name.split(" ").map((word) => word[0])} */}
                     </span>
                 :
                 <Image src='/images/avatar.png' className="rounded-full h-8 w-8" alt="Profile Pic" width={200} height={200} />
