@@ -14,7 +14,7 @@ const UserMenu = ({
     currentUser,
 }) => {
 
-    console.log("CURRENT USER", currentUser)
+    console.log("CURRENT USER -->", currentUser)
 
     const userFromFE = useSession();
     console.log("userFromFE", userFromFE)
@@ -64,8 +64,8 @@ const UserMenu = ({
                 label="Mis tatuajes"
             />
             <MenuItem
-                onMouseEnter={() => router.prefetch("/reservations")}
-                onClick={() => { router.push("/reservations") }}
+                onMouseEnter={() => router.prefetch("admin/myprofile")}
+                onClick={() => { router.push("admin/myprofile") }}
                 label="Mi perfil"
             />
             <MenuItem

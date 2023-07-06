@@ -82,6 +82,16 @@ export const authOptions = {
 
             const dbUser = await prisma.user.findUnique({ where: { id: token.sub } })
 
+            if (dbUser.role === 'ARTIST') {
+                const artistProfile = await prisma.artistProfile.findUnique({
+                    where: {
+                        userId: dbUser.id
+                    }
+                })
+
+                token.artistProfileId = artistProfile.id
+            }
+
             token.role = dbUser.role
 
 
@@ -92,6 +102,11 @@ export const authOptions = {
 
             if (session && session.user) {
                 session.user.role = token.role
+                session.user.id = token.sub
+                if (token.artistProfileId) {
+                    session.user.artistProfileId = token.artistProfileId
+                }
+
             }
             return session
         }

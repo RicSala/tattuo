@@ -4,7 +4,7 @@ export default withAuth(
 
     //REVIEW: Why this does not work?
     function middleware(req) {
-        console.log("FROM MIDDLEWARE", req.nextauth.token)
+        console.log("FROM MIDDLEWARE")
     },
 
     {
@@ -24,6 +24,7 @@ export const config = {
         '/users/:path*',
         '/conversations/:path*',
         '/profile/:path*',
+        '/admin/:path*',
     ]
 }
 

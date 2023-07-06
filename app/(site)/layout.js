@@ -1,13 +1,13 @@
 import NavBar from "@/components/navbar/NavBar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { getCurrentUser } from "@/actions/getCurrentUser";
 
 const siteLayout = async ({ children }) => {
 
-    const session = await getServerSession(authOptions)
+    const user = await getCurrentUser();
 
-    const user = session?.user
-
+    // REVIEW: why not passing current user to children through the layout?
     return (
         <>
             <NavBar currentUser={user} />

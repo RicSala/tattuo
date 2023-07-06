@@ -83,16 +83,15 @@ model Tattoo {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  title         String
-  description   String
-  imageSrc      String
-  category      String
-  locationValue String
+  title       String
+  description String
+  imageSrc    String
+  category    String
   // numLikes      Int      @default(0)
 
   // RELATIONS
   artistProfileId String?        @db.ObjectId
-  ArtistProfile   ArtistProfile? @relation(fields: [artistProfileId], references: [id])
+  artistProfile   ArtistProfile? @relation(fields: [artistProfileId], references: [id])
 
   saves SavedTattoo[]
 }

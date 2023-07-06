@@ -29,6 +29,16 @@ export async function POST(req) {
             },
         });
 
+        // create a new artist profile for the user and link it
+
+        await prisma.artistProfile.create({
+            data: {
+                user:
+                    { connect: { id: user.id } }
+            }
+        })
+
+
         return NextResponse.json({ user }, { status: 201 });
     } catch (error) {
         console.log(error, 'REGISTRATION_ERROR');
