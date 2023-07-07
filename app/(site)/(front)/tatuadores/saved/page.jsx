@@ -1,11 +1,12 @@
-import { getCurrentUser } from "@/actions/getCurrentUser"
-import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId"
 import Container from "@/components/Container"
 import EmptyState from "@/components/EmptyState"
-import TatuajesClient from "./TatuajesClient"
 import ListingGrid from "@/components/listings/ListingGrid"
+import { getCurrentUser } from "@/actions/getCurrentUser"
+import SavedTattosPageClient from "./TatuajesClient"
+import { getSavedTattoosByUserId } from "@/actions/getSavedTattoosByUserId"
+import { getSavedArtistsByUserId } from "@/actions/getSavedArtistByUserId"
 
-export default async function MyTattoosPage() {
+export default async function SavedArtistsPage() {
 
     const currentUser = await getCurrentUser()
 
@@ -15,11 +16,11 @@ export default async function MyTattoosPage() {
         )
     }
 
-    const listings = await getTattoosByArtistId(currentUser.artistProfileId)
+    const artists = await getSavedArtistsByUserId(currentUser.id)
 
-    if (!listings) {
+    if (artists.length < 1) {
         return (
-            <EmptyState title="No tienes ninguna propiedad"
+            <EmptyState title="No tienes ningún tatuador guardado"
                 subtitle="Registra tus propiedades para empezar a recibir reservas"
             />
         )
@@ -29,11 +30,9 @@ export default async function MyTattoosPage() {
     return (
 
         <Container>
-            <ListingGrid
-                listings={listings}
+            <SavedTattosPageClient
+                artists={artists}
                 currentUser={currentUser}
-                actionLabel="Editar"
-
             />
         </Container>
     )

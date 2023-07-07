@@ -7,6 +7,8 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
 import prisma from '@/libs/prismadb';
 import { getFavoriteIdsOfUser } from '@/actions/getFavoriteIdsOfUser';
+import { getSavedTattoosByUserId } from '@/actions/getSavedTattoosByUserId';
+import { getSavedArtistsByUserId } from '@/actions/getSavedArtistByUserId';
 
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
@@ -115,9 +117,12 @@ export const authOptions = {
             }
 
             const favoriteIds = await getFavoriteIdsOfUser(dbUser)
+            const savedListings = await getSavedArtistsByUserId(dbUser.id)
 
+            const arraySavedIds = savedListings.map(savedListing => savedListing.id)
             token.role = dbUser.role
             token.favoriteIds = favoriteIds
+            token.savedIds = arraySavedIds
 
 
             return token
@@ -135,6 +140,7 @@ export const authOptions = {
                 session.user.role = token.role
                 session.user.favoriteIds = token.favoriteIds
                 session.user.id = token.sub
+                session.user.savedIds = token.savedIds
                 if (token.artistProfileId) {
                     session.user.artistProfileId = token.artistProfileId
                 }

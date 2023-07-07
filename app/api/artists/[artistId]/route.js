@@ -33,6 +33,7 @@ export async function PUT(request) {
     const {
         bio,
         location,
+        artisticName,
     } = body
 
     // find and update the artist profile
@@ -42,7 +43,8 @@ export async function PUT(request) {
         },
         data: {
             bio,
-            location
+            location,
+            artisticName: artisticName,
         }
     })
 

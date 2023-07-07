@@ -28,6 +28,8 @@ export async function getCurrentUser() {
             return null;
         }
 
+        console.log("FROM SESSION", session.user.savedIds)
+
         return {
             ...currentUser,
             createdAt: currentUser.createdAt.toISOString(), // sanitizing the date
@@ -36,6 +38,7 @@ export async function getCurrentUser() {
                 currentUser.emailVerified?.toISOString() || null,
             artistProfileId: session.user.artistProfileId,
             favoriteIds: session.user.favoriteIds,
+            savedIds: session.user.savedIds,
         };
     } catch (error) {
         return null;

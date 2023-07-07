@@ -1,6 +1,8 @@
 'use client'
 
 import { useRouter } from "next/navigation";
+import HeartButton from "./HeartButton";
+import SaveButton from "./saveButton";
 
 
 const ArtistSmallCard = ({
@@ -10,7 +12,7 @@ const ArtistSmallCard = ({
 
     const router = useRouter();
     return (
-        <div className="bg-slate-500 rounded-lg"
+        <div className="bg-slate-500 rounded-lg cursor-pointer"
             onClick={() => router.push(`/tatuadores/${artist.id}`)}>
             <h1>Artist: {artist.artisticName}</h1>
             {/*TODO: Artist need artistic name! */}

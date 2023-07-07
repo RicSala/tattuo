@@ -5,10 +5,10 @@ import { useCallback, useContext, useMemo } from "react"
 import { toast } from "react-hot-toast"
 
 
-// given a listingId and a currentUser, returns:
-// hasFavorited: boolean => true if the user has favorited the listing
-// toggleFavorite: function => toggles the favorite status of the listing
-const useFavorite = ({
+// given an artistId and a currentUser, returns:
+// hasSaved: boolean => true if the user has Saved the listing
+// toggleSave: function => toggles the Save status of the listing
+const useSave = ({
     listingId,
     currentUser,
 }) => {
@@ -20,12 +20,14 @@ const useFavorite = ({
     // could be heavy because of the includes() method
     // everytime the component that use the hook re-renders, the hook will be called again
     // it's like "embedding" the logic inside the component
-    const hasFavorited = useMemo(() => {
-        return currentUser?.favoriteIds?.includes(listingId)
+    const hasSaved = useMemo(() => {
+        return currentUser?.savedIds?.includes(listingId)
     }, [currentUser, listingId])
 
+    console.log("hasSaved", hasSaved)
 
-    const toggleFavorite = useCallback(async (event) => {
+
+    const toggleSave = useCallback(async (event) => {
         event.stopPropagation()
 
 
@@ -34,27 +36,27 @@ const useFavorite = ({
         try {
             let request
 
-            if (hasFavorited) {
-                request = () => axios.delete(`/api/tattoos/favorites/${listingId}`)
+            if (hasSaved) {
+                request = () => axios.delete(`/api/artists/saves/${listingId}`)
             } else {
-                request = () => axios.post(`/api/tattoos/favorites/${listingId}`)
+                request = () => axios.post(`/api/artists/saves/${listingId}`)
             }
 
 
             await request()
             router.refresh()
-            toast.success('Favorito actualizado!')
+            toast.success('¡Guardado!')
 
         } catch (error) {
             toast.error("Algo fue mal 😢· Inténtalo de nuevo")
         }
     }
-        , [currentUser, hasFavorited, listingId, onOpenLoginModal, router])
+        , [currentUser, hasSaved, listingId, onOpenLoginModal, router])
 
     return {
-        hasFavorited,
-        toggleFavorite,
+        hasSaved,
+        toggleSave,
     }
 }
 
-export default useFavorite;
+export default useSave;

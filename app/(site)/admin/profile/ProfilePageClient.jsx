@@ -16,23 +16,23 @@ const ProfilePageClient = ({
 
     const { setError, clearErrors, control, register, handleSubmit, setValue, getValues, watch, reset, formState: { errors } } = useForm({
         defaultValues: {
-            name: "",
-            email: "",
-            bio: "",
-            location: "",
-            image: "",
-            mainImage: "",
-            styles: "",
-            maxPrice: "",
-            phone: "",
-            pricePerHour: "",
-            pricePerSession: "",
-            facebook: "",
-            instagram: "",
-            tiktok: "",
-            twitter: "",
-            website: "",
-            youtube: "",
+            artisticName: artist.artisticName || "",
+            email: artist.email || "",
+            bio: artist.bio || "",
+            location: artist.location || "",
+            image: artist.image || "",
+            mainImage: artist.mainImage || "",
+            styles: artist.styles || "",
+            maxPrice: artist.maxPrice || "",
+            phone: artist.phone || "",
+            pricePerHour: artist.pricePerHour || "",
+            pricePerSession: artist.pricePerSession || "",
+            facebook: artist.facebook || "",
+            instagram: artist.instagram || "",
+            tiktok: artist.tiktok || "",
+            twitter: artist.twitter || "",
+            website: artist.website || "",
+            youtube: artist.youtube || "",
 
         }
     })
@@ -63,6 +63,14 @@ const ProfilePageClient = ({
 
             <form onSubmit={handleSubmit(onSubmit)}>
 
+                <Input
+                    id="artisticName"
+                    label="Nombre artistico"
+                    disable={isLoading}
+                    errors={errors}
+                    required
+                    register={register}
+                />
                 <Input
                     id="bio"
                     label="Bio"

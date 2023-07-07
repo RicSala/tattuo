@@ -68,11 +68,6 @@ const UserMenu = ({
                 onClick={onOpenRentModal}
                 label="Blog"
             />
-            <hr />
-            <MenuItem
-                onClick={() => signOut()}
-                label="Salir"
-            />
         </>
     )
 
@@ -80,24 +75,20 @@ const UserMenu = ({
 
         <>
             <MenuItem
-                onMouseEnter={() => router.prefetch("/saved-artists")}
-                onClick={() => { router.push("/saved-artists") }}
+                onMouseEnter={() => router.prefetch("/tatuadores/saved")}
+                onClick={() => { router.push("/tatuadores/saved") }}
                 label="Mis tatuadores favoritos"
             />
             <MenuItem
-                onMouseEnter={() => router.prefetch("/saved-tattoos")}
-                onClick={() => { router.push("/saved-tattoos") }}
+                onMouseEnter={() => router.prefetch("/tatuajes/saved")}
+                onClick={() => { router.push("/tatuajes/saved") }}
                 label="Mis tatuajes guardados"
             />
             <MenuItem
                 onClick={onOpenRentModal}
                 label="Mi perfil"
             />
-            <hr />
-            <MenuItem
-                onClick={() => signOut()}
-                label="Salir"
-            />
+
         </>
     )
 
@@ -183,8 +174,29 @@ const UserMenu = ({
                 ">
 
                     <div className="flex flex-col cursor-pointer">
-                        {currentUser && currentUser.role === 'ARTIST' && artistMenu}
-                        {currentUser && currentUser.role === 'CLIENT' && clientMenu}
+                        {currentUser && currentUser.role === 'ARTIST' &&
+                            <>
+                                {artistMenu}
+                                <hr />
+                                {clientMenu}
+                                <hr />
+                                <MenuItem
+                                    onClick={() => signOut()}
+                                    label="Salir"
+                                />
+                            </>
+
+                        }
+                        {currentUser && currentUser.role === 'CLIENT' &&
+                            <>
+                                {clientMenu}
+                                <hr />
+                                <MenuItem
+                                    onClick={() => signOut()}
+                                    label="Salir"
+                                />
+                            </>
+                        }
                         {!currentUser && loginMenu}
 
                     </div>
