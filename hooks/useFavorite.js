@@ -5,7 +5,9 @@ import { useCallback, useContext, useMemo } from "react"
 import { toast } from "react-hot-toast"
 
 
-
+// given a listingId and a currentUser, returns:
+// hasFavorited: boolean => true if the user has favorited the listing
+// toggleFavorite: function => toggles the favorite status of the listing
 const useFavorite = ({
     listingId,
     currentUser,

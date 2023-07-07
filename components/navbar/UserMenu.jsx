@@ -55,13 +55,13 @@ const UserMenu = ({
 
         <>
             <MenuItem
-                onMouseEnter={() => router.prefetch("/my-tattoos")}
-                onClick={() => { router.push("/admin/my-tattoos") }}
+                onMouseEnter={() => router.prefetch("/admin/tatuajes")}
+                onClick={() => { router.push("/admin/tatuajes") }}
                 label="Mis tatuajes"
             />
             <MenuItem
-                onMouseEnter={() => router.prefetch("/admin/myprofile")}
-                onClick={() => { router.push("/admin/myprofile") }}
+                onMouseEnter={() => router.prefetch("/admin/profile")}
+                onClick={() => { router.push("/admin/profile") }}
                 label="Mi perfil"
             />
             <MenuItem
@@ -80,13 +80,13 @@ const UserMenu = ({
 
         <>
             <MenuItem
-                onMouseEnter={() => router.prefetch("/properties")}
-                onClick={() => { router.push("/properties") }}
+                onMouseEnter={() => router.prefetch("/saved-artists")}
+                onClick={() => { router.push("/saved-artists") }}
                 label="Mis tatuadores favoritos"
             />
             <MenuItem
-                onMouseEnter={() => router.prefetch("/reservations")}
-                onClick={() => { router.push("/reservations") }}
+                onMouseEnter={() => router.prefetch("/saved-tattoos")}
+                onClick={() => { router.push("/saved-tattoos") }}
                 label="Mis tatuajes guardados"
             />
             <MenuItem

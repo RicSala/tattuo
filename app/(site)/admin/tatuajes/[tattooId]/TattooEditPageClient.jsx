@@ -13,13 +13,15 @@ const TattooEditPageClient = ({
     tattoo
 }) => {
 
+    console.log("TATTOO", tattoo)
+
     const { setError, clearErrors, control, register, handleSubmit, setValue, getValues, watch, reset, formState: { errors } } = useForm({
         defaultValues: {
             title: tattoo.title,
             description: tattoo.description,
             imageSrc: tattoo.imageSrc,
             category: tattoo.category,
-            locationValue: tattoo.locationValue,
+            tattooId: tattoo.id,
         }
     });
 
@@ -27,7 +29,6 @@ const TattooEditPageClient = ({
     const router = useRouter()
 
     const onSubmit = async (data) => {
-        console.log("SUBMIT", data)
 
         //REVIEW: validation should be done in the form itself, not here
         if (!data.imageSrc) {
@@ -35,20 +36,40 @@ const TattooEditPageClient = ({
         }
 
         setIsLoading(true)
-        axios.post(`/api/tattoos/`, data) //TODO: change to fetch (from Next)
+        if (data.tattooId === "new") {
+            axios.post(`/api/tattoos/`, data) //TODO: change to fetch (from Next)
+                .then(res => {
+                    console.log("RESPUESTA", res)
+                    toast.success("Tatuaje actualizado")
+                    router.push(`/admin/tatuajes/${res.data.id}`)
+                })
+                .catch(err => {
+                    console.log("ERR", err)
+                    toast.error("Error al actualizar el tatuaje")
+                })
+                .finally(() => {
+                    setIsLoading(false)
+                })
+            return
+        }
+
+        axios.put(`/api/tattoos/`, data)
             .then(res => {
                 console.log("RESPUESTA", res)
                 toast.success("Tatuaje actualizado")
-                router.refresh()
-                reset()
+                router.push(`/admin/tatuajes/${res.data.id}`)
             })
             .catch(err => {
                 console.log("ERR", err)
                 toast.error("Error al actualizar el tatuaje")
-            })
+            }
+            )
             .finally(() => {
                 setIsLoading(false)
-            })
+            }
+            )
+
+        return
     }
 
     const image = watch("imageSrc")
@@ -108,15 +129,6 @@ const TattooEditPageClient = ({
                 <Input
                     id="category"
                     label="Categoría"
-                    errors={errors}
-                    required
-                    register={register}
-                    disabled={isLoading}
-
-                />
-                <Input
-                    id="locationValue"
-                    label="Ubicación"
                     errors={errors}
                     required
                     register={register}

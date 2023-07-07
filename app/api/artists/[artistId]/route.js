@@ -8,23 +8,23 @@ export async function PUT(request) {
     const currentUser = await getCurrentUser(request);
 
     if (!currentUser) {
-        return new NextResponse.error()
+        return NextResponse.json({ error: 'Not logged in' }, { status: 401 })
     }
 
     if (currentUser.role !== 'ARTIST') {
-        return new NextResponse.error()
+        return NextResponse.json({ error: 'Not authorized' }, { status: 401 })
     }
 
     // search the artistId of the current user
     const artistProfile = await prisma.artistProfile.findUnique({
         where: {
-            id: currentUser.artistProfileId //TODO: should not change name depending on the role...!
+            id: currentUser.artistProfileId
         }
     })
 
     // check that the user that is trying to edit the artist profile is the owner of the artist profile
     if (artistProfile.userId !== currentUser.id) {
-        return new NextResponse.error()
+        return NextResponse.json({ error: 'Not authorized' }, { status: 401 })
     }
 
 
@@ -45,10 +45,6 @@ export async function PUT(request) {
             location
         }
     })
-
-
-
-
 
     return NextResponse.json(updatedArtistProfile)
 }

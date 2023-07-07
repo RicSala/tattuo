@@ -2,7 +2,7 @@ import prisma from "@/libs/prismadb";
 
 
 
-// using the session object, it gets the current user from the database
+// given a user, it returns an array of tattoo ids that the user has saved as favorite
 export async function getFavoriteIdsOfUser(user) {
 
     try {
@@ -21,12 +21,12 @@ export async function getFavoriteIdsOfUser(user) {
         });
 
         if (!favoriteIds) {
-            return null;
+            return [];
         }
 
         return favoriteIds.map(favoriteId => favoriteId.tattooId);
     } catch (error) {
-        return null;
+        return [];
     }
 
 }

@@ -8,7 +8,8 @@ export async function getSession() {
 }
 
 
-// using the session object, it gets the current user from the database
+// using the session object, it gets the current user from the database, adding the artistProfileId and favoriteIds
+// REVIEW: not sure if using the session here is the best approach
 export async function getCurrentUser() {
     try {
         const session = await getSession();

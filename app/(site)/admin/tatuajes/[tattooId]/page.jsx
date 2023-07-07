@@ -23,8 +23,8 @@ const TattooEditPage = async ({
         description: '',
         imageSrc: '',
         category: '',
-        locationValue: '',
         artistProfileId: '',
+        id: 'new',
     }
 
     if (!isNew) {
@@ -33,7 +33,7 @@ const TattooEditPage = async ({
                 id: tattooId
             },
             include: {
-                ArtistProfile: true
+                artistProfile: true
             }
         })
     }

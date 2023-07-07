@@ -8,7 +8,7 @@ export async function POST(req) {
 
         const body = await req.json();
 
-        const { email, password, name, confirmPassword } = body;
+        const { email, password, name, confirmPassword, role = 'CLIENT' } = body;
 
         if (!email || !password || !name) {
             return NextResponse.json({ error: 'Datos incorrectos, prueba de nuevo' }, { status: 400 })
@@ -30,14 +30,14 @@ export async function POST(req) {
         });
 
         // create a new artist profile for the user and link it
-
-        await prisma.artistProfile.create({
-            data: {
-                user:
-                    { connect: { id: user.id } }
-            }
-        })
-
+        if (role === 'ARTIST') {
+            await prisma.artistProfile.create({
+                data: {
+                    user:
+                        { connect: { id: user.id } }
+                }
+            })
+        }
 
         return NextResponse.json({ user }, { status: 201 });
     } catch (error) {

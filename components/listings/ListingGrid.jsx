@@ -1,9 +1,23 @@
+'use client'
+
+import { useRouter } from "next/navigation";
 import ListingCard from "./ListingCard";
 
 const ListingGrid = ({
     listings,
     currentUser,
+    actionLabel,
+    onAction,
+
 }) => {
+
+    const router = useRouter();
+
+    if (actionLabel === "Editar") {
+        onAction = (id) => {
+            router.push(`/admin/tatuajes/${id}`)
+        }
+    }
 
     return (
         <div className="
@@ -23,10 +37,10 @@ const ListingGrid = ({
                     key={listing.id}
                     data={listing}
                     // reservation={ }
-                    // onAction={}
+                    onAction={onAction}
                     disabled={false}
-                    actionLabel={"Reservar"}
-                    actionId={"test"}
+                    actionLabel={actionLabel || undefined}
+                    actionId={listing.id}
                     currentUser={currentUser}
                 />
 

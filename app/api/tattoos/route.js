@@ -1,26 +1,15 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import prisma from "@/libs/prismadb";
+import getArtistProfile from "@/lib/getArtistProfile";
 
 
 export async function POST(request) {
 
-    const currentUser = await getCurrentUser(request);
+    const { errorResponse, currentUser, artistProfile } = await getArtistProfile(request);
 
-    if (!currentUser) {
-        return new NextResponse.error()
-    }
+    if (errorResponse) { return errorResponse; }
 
-    if (currentUser.role !== 'ARTIST') {
-        return new NextResponse.error()
-    }
-
-    // search the artistId of the current user
-    const artistProfile = await prisma.artistProfile.findUnique({
-        where: {
-            userId: currentUser.id
-        }
-    })
 
 
     const body = await request.json();
@@ -31,9 +20,10 @@ export async function POST(request) {
         imageSrc,
         category,
         location,
+        tattooId,
     } = body;
 
-    // create the listing with prisma instead of mongoose
+    // create or update the listing
     const listing = await prisma.tattoo.create({
         data: {
             title,
@@ -48,9 +38,72 @@ export async function POST(request) {
             }
 
         }
+
     })
+
+
+    // create the listing with prisma instead of mongoose
+    // const listing = await prisma.tattoo.create({
+    //     data: {
+    //         title,
+    //         description,
+    //         imageSrc,
+    //         category,
+    //         location,
+    //         artistProfile: {
+    //             connect: {
+    //                 id: artistProfile.id
+    //             }
+    //         }
+
+    //     }
+    // })
 
 
     return NextResponse.json(listing)
 
 }
+
+// same as POST
+export async function PUT(request) {
+
+    const { errorResponse, currentUser, artistProfile } = await getArtistProfile(request);
+
+    if (errorResponse) { return errorResponse; }
+
+    const body = await request.json();
+
+    const {
+        title,
+        description,
+        imageSrc,
+        category,
+        location,
+        tattooId,
+    } = body;
+
+    // create or update the listing
+    const listing = await prisma.tattoo.update({
+        where: {
+            id: tattooId
+        },
+        data: {
+            title,
+            description,
+            imageSrc,
+            category,
+            location,
+            artistProfile: {
+                connect: {
+                    id: artistProfile.id
+                }
+            }
+
+        }
+
+    })
+
+    return NextResponse.json(listing)
+
+}
+

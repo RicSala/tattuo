@@ -30,13 +30,14 @@ const ListingCard = ({
 
 
 
+    // REVIEW: with this, I am not willingly preventing prefetching 
     const handleCancel = useCallback((event) => {
-        // event.stopPropagation()
-        // if (disabled) {
-        //     return
-        // }
-        // onAction?.(actionId)
-    }, [])
+        event.stopPropagation()
+        if (disabled) {
+            return
+        }
+        onAction?.(actionId)
+    }, [actionId, disabled, onAction])
 
 
     // const price = useMemo(() => {
@@ -64,11 +65,13 @@ const ListingCard = ({
 
     // INSIGHT: "fill" in the image seems to fix the problem with ""
 
+    //TODO: no index & no follow in the admin pages
+
 
     return (
         <div
-            onMouseEnter={() => router.prefetch(`/listings/${data.id}`)} // With Link, the prefetch is automatic, with router is not
-            onClick={() => router.push(`/listings/${data.id}`)}
+            onMouseEnter={() => router.prefetch(`/tatuajes/${data.id}`)} // With Link, the prefetch is automatic, with router is not
+            onClick={() => router.push(`/tatuajes/${data.id}`)}
             className="col-span-1 cursor-pointer group"
         >
             <div className="flex flex-col gap-2 w-full">

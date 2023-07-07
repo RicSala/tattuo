@@ -11,10 +11,6 @@ import { getFavoriteIdsOfUser } from '@/actions/getFavoriteIdsOfUser';
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
-        // GithubProvider({
-        //     clientId: process.env.GITHUB_ID,
-        //     clientSecret: process.env.GITHUB_SECRET,
-        // }),
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -47,7 +43,7 @@ export const authOptions = {
                     throw new Error('Invalid credentials');
                 }
 
-                //REVIEW: does this mean we are gonna have the whole user object in the session?
+                //REVIEW: does this mean we are gonna have the whole user object in the session
                 return user;
             },
         }),
@@ -56,7 +52,7 @@ export const authOptions = {
     // custom pages
     pages: {
         signIn: '/',
-        newUser: '/',
+        newUser: '/', // New users will be directed here on first sign in (leave the property out if not of interest)
     },
 
     debug: process.env.NODE_ENV === 'development',
@@ -64,21 +60,46 @@ export const authOptions = {
         // secret: process.env.JWT_SECRET, // deprecated
     },
 
+    // Choose how you want to save the user session.
+    // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
+    // If you use an `adapter` however, we default it to `"database"` instead.
+    // You can still force a JWT session by explicitly defining `"jwt"`.
+    // When using `"database"`, the session cookie will only contain a `sessionToken` value,
+    // which is used to look up the session in the database.
     session: {
+
         maxAge: 30 * 24 * 60 * 60, // 30 days
         strategy: "jwt",
+        // Seconds - Throttle how frequently to write to database to extend a session.
+        // Use it to limit write operations. Set to 0 to always update the database.
+        // Note: This option is ignored if using JSON Web Tokens (as is the case)
         updateAge: 24 * 60 * 60, // 24 hours
     },
 
     //REVIEW: When we use the Prisma adapter, who decides which fields are gonna be saved in the session?
     // how do I add more fields to the session?
+    // https://next-auth.js.org/configuration/callbacks
     callbacks: {
 
+        // to control if a user is allowed to sign in.
         async signIn(user, account, profile) {
             // console.log("SIGN IN", user)
             return true
         },
+        // called anytime the user is redirected to a callback URL (e.g. on signin or signout).
+        // async redirect({ url, baseUrl }) {
+        //     // Allows relative callback URLs
+        //     if (url.startsWith("/")) return `${baseUrl}${url}`
+        //     // Allows callback URLs on the same origin
+        //     else if (new URL(url).origin === baseUrl) return url
+        //     return baseUrl
+        //   }
 
+        // This callback is called whenever a JSON Web Token is created (i.e. at sign in) or
+        // updated (i.e whenever a session is accessed in the client). The returned value will be encrypted, 
+        // and it is stored in a cookie.
+        // The arguments user, account, profile and isNewUser are only passed the first time this callback 
+        // is called on a new session, after the user signs in. In subsequent calls, only token will be available.
         async jwt({ token }) {
 
             const dbUser = await prisma.user.findUnique({ where: { id: token.sub } })
@@ -102,6 +123,12 @@ export const authOptions = {
             return token
         },
 
+        // The session callback is called whenever a session is checked.
+        // By default, only a subset of the token is returned for increased security. 
+        // If you want to make something available you added to the token (like access_token and user.id from above) 
+        // via the jwt() callback, you have to explicitly forward it here to make it available to the client.
+        // When using database sessions, the User (user) object is passed as an argument.
+        // When using JSON Web Tokens for sessions, the JWT payload (token) is provided instead.
         async session({ session, token }) {
 
             if (session && session.user) {
@@ -117,6 +144,20 @@ export const authOptions = {
         }
     }
 
+    // We also have "events"
+    // what's the difference between callbacks and events?
+    // callbacks modify the default behavior, events can be used to add on top of the default behavior
+    // async signIn(message) { /* on successful sign in */ },
+    // async signOut(message) { /* on signout */ },
+    // async createUser(message) { /* user created */ },
+    // async updateUser(message) { /* user updated - e.g. their email was verified */ },
+    // async linkAccount(message) { /* account (e.g. Twitter) linked to a user */ },
+    // async session(message) { /* session is active */ },
+
+
+    //REVIEW: When you supply a session prop in _app.js, useSession won't show a loading state,
+    // as it'll already have the session available. In this way, you can provide a more seamless user experience.
+    // https://next-auth.js.org/tutorials/securing-pages-and-api-routes
 
 
 }

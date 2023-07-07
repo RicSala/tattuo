@@ -25,9 +25,9 @@ export default function RootLayout({ children }) {
             <AuthProvider>
               <ToasterContext />
               <RegisterModal />
+              <LoginModal />
+              {children}
             </AuthProvider>
-            <LoginModal />
-            {children}
           </CustomSessionProvider>
         </UiProvider>
       </body>

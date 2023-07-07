@@ -21,9 +21,9 @@ export async function POST(request, { params }) {
     // add an entry to the collections SavedTattoo
     const savedTattoo = await prisma.savedTattoo.create({
         data: {
-            tattoo: {
+            tattoo: { // the object to connect
                 connect: {
-                    id: tattooId
+                    id: tattooId //they key to connect by
                 }
             },
             user: {
@@ -36,7 +36,7 @@ export async function POST(request, { params }) {
 
 
 
-    return NextResponse.json(savedTattoo)
+    return NextResponse.json({ savedTattoo }, { status: 201 })
 }
 
 export async function DELETE(request, { params }) {
