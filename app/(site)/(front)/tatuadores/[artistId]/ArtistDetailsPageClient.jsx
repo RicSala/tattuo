@@ -21,7 +21,7 @@ const ArtistDetailsPageClient = ({
 
             <ArtistSocials artist={artist} />
             <ArtistPrices artist={artist} />
-            <ListingGrid listings={artistTattoos} />
+            <ListingGrid listings={artistTattoos} currentUser={currentUser} />
 
         </div>
     )

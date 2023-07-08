@@ -1,16 +1,28 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import ProfilePageClient from "./ProfilePageClient";
 import { getArtistById } from "@/actions/getArtistById";
+import EmptyState from "@/components/EmptyState";
 
 const ProfilePage = async ({
     // currentUser //REVIEW: why not passing current user to children through the layout?
 }) => {
 
-    const user = await getCurrentUser();
-    const artist = await getArtistById(user.artistProfileId);
+    const currentUser = await getCurrentUser()
 
-    if (!user) //TODO: redirect to login (HOW?) if user is not logged in
-        return <div>Not logged in</div>
+    if (!currentUser) {
+        return (
+            <EmptyState title="No estás autorizado. Por favor, loguéate" />
+        )
+    }
+
+    const artist = await getArtistById(currentUser.artistProfileId);
+
+    if (!artist) {
+        <EmptyState title="No estás autorizado"
+            subtitle="Si eres tatuador(a), por favor escríbenos para activar tu perfil"
+        />
+    }
+
 
     return (
         <>

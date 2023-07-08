@@ -16,13 +16,18 @@ const ImageUpload = ({
     }, [onChange]);
 
 
+    // TODO: improve cloudinary widget: https://cloudinary.com/documentation/upload_widget
     return (
         <CldUploadWidget
             onUpload={handleUpload}
             uploadPreset="lbgb29le"
+            // language="es" // doesnt work
+
             options={
                 {
                     maxFiles: 1,
+
+                    sources: ["local", "url", "camera", "instagram", "facebook", "google_drive", "url"],
                 }
             }>
             {({ open }) => {
@@ -77,7 +82,7 @@ const ImageUpload = ({
                 )
             }}
 
-        </CldUploadWidget>
+        </CldUploadWidget >
     )
 }
 

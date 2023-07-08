@@ -13,7 +13,7 @@ const TattooDetailsPageClient = ({
     return (
         <div className="flex flex-col justify-center items-center">
             <h1>Title: {tattoo.title}</h1>
-            <ListingCard data={tattoo} />
+            <ListingCard data={tattoo} currentUser={currentUser} />
             <ArtistSmallCard artist={tattoo.artistProfile} />
 
         </div>

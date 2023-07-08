@@ -6,6 +6,10 @@ import ListingCard from '@/components/listings/ListingCard'
 import ListingGrid from '@/components/listings/ListingGrid'
 import Image from 'next/image'
 
+//TODO:
+// SITEMAP
+// ROBOTS.TXT
+
 export default async function Home() {
 
     const listings = await getListings()
