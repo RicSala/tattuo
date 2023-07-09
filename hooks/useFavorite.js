@@ -22,7 +22,6 @@ const useFavorite = ({
     // everytime the component that use the hook re-renders, the hook will be called again
     // it's like "embedding" the logic inside the component
     const hasFavorited = useMemo(() => {
-        console.log("useMemo hook called", currentUser?.favoriteIds, listingId)
         return currentUser?.favoriteIds?.includes(listingId)
     }, [currentUser, listingId])
 

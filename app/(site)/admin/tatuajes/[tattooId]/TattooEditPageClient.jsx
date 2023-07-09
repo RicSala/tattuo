@@ -7,7 +7,7 @@ import StyleSelect from "@/components/inputs/StyleSelect";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useController, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
 const TattooEditPageClient = ({
@@ -28,6 +28,15 @@ const TattooEditPageClient = ({
             tattooId: tattoo.id,
         }
     });
+
+
+    // this is how we link the input with the form using a controller
+    const { field } = useController({ name: "style", control, rules: { required: true } })
+
+    // console.log("FIELD", useController({ name: "style", control }))
+
+    //REVIEW: Interesting to see what it returns. That's what is spreaded on each input
+    // console.log(register("name"))
 
 
     const [isLoading, setIsLoading] = useState(false)
@@ -60,7 +69,6 @@ const TattooEditPageClient = ({
 
         axios.put(`/api/tattoos/`, data)
             .then(res => {
-                console.log("RESPUESTA", res)
                 toast.success("Tatuaje actualizado")
                 router.push(`/admin/tatuajes/${res.data.id}`)
             })
@@ -78,7 +86,6 @@ const TattooEditPageClient = ({
     }
 
     const image = watch("imageSrc")
-    const style = watch("style")
 
     const customSetValue = (field, value) => {
         setValue(field, value, {
@@ -89,12 +96,14 @@ const TattooEditPageClient = ({
 
     }
 
-    const handleStyleChange = (value) => {
-        setValue("style", value, {
-            shouldValidate: true, // By default, setting the field value using setValue does not trigger validation. However, if you set shouldValidate to true, it will trigger validation for that field.
-            shouldDirty: true,  // Marking a field as dirty means that its value has changed from the initial/default value
-            shouldTouch: true, // Marking a field as touched means that the user has interacted with the field, even if it was not changed
-        });
+    const handleStyleChange = (option) => {
+
+        field.onChange(option)
+        // setValue("style", option, {
+        //     shouldValidate: true, // By default, setting the field value using setValue does not trigger validation. However, if you set shouldValidate to true, it will trigger validation for that field.
+        //     shouldDirty: true,  // Marking a field as dirty means that its value has changed from the initial/default value
+        //     shouldTouch: true, // Marking a field as touched means that the user has interacted with the field, even if it was not changed
+        // });
     }
 
 
@@ -150,9 +159,11 @@ const TattooEditPageClient = ({
 
                 />
                 <StyleSelect
-                    required
-                    value={style}
-                    onChange={(style) => handleStyleChange(style)}
+                    errors={errors}
+                    value={field.value}
+                    // onChange={(style) => handleStyleChange(style)} // this is the same as...
+                    onChange={handleStyleChange}
+
                 />
                 {/* TODO: improve validation */}
 

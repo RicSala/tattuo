@@ -117,9 +117,7 @@ export const authOptions = {
             }
 
             const favoriteTattooIds = await getFavoriteTattooIdsOfUser(dbUser)
-            console.log("about to get favorite artist ids")
             const favoriteArtistIds = await getFavoriteArtistIdsOfUser(dbUser)
-            console.log("favoriteArtistIds", favoriteArtistIds)
             const savedArtists = await getSavedArtistsByUserId(dbUser.id)
             const savedTattoos = await getSavedTattoosByUserId(dbUser.id)
 

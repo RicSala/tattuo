@@ -8,6 +8,7 @@ const StyleSelect = ({
     value,
     onChange,
     required,
+    errors,
 }) => {
 
     // const { getAll, getByValue } = useCountries();
@@ -20,9 +21,7 @@ const StyleSelect = ({
     }));
 
 
-    console.log(styles);
-    // TODO: It's not printing the flags
-
+    // TODO: Add validation visual feedback
     return (
         <div>
             <Select

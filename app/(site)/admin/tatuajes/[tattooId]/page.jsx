@@ -2,6 +2,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/libs/prismadb";
 import { getServerSession } from "next-auth";
 import TattooEditPageClient from "./TattooEditPageClient";
+import Container from "@/components/Container";
 
 
 const TattooEditPage = async ({
@@ -39,8 +40,10 @@ const TattooEditPage = async ({
     }
 
     return (
-        <TattooEditPageClient tattoo={tattoo} user={user} />
 
+        <Container>
+            <TattooEditPageClient tattoo={tattoo} user={user} />
+        </Container>
     )
 };
 export default TattooEditPage;

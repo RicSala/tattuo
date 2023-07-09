@@ -34,6 +34,17 @@ const ListingCard = ({
     }, [])
 
 
+    const translatedResource = useMemo(() => {
+        switch (listingType) {
+            case 'tattoos':
+                return 'tatuajes'
+            case 'artists':
+                return 'tatuadores'
+            default:
+                return 'listings'
+        }
+    }, [listingType])
+
 
     // REVIEW: with this, I am not willingly preventing prefetching 
     const handlePrimaryAction = useCallback((event) => {
@@ -83,8 +94,8 @@ const ListingCard = ({
 
     return (
         <div
-            onMouseEnter={() => router.prefetch(`/tatuajes/${data.id}`)} // With Link, the prefetch is automatic, with router is not
-            onClick={() => router.push(`/tatuajes/${data.id}`)}
+            onMouseEnter={() => router.prefetch(`/${translatedResource}/${data.id}`)} // With Link, the prefetch is automatic, with router is not
+            onClick={() => router.push(`/${translatedResource}/${data.id}`)}
             className="col-span-1 cursor-pointer group"
         >
             <div className="flex flex-col gap-2 w-full">

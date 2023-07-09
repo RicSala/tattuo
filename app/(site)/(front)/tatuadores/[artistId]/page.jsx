@@ -7,7 +7,6 @@ import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId";
 const ArtistDetailsPage = async ({ params }) => {
 
 
-    console.log("params", params)
     const artist = await getArtistById(params.artistId);
     const artistTattoos = await getTattoosByArtistId(params.artistId);
     const currentUser = await getCurrentUser();

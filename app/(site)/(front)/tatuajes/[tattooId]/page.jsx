@@ -2,6 +2,7 @@ import { getTattoosById } from "@/actions/getTattooById";
 import EmptyState from "@/components/EmptyState";
 import TattooDetailsPageClient from "./TattooDetailsPageClient";
 import { getCurrentUser } from "@/actions/getCurrentUser";
+import getSimilarTattoos from "@/actions/getSimilarTattoos";
 
 const TattooDetailsPage = async ({ params }) => {
 
@@ -12,6 +13,7 @@ const TattooDetailsPage = async ({ params }) => {
     // TODO: rss feed (https://nextjs.org/docs/app/building-your-application/routing/router-handlers#non-ui-responses)
     // REVIEW: what is turbopack?
     const tattoo = await getTattoosById(params.tattooId);
+    const similarTattoos = await getSimilarTattoos(tattoo);
     const currentUser = await getCurrentUser();
 
     if (!tattoo) {
@@ -26,6 +28,7 @@ const TattooDetailsPage = async ({ params }) => {
             <TattooDetailsPageClient
                 tattoo={tattoo}
                 currentUser={currentUser}
+                similarTattoos={similarTattoos}
             />
 
         </>

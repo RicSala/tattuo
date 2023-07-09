@@ -2,6 +2,7 @@ import EmptyState from "@/components/EmptyState"
 import ListingGrid from "@/components/listings/ListingGrid"
 import { getCurrentUser } from "@/actions/getCurrentUser"
 import { getSavedTattoosByUserId } from "@/actions/getSavedTattoosByUserId"
+import Container from "@/components/Container"
 
 export default async function SavedArtistsPage() {
 
@@ -26,9 +27,11 @@ export default async function SavedArtistsPage() {
 
     return (
 
-        <ListingGrid listings={tattoos} currentUser={currentUser}
-            listingType="tattoos"
-        />
+        <Container>
+            <ListingGrid listings={tattoos} currentUser={currentUser}
+                listingType="tattoos"
+            />
+        </Container>
 
     )
 }

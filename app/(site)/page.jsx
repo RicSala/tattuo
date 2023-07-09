@@ -3,6 +3,7 @@ import { getCurrentUser } from '@/actions/getCurrentUser'
 import { getFavoriteTattooIdsOfUser } from '@/actions/getFavoriteTattooIdsOfUser'
 import getTattoos from '@/actions/getTattoos'
 import Container from '@/components/Container'
+import Search from '@/components/Search'
 import ListingCard from '@/components/listings/ListingCard'
 import ListingGrid from '@/components/listings/ListingGrid'
 import Image from 'next/image'
@@ -20,6 +21,7 @@ export default async function Home() {
     return (
 
         <Container>
+            <Search />
             <h2>Tatuajes</h2>
             <ListingGrid
                 listings={tattoos}

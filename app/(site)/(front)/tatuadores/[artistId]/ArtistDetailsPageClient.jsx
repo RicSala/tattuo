@@ -12,8 +12,6 @@ const ArtistDetailsPageClient = ({
     currentUser,
 }) => {
 
-    console.log("artist", artist)
-
     return (
         <div className="flex flex-col justify-center items-center">
             <h1>Title: {artist.user.name}</h1>
@@ -38,7 +36,8 @@ const ArtistDetailsPageClient = ({
 
             <ArtistSocials artist={artist} />
             <ArtistPrices artist={artist} />
-            <ListingGrid listings={artistTattoos} currentUser={currentUser} />
+            <h2 className="mt-20 font-bold">Otros trabajos de {artist.artisticName}</h2>
+            <ListingGrid listings={artistTattoos} currentUser={currentUser} listingType={'tattoos'} />
 
         </div>
     )

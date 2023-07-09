@@ -5,6 +5,7 @@ import ListingGrid from "@/components/listings/ListingGrid";
 import { getArtistById } from "@/actions/getArtistById";
 import Button from "@/components/Button";
 import Link from "next/link";
+import Container from "@/components/Container";
 
 const MyTattoosPage = async ({ params }) => {
 
@@ -37,11 +38,13 @@ const MyTattoosPage = async ({ params }) => {
     return (
 
         <>
-            <ListingGrid listings={tattoos} currentUser={currentUser}
-                actionLabel={'Editar'}
-                secondaryActionLabel={'Eliminar'}
-                listingType={'tattoos'}
-            />
+            <Container>
+                <ListingGrid listings={tattoos} currentUser={currentUser}
+                    actionLabel={'Editar'}
+                    secondaryActionLabel={'Eliminar'}
+                    listingType={'tattoos'}
+                />
+            </Container>
         </>
     )
 

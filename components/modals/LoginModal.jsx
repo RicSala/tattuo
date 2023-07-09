@@ -36,9 +36,6 @@ const LoginModal = ({ }) => {
         }
     });
 
-    console.log("ERRORS", errors)
-
-
 
 
     const onSubmit = async (data) => {
