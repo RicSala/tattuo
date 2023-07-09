@@ -11,6 +11,7 @@ import { toast } from "react-hot-toast"
 const useSave = ({
     listingId,
     currentUser,
+    listingType = 'artists',
 }) => {
 
     const router = useRouter()
@@ -24,8 +25,6 @@ const useSave = ({
         return currentUser?.savedIds?.includes(listingId)
     }, [currentUser, listingId])
 
-    console.log("hasSaved", hasSaved)
-
 
     const toggleSave = useCallback(async (event) => {
         event.stopPropagation()
@@ -37,9 +36,9 @@ const useSave = ({
             let request
 
             if (hasSaved) {
-                request = () => axios.delete(`/api/artists/saves/${listingId}`)
+                request = () => axios.delete(`/api/${listingType}/saves/${listingId}`)
             } else {
-                request = () => axios.post(`/api/artists/saves/${listingId}`)
+                request = () => axios.post(`/api/${listingType}/saves/${listingId}`)
             }
 
 
@@ -51,7 +50,7 @@ const useSave = ({
             toast.error("Algo fue mal 😢· Inténtalo de nuevo")
         }
     }
-        , [currentUser, hasSaved, listingId, onOpenLoginModal, router])
+        , [currentUser, hasSaved, listingId, listingType, onOpenLoginModal, router])
 
     return {
         hasSaved,

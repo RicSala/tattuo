@@ -20,7 +20,7 @@ const ProfilePageClient = ({
             email: artist.email || "",
             bio: artist.bio || "",
             location: artist.location || "",
-            image: artist.image || "",
+            image: artist.images[0] || "",
             mainImage: artist.mainImage || "",
             styles: artist.styles || "",
             maxPrice: artist.maxPrice || "",

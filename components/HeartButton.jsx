@@ -6,11 +6,14 @@ import useFavorite from "../hooks/useFavorite";
 const HeartButton = ({
   listingId,
   currentUser,
+  listingType,
+
 }) => {
 
   const { hasFavorited, toggleFavorite } = useFavorite({
     listingId,
     currentUser,
+    listingType,
   })
 
 

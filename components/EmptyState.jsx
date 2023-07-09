@@ -7,7 +7,8 @@ import Button from "./Button";
 const EmptyState = ({
     title = "No hay coincidencias",
     subtitle = "Prueba con otros filtros",
-    showReset,
+    actionUrl,
+    actionLabel,
 
 }) => {
 
@@ -30,11 +31,11 @@ const EmptyState = ({
             <div
                 className="w-48 mt-4">
                 {
-                    showReset && (
+                    (actionLabel && actionUrl) && (
                         <Button
                             outline
-                            onClick={() => router.push('/')}
-                            label="Resetear filtros"
+                            onClick={() => router.push(actionUrl)}
+                            label={actionLabel}
                         />
                     )
                 }

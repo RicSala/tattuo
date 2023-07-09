@@ -7,16 +7,21 @@ import Image from "next/image";
 // import HeartButton from "../HeartButton";
 import Button from "../Button";
 import HeartButton from "../HeartButton";
+import SaveButton from "../SaveButton";
 
 const ListingCard = ({
     data,
+    listingType,
     reservation,
     onAction,
-    disabled,
     actionLabel,
+    onSecondaryAction,
+    secondaryActionLabel,
+    disabled,
     actionId,
     currentUser,
 }) => {
+
 
 
     const router = useRouter();
@@ -31,7 +36,7 @@ const ListingCard = ({
 
 
     // REVIEW: with this, I am not willingly preventing prefetching 
-    const handleCancel = useCallback((event) => {
+    const handlePrimaryAction = useCallback((event) => {
         event.stopPropagation()
         if (disabled) {
             return
@@ -39,6 +44,14 @@ const ListingCard = ({
         onAction?.(actionId)
     }, [actionId, disabled, onAction])
 
+
+    const handleSecondaryAction = useCallback((event) => {
+        event.stopPropagation()
+        if (disabled) {
+            return
+        }
+        onSecondaryAction?.(actionId)
+    }, [actionId, disabled, onSecondaryAction])
 
     // const price = useMemo(() => {
 
@@ -94,7 +107,17 @@ const ListingCard = ({
                     <div className="absolute top-3 right-3">
                         <HeartButton
                             listingId={data.id}
-                            currentUser={currentUser} />
+                            currentUser={currentUser}
+                            listingType={listingType}
+                        />
+
+                    </div>
+                    <div className="absolute top-3 left-3">
+                        <SaveButton
+                            listingId={data.id}
+                            currentUser={currentUser}
+                            listingType={listingType}
+                        />
 
                     </div>
                 </div>
@@ -115,13 +138,21 @@ const ListingCard = ({
                         <div className="font-light">por noche</div>
                     )}
                 </div>
-                <div>
+                <div className="flex flex-row justify-between gap-7">
                     {onAction && actionLabel && (
                         <Button
                             disabled={disabled}
                             small
                             label={actionLabel}
-                            onClick={handleCancel}
+                            onClick={handlePrimaryAction}
+                        />
+                    )}
+                    {onSecondaryAction && secondaryActionLabel && (
+                        <Button
+                            disabled={disabled}
+                            small
+                            label={secondaryActionLabel}
+                            onClick={handleSecondaryAction}
                         />
                     )}
                 </div>

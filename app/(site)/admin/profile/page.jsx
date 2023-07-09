@@ -32,7 +32,7 @@ const ProfilePage = async ({
 
             <p>
                 {
-                    JSON.stringify(user)
+                    JSON.stringify(currentUser)
                 }
             </p>
 

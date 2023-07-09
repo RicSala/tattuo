@@ -28,8 +28,6 @@ export async function getCurrentUser() {
             return null;
         }
 
-        console.log("FROM SESSION", session.user.savedIds)
-
         return {
             ...currentUser,
             createdAt: currentUser.createdAt.toISOString(), // sanitizing the date

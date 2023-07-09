@@ -13,8 +13,8 @@ export default function Avatar({
         <div className="rounded-full h-8 w-8 flex items-center justify-center bg-gray-400">
             {/* if user has a profile Pic, show it instead */}
             {user ?
-                user?.profilePic ?
-                    <Image src={user.profilePic} className="rounded-full h-8 w-8" alt="Profile Pic" width={200} height={200} />
+                user?.image ?
+                    <Image src={user.image} className="rounded-full h-8 w-8" alt="Profile Pic" width={200} height={200} />
                     :
                     <span className="font-semibold text-xl tracking-tight">
                         {user.name.split(" ").map((word) => word[0])}

@@ -11,7 +11,6 @@ const TattooDetailsPage = async ({ params }) => {
     // TODO: Head for SEO (title, description, etc)
     // TODO: rss feed (https://nextjs.org/docs/app/building-your-application/routing/router-handlers#non-ui-responses)
     // REVIEW: what is turbopack?
-    console.log("params", params)
     const tattoo = await getTattoosById(params.tattooId);
     const currentUser = await getCurrentUser();
 

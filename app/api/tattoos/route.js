@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import prisma from "@/libs/prismadb";
-import getArtistProfile from "@/lib/getArtistProfile";
+import getArtistProfile from "@/libs/getArtistProfile";
 
 
 export async function POST(request) {

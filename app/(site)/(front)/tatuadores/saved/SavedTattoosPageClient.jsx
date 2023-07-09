@@ -10,8 +10,6 @@ const SavedTattosPageClient = ({
 
 }) => {
 
-    console.log("artists", artists)
-
     const router = useRouter();
     return (
         artists.map((artist) => {

@@ -11,6 +11,7 @@ import { toast } from "react-hot-toast"
 const useFavorite = ({
     listingId,
     currentUser,
+    listingType,
 }) => {
 
     const router = useRouter()
@@ -21,6 +22,7 @@ const useFavorite = ({
     // everytime the component that use the hook re-renders, the hook will be called again
     // it's like "embedding" the logic inside the component
     const hasFavorited = useMemo(() => {
+        console.log("useMemo hook called", currentUser?.favoriteIds, listingId)
         return currentUser?.favoriteIds?.includes(listingId)
     }, [currentUser, listingId])
 
@@ -35,9 +37,9 @@ const useFavorite = ({
             let request
 
             if (hasFavorited) {
-                request = () => axios.delete(`/api/tattoos/favorites/${listingId}`)
+                request = () => axios.delete(`/api/${listingType}/favorites/${listingId}`)
             } else {
-                request = () => axios.post(`/api/tattoos/favorites/${listingId}`)
+                request = () => axios.post(`/api/${listingType}/favorites/${listingId}`)
             }
 
 
@@ -49,7 +51,7 @@ const useFavorite = ({
             toast.error("Algo fue mal 😢· Inténtalo de nuevo")
         }
     }
-        , [currentUser, hasFavorited, listingId, onOpenLoginModal, router])
+        , [currentUser, hasFavorited, listingId, listingType, onOpenLoginModal, router])
 
     return {
         hasFavorited,

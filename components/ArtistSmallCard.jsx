@@ -1,8 +1,6 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import HeartButton from "./HeartButton";
-import SaveButton from "./saveButton";
 
 
 const ArtistSmallCard = ({

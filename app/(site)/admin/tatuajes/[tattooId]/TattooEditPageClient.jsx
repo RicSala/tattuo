@@ -13,7 +13,6 @@ const TattooEditPageClient = ({
     tattoo
 }) => {
 
-    console.log("TATTOO", tattoo)
 
     const { setError, clearErrors, control, register, handleSubmit, setValue, getValues, watch, reset, formState: { errors } } = useForm({
         defaultValues: {
@@ -73,7 +72,6 @@ const TattooEditPageClient = ({
     }
 
     const image = watch("imageSrc")
-    const title = watch("title")
 
     const customSetValue = (field, value) => {
         setValue(field, value, {

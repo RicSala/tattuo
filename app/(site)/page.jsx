@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@/actions/getCurrentUser'
-import { getFavoriteIdsOfUser } from '@/actions/getFavoriteIdsOfUser'
+import { getFavoriteTattooIdsOfUser } from '@/actions/getFavoriteTattooIdsOfUser'
 import getListings from '@/actions/getListings'
 import Container from '@/components/Container'
 import ListingCard from '@/components/listings/ListingCard'

@@ -1,14 +1,14 @@
 import bcrypt from 'bcryptjs';
-import NextAuth, { AuthOptions } from 'next-auth';
+import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
 import prisma from '@/libs/prismadb';
-import { getFavoriteIdsOfUser } from '@/actions/getFavoriteIdsOfUser';
 import { getSavedTattoosByUserId } from '@/actions/getSavedTattoosByUserId';
 import { getSavedArtistsByUserId } from '@/actions/getSavedArtistByUserId';
+import { getFavoriteTattooIdsOfUser } from '@/actions/getFavoriteTattooIdsOfUser';
+import { getFavoriteArtistIdsOfUser } from '@/actions/getFavoriteArtistIdsOfUser';
 
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
@@ -116,13 +116,22 @@ export const authOptions = {
                 token.artistProfileId = artistProfile.id
             }
 
-            const favoriteIds = await getFavoriteIdsOfUser(dbUser)
-            const savedListings = await getSavedArtistsByUserId(dbUser.id)
+            const favoriteTattooIds = await getFavoriteTattooIdsOfUser(dbUser)
+            console.log("about to get favorite artist ids")
+            const favoriteArtistIds = await getFavoriteArtistIdsOfUser(dbUser)
+            console.log("favoriteArtistIds", favoriteArtistIds)
+            const savedArtists = await getSavedArtistsByUserId(dbUser.id)
+            const savedTattoos = await getSavedTattoosByUserId(dbUser.id)
 
-            const arraySavedIds = savedListings.map(savedListing => savedListing.id)
+
+            const arraySavedArtistsId = savedArtists.map(savedListing => savedListing.id)
+            const arraySavedTattoosId = savedTattoos.map(savedListing => savedListing.id)
+
+
+            // concat the favorite tattoo ids and the favorite artist ids
+            token.favoriteIds = favoriteTattooIds.concat(favoriteArtistIds)
             token.role = dbUser.role
-            token.favoriteIds = favoriteIds
-            token.savedIds = arraySavedIds
+            token.savedIds = arraySavedArtistsId.concat(arraySavedTattoosId)
 
 
             return token

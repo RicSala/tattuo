@@ -18,8 +18,8 @@ export async function POST(request, { params }) {
         throw new Error('Invalid ID')
     }
 
-    // add an entry to the collections likedTattoo
-    const likedTattoo = await prisma.likedTattoo.create({
+    // add an entry to the collections SavedTattoo
+    const savedTattoo = await prisma.savedTattoo.create({
         data: {
             tattoo: { // the object to connect
                 connect: {
@@ -36,7 +36,7 @@ export async function POST(request, { params }) {
 
 
 
-    return NextResponse.json({ likedTattoo }, { status: 201 })
+    return NextResponse.json({ savedTattoo }, { status: 201 })
 }
 
 export async function DELETE(request, { params }) {
@@ -54,7 +54,7 @@ export async function DELETE(request, { params }) {
     }
 
     // remove an entry from the collections SavedTattoo
-    const likedTattoo = await prisma.likedTattoo.deleteMany({
+    const savedTattoo = await prisma.savedTattoo.deleteMany({
         where: {
             tattooId: tattooId,
             userId: currentUser.id
@@ -62,5 +62,5 @@ export async function DELETE(request, { params }) {
     })
 
 
-    return NextResponse.json(likedTattoo)
+    return NextResponse.json(savedTattoo)
 }

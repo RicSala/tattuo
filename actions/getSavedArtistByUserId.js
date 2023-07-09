@@ -13,7 +13,6 @@ export async function getSavedArtistsByUserId(userId) {
         }
     })
 
-    console.log("savedArtists", savedArtists)
     const arraySavedArtists = savedArtists.map(savedArtist => savedArtist.artistProfile)
 
     return arraySavedArtists

@@ -3,7 +3,7 @@ import prisma from "@/libs/prismadb";
 
 
 // given a user, it returns an array of tattoo ids that the user has saved as favorite
-export async function getFavoriteIdsOfUser(user) {
+export async function getFavoriteArtistIdsOfUser(user) {
 
     try {
 
@@ -11,12 +11,12 @@ export async function getFavoriteIdsOfUser(user) {
             return null;
         }
 
-        const favoriteIds = await prisma.savedTattoo.findMany({
+        const favoriteIds = await prisma.likedArtist.findMany({
             where: {
                 userId: user.id
             },
             select: {
-                tattooId: true
+                artistProfileId: true
             }
         });
 
@@ -24,8 +24,9 @@ export async function getFavoriteIdsOfUser(user) {
             return [];
         }
 
-        return favoriteIds.map(favoriteId => favoriteId.tattooId);
+        return favoriteIds.map(favoriteId => favoriteId.artistProfileId);
     } catch (error) {
+        console.log("error", error)
         return [];
     }
 

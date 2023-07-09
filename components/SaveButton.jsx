@@ -6,11 +6,13 @@ import { BsBookmarkPlus, BsBookmarkPlusFill } from "react-icons/bs";
 const SaveButton = ({
   listingId,
   currentUser,
+  listingType,
 }) => {
 
   const { hasSaved, toggleSave } = useSave({
     listingId,
     currentUser,
+    listingType,
   })
 
 

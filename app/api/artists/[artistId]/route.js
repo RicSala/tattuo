@@ -34,6 +34,8 @@ export async function PUT(request) {
         bio,
         location,
         artisticName,
+        mainImage,
+        image,
     } = body
 
     // find and update the artist profile
@@ -45,6 +47,8 @@ export async function PUT(request) {
             bio,
             location,
             artisticName: artisticName,
+            mainImage,
+            images: [image]
         }
     })
 

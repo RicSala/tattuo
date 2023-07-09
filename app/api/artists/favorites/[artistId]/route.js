@@ -12,18 +12,18 @@ export async function POST(request, { params }) {
     }
 
 
-    const { tattooId } = params
+    const { artistId } = params
 
-    if (!tattooId || typeof tattooId !== 'string') {
+    if (!artistId || typeof artistId !== 'string') {
         throw new Error('Invalid ID')
     }
 
-    // add an entry to the collections likedTattoo
-    const likedTattoo = await prisma.likedTattoo.create({
+    // add an entry to the collections likedArtist
+    const likedArtist = await prisma.likedArtist.create({
         data: {
-            tattoo: { // the object to connect
+            artistProfile: { // the object to connect
                 connect: {
-                    id: tattooId //they key to connect by
+                    id: artistId //they key to connect by
                 }
             },
             user: {
@@ -36,7 +36,7 @@ export async function POST(request, { params }) {
 
 
 
-    return NextResponse.json({ likedTattoo }, { status: 201 })
+    return NextResponse.json({ likedArtist }, { status: 201 })
 }
 
 export async function DELETE(request, { params }) {
@@ -47,20 +47,20 @@ export async function DELETE(request, { params }) {
         return NextResponse.error()
     }
 
-    const { tattooId } = params
+    const { artistId } = params
 
-    if (!tattooId || typeof tattooId !== 'string') {
+    if (!artistId || typeof artistId !== 'string') {
         throw new Error('Invalid ID')
     }
 
-    // remove an entry from the collections SavedTattoo
-    const likedTattoo = await prisma.likedTattoo.deleteMany({
+    // remove an entry from the collections likedArtist
+    const deletedArtist = await prisma.likedArtist.deleteMany({
         where: {
-            tattooId: tattooId,
+            artistProfileId: artistId,
             userId: currentUser.id
         }
     })
 
 
-    return NextResponse.json(likedTattoo)
+    return NextResponse.json({ deletedArtist }, { status: 201 })
 }

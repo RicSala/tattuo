@@ -1,12 +1,10 @@
-import Container from "@/components/Container"
-import EmptyState from "@/components/EmptyState"
-import ListingGrid from "@/components/listings/ListingGrid"
-import { getCurrentUser } from "@/actions/getCurrentUser"
-import SavedTattosPageClient from "./TatuajesClient"
-import { getSavedTattoosByUserId } from "@/actions/getSavedTattoosByUserId"
-import { getSavedArtistsByUserId } from "@/actions/getSavedArtistByUserId"
+import EmptyState from "@/components/EmptyState";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import SavedTattosPageClient from "./SavedTattoosPageClient";
+import { getSavedArtistsByUserId } from "@/actions/getSavedArtistByUserId";
 
-export default async function SavedArtistsPage() {
+const SavedTattoosPage = async ({ params }) => {
+
 
     const currentUser = await getCurrentUser()
 
@@ -20,21 +18,22 @@ export default async function SavedArtistsPage() {
 
     if (artists.length < 1) {
         return (
-            <EmptyState title="No tienes ningún tatuador guardado"
-                subtitle="Registra tus propiedades para empezar a recibir reservas"
+            <EmptyState title="No tienes ningún(a) tatuador(a) guardad@"
+                subtitle="Guarda tatuadorxs para inspirarte y poder verlos más tarde"
             />
         )
     }
 
-
     return (
 
-        <Container>
+        <>
             <SavedTattosPageClient
                 artists={artists}
                 currentUser={currentUser}
             />
-        </Container>
-    )
-}
 
+        </>
+    )
+};
+
+export default SavedTattoosPage;
