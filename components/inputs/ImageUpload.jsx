@@ -8,6 +8,7 @@ import { TbPhotoPlus } from "react-icons/tb";
 const ImageUpload = ({
     onChange,
     value,
+    maxFiles = 3,
 }) => {
 
 
@@ -25,7 +26,7 @@ const ImageUpload = ({
 
             options={
                 {
-                    maxFiles: 1,
+                    maxFiles: maxFiles,
 
                     sources: ["local", "url", "camera", "instagram", "facebook", "google_drive", "url"],
                 }
@@ -66,6 +67,7 @@ const ImageUpload = ({
                                 w-full
                                 h-full"
                             >
+
 
                                 <Image
                                     alt="Imagen subida"

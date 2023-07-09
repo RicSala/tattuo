@@ -1,6 +1,7 @@
 'use client'
 
 import Button from "@/components/Button";
+import ImageUpload from "@/components/inputs/ImageUpload";
 import Input from "@/components/inputs/Input";
 import axios from "axios";
 import { useState } from "react";
@@ -56,6 +57,18 @@ const ProfilePageClient = ({
             })
     }
 
+
+    const image = watch("mainImage")
+
+    const customSetValue = (field, value) => {
+        setValue(field, value, {
+            shouldValidate: true, // By default, setting the field value using setValue does not trigger validation. However, if you set shouldValidate to true, it will trigger validation for that field.
+            shouldDirty: true,  // Marking a field as dirty means that its value has changed from the initial/default value
+            shouldTouch: true, // Marking a field as touched means that the user has interacted with the field, even if it was not changed
+        });
+
+    }
+
     return (
         <>
 
@@ -98,14 +111,11 @@ const ProfilePageClient = ({
                     register={register}
                 />
 
-                <Input
-                    id="mainImage"
-                    label="Main Image"
-                    disable={isLoading}
-                    errors={errors}
-                    required
-                    register={register}
+                <ImageUpload
+                    value={image}
+                    onChange={(value) => customSetValue("mainImage", value)}
                 />
+
 
                 <Button type="submit" isLoading={isLoading} disabled={isLoading}>
                     Save

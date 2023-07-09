@@ -94,7 +94,8 @@ const ListingCard = ({
                     <Image
                         fill={true}
                         alt='listing'
-                        src={data.imageSrc}
+                        src={listingType === 'tattoos' ? data.imageSrc : data.mainImage}
+                        // TODO: to refactor
                         className="
                     object-cover
                     h-full
