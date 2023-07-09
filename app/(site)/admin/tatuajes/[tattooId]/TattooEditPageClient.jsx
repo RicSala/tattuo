@@ -3,6 +3,7 @@
 import Button from "@/components/Button";
 import ImageUpload from "@/components/inputs/ImageUpload";
 import Input from "@/components/inputs/Input";
+import StyleSelect from "@/components/inputs/StyleSelect";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -20,9 +21,14 @@ const TattooEditPageClient = ({
             description: tattoo.description,
             imageSrc: tattoo.imageSrc,
             category: tattoo.category,
+            style: {
+                value: tattoo.style,
+                label: tattoo.style.replace(/_/g, " ")
+            }, //REVIEW: is there a way to only send the enum?
             tattooId: tattoo.id,
         }
     });
+
 
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
@@ -72,6 +78,7 @@ const TattooEditPageClient = ({
     }
 
     const image = watch("imageSrc")
+    const style = watch("style")
 
     const customSetValue = (field, value) => {
         setValue(field, value, {
@@ -81,6 +88,15 @@ const TattooEditPageClient = ({
         });
 
     }
+
+    const handleStyleChange = (value) => {
+        setValue("style", value, {
+            shouldValidate: true, // By default, setting the field value using setValue does not trigger validation. However, if you set shouldValidate to true, it will trigger validation for that field.
+            shouldDirty: true,  // Marking a field as dirty means that its value has changed from the initial/default value
+            shouldTouch: true, // Marking a field as touched means that the user has interacted with the field, even if it was not changed
+        });
+    }
+
 
 
     return (
@@ -133,6 +149,12 @@ const TattooEditPageClient = ({
                     disabled={isLoading}
 
                 />
+                <StyleSelect
+                    required
+                    value={style}
+                    onChange={(style) => handleStyleChange(style)}
+                />
+                {/* TODO: improve validation */}
 
                 <Button type="submit">Guardar</Button>
 

@@ -18,7 +18,7 @@ const UserMenu = ({
     // Snippet to close the menu when clicking outside of it
     const menuRef = useRef(null);
     const router = useRouter();
-    const { onOpenRegisterModal, onOpenLoginModal, onOpenRentModal } = useContext(UiContext);
+    const { onOpenRegisterModal, onOpenRegisterArtistModal, onOpenLoginModal, onOpenRentModal } = useContext(UiContext);
     const [isOpen, setIsOpen] = useState(false)
 
     const handleClickOutside = useCallback((event) => {
@@ -112,7 +112,7 @@ const UserMenu = ({
         <div className="relative" ref={menuRef}>
             <div className="flex flex-row items-center gap-3">
                 <div
-                    // onClick={onRent}
+                    onClick={onOpenRegisterArtistModal}
                     className="
                     hidden
                     md:block

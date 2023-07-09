@@ -24,6 +24,19 @@ export const uiReducer = (state, action) => {
         ...state,
         LoginModalisOpen: false,
       };
+
+    case '[UI] - onOpen Register Artist modal':
+      return {
+        ...state,
+        RegisterArtistModalisOpen: true,
+      };
+
+    case '[UI] - onClose Register Artist modal':
+      return {
+        ...state,
+        RegisterArtistModalisOpen: false,
+      };
+
     case '[UI] - onOpen Rent modal':
       return {
         ...state,

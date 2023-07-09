@@ -1,6 +1,7 @@
+import { getArtist } from '@/actions/getArtists'
 import { getCurrentUser } from '@/actions/getCurrentUser'
 import { getFavoriteTattooIdsOfUser } from '@/actions/getFavoriteTattooIdsOfUser'
-import getListings from '@/actions/getListings'
+import getTattoos from '@/actions/getTattoos'
 import Container from '@/components/Container'
 import ListingCard from '@/components/listings/ListingCard'
 import ListingGrid from '@/components/listings/ListingGrid'
@@ -12,16 +13,27 @@ import Image from 'next/image'
 
 export default async function Home() {
 
-    const listings = await getListings()
+    const tattoos = await getTattoos()
+    const artist = await getArtist()
     const currentUser = await getCurrentUser()
 
     return (
 
         <Container>
+            <h2>Tatuajes</h2>
             <ListingGrid
-                listings={listings}
+                listings={tattoos}
                 currentUser={currentUser}
+                listingType="tattoos"
             />
+
+            <h2 className='mt-20'>Tatuadores</h2>
+            <ListingGrid
+                listings={artist}
+                currentUser={currentUser}
+                listingType="artists"
+            />
+
         </Container>
     )
 }

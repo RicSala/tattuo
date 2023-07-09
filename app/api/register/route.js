@@ -25,7 +25,8 @@ export async function POST(req) {
                 email,
                 name,
                 hashedPassword,
-                confirmPassword: '' //TODO: not sure if we should store this
+                confirmPassword: '', //TODO: not sure if we should store this
+                role,
             },
         });
 

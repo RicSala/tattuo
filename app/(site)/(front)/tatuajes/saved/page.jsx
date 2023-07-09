@@ -26,7 +26,9 @@ export default async function SavedArtistsPage() {
 
     return (
 
-        <ListingGrid listings={tattoos} currentUser={currentUser} />
+        <ListingGrid listings={tattoos} currentUser={currentUser}
+            listingType="tattoos"
+        />
 
     )
 }

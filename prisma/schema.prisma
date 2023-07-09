@@ -95,6 +95,7 @@ model Tattoo {
   description String
   imageSrc    String
   category    String
+  style       Styles?
   // numLikes      Int      @default(0)
 
   // RELATIONS
@@ -109,6 +110,35 @@ enum UserRole {
   ADMIN
   CLIENT
   ARTIST
+}
+
+enum Styles {
+  Anime                     @map("Anime")
+  Negro_y_Gris              @map("Negro y Gris")
+  Trabajo_Negro             @map("Trabajo Negro")
+  Chicano                   @map("Chicano")
+  Puntillismo               @map("Puntillismo")
+  Floral                    @map("Floral")
+  Linea_Fina                @map("Linea Fina")
+  Geometrico                @map("Geometrico")
+  Hecho_a_Mano              @map("Hecho a Mano")
+  Micro_Realismo            @map("Micro Realismo")
+  Arte_Oscuro               @map("Arte Oscuro")
+  Japones_Irezumi           @map("Japonés (Irezumi)")
+  Letras_Audaces            @map("Letras Audaces")
+  Letras_Pequenas           @map("Letras Pequeñas")
+  Neo_Tradicional           @map("Neo Tradicional")
+  Nueva_Escuela             @map("Nueva Escuela")
+  Ornamental                @map("Ornamental")
+  Realismo                  @map("Realismo")
+  Ilustrativo               @map("Ilustrativo")
+  Vieja_Escuela_Tradicional @map("Vieja Escuela (Tradicional)")
+  Estilo_Trash_Polka        @map("Estilo Trash Polka")
+  Tribal                    @map("Tribal")
+  Acuarela                  @map("Acuarela")
+  Surrealismo               @map("Surrealismo")
+  Cosmetico                 @map("Cosmetico")
+  Ignorante                 @map("Ignorante")
 }
 
 model SavedTattoo {

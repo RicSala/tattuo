@@ -10,6 +10,7 @@ export const UiContext = createContext()
 
 const UI_INITIAL_STATE = {
     RegisterModalisOpen: false,
+    RegisterArtistModalisOpen: false,
     LoginModalisOpen: false,
     RentModalisOpen: false,
 };
@@ -32,6 +33,14 @@ export const UiProvider = ({ children }) => {
 
     const onCloseLoginModal = () => {
         dispatch({ type: '[UI] - onClose Login modal' });
+    };
+
+    const onOpenRegisterArtistModal = () => {
+        dispatch({ type: '[UI] - onOpen Register Artist modal' });
+    };
+
+    const onCloseRegisterArtistModal = () => {
+        dispatch({ type: '[UI] - onClose Register Artist modal' });
     };
 
     const onOpenRentModal = () => {
@@ -61,10 +70,12 @@ export const UiProvider = ({ children }) => {
             onCloseRegisterModal,
             onOpenLoginModal,
             onCloseLoginModal,
-            onOpenRentModal,
-            onCloseRentModal,
-            onOpenSearchModal,
-            onCloseSearchModal,
+            onOpenRegisterArtistModal,
+            onCloseRegisterArtistModal,
+            // onOpenRentModal,
+            // onCloseRentModal,
+            // onOpenSearchModal,
+            // onCloseSearchModal,
         }}>
             {children}
         </UiContext.Provider>

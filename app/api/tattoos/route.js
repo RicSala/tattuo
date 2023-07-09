@@ -80,6 +80,7 @@ export async function PUT(request) {
         category,
         location,
         tattooId,
+        style,
     } = body;
 
     // create or update the listing
@@ -93,11 +94,12 @@ export async function PUT(request) {
             imageSrc,
             category,
             location,
-            artistProfile: {
-                connect: {
-                    id: artistProfile.id
-                }
-            }
+            style: style.value
+            // artistProfile: {
+            //     connect: {
+            //         id: artistProfile.id
+            //     }
+            // }
 
         }
 

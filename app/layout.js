@@ -6,6 +6,7 @@ import LoginModal from '@/components/modals/LoginModal'
 import ToasterContext from '@/providers/ToasterContext'
 import { AuthProvider } from '@/providers/auth/AuthProvider'
 import CustomSessionProvider from '@/providers/SessionProvider'
+import RegisterArtistModal from '@/components/modals/RegisterArtistModal'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
             <AuthProvider>
               <ToasterContext />
               <RegisterModal />
+              <RegisterArtistModal />
               <LoginModal />
               {children}
             </AuthProvider>

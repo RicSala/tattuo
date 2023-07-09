@@ -1,7 +1,7 @@
 import prisma from "@/libs/prismadb";
 
 
-export default async function getListings(searchParams) { // I would call the args "filters", because actually the function could without "searchParams" specifically
+export default async function getTattoos(searchParams) { // I would call the args "filters", because actually the function could without "searchParams" specifically
 
     try {
 
