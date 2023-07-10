@@ -3,10 +3,14 @@
 import Button from "@/components/Button";
 import ImageUpload from "@/components/inputs/ImageUpload";
 import Input from "@/components/inputs/Input";
+import CustomSelect from "@/components/inputs/StyleSelect";
+import { getStyleList } from "@/libs/getStyleList";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+
+const estilos = getStyleList()
 
 const ProfilePageClient = ({
     artist
@@ -37,6 +41,7 @@ const ProfilePageClient = ({
 
         }
     })
+
 
     const onSubmit = async (data) => {
 
@@ -111,6 +116,9 @@ const ProfilePageClient = ({
                     register={register}
                 />
 
+                <CustomSelect
+                    options={estilos}
+                />
                 <ImageUpload
                     value={image}
                     onChange={(value) => customSetValue("mainImage", value)}

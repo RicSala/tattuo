@@ -95,6 +95,7 @@ model Tattoo {
   description String
   imageSrc    String
   category    String
+  bodyPart    String
   style       Styles?
   // numLikes      Int      @default(0)
 

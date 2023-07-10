@@ -75,6 +75,16 @@ const UserMenu = ({
 
         <>
             <MenuItem
+                onMouseEnter={() => router.prefetch("/tatuadores")}
+                onClick={() => { router.push("/tatuadores") }}
+                label="Descubrir tatuadores"
+            />
+            <MenuItem
+                onMouseEnter={() => router.prefetch("/tatuajes")}
+                onClick={() => { router.push("/tatuajes") }}
+                label="Descubrir tatuajes"
+            />
+            <MenuItem
                 onMouseEnter={() => router.prefetch("/tatuadores/saved")}
                 onClick={() => { router.push("/tatuadores/saved") }}
                 label="Mis tatuadores favoritos"

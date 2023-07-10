@@ -134,22 +134,22 @@ const ListingCard = ({
                     </div>
                 </div>
 
-                <div className=" font-semibold text-lg">
+                {/* <div className=" font-semibold text-lg">
                     {location?.region}, {location?.label}
                 </div>
 
                 <div className="font-light text-neutral-500">
                     {reservationDate || data.category}
-                </div>
+                </div> */}
 
-                <div className="flex flex-row items-center gap-1">
+                {/* <div className="flex flex-row items-center gap-1">
                     <div className="font-semibold">{
                         '100'
                     }€</div>
                     {!reservation && (
                         <div className="font-light">por noche</div>
                     )}
-                </div>
+                </div> */}
                 <div className="flex flex-row justify-between gap-7">
                     {onAction && actionLabel && (
                         <Button

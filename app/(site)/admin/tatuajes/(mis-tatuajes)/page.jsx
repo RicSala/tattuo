@@ -39,6 +39,11 @@ const MyTattoosPage = async ({ params }) => {
 
         <>
             <Container>
+                <div className="flex justify-end items-center py-2 mt-4">
+                    <div className="bg-blue-700 p-2 rounded-md text-white">
+                        <Link href="/admin/tatuajes/new">Nuevo tatuaje</Link>
+                    </div>
+                </div>
                 <ListingGrid listings={tattoos} currentUser={currentUser}
                     actionLabel={'Editar'}
                     secondaryActionLabel={'Eliminar'}

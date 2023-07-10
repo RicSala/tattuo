@@ -4,21 +4,17 @@ import { getStyleList } from '@/libs/getStyleList';
 import Select from 'react-select';
 //  https://react-select.com/home
 
-const StyleSelect = ({
+const CustomSelect = ({
     value,
     onChange,
     required,
     errors,
+    options,
 }) => {
 
     // const { getAll, getByValue } = useCountries();
 
-    const styles = getStyleList();
 
-    const options = styles.map(style => ({
-        value: style.enum,
-        label: style.name
-    }));
 
 
     // TODO: Add validation visual feedback
@@ -65,4 +61,4 @@ const StyleSelect = ({
     )
 };
 
-export default StyleSelect;
+export default CustomSelect;

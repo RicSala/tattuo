@@ -3,7 +3,9 @@
 import Button from "@/components/Button";
 import ImageUpload from "@/components/inputs/ImageUpload";
 import Input from "@/components/inputs/Input";
-import StyleSelect from "@/components/inputs/StyleSelect";
+import CustomSelect from "@/components/inputs/StyleSelect";
+import { getBodyParts } from "@/libs/getBodyParts";
+import { getStyleList } from "@/libs/getStyleList";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -22,8 +24,8 @@ const TattooEditPageClient = ({
             imageSrc: tattoo.imageSrc,
             category: tattoo.category,
             style: {
-                value: tattoo.style,
-                label: tattoo.style.replace(/_/g, " ")
+                value: tattoo.style || "",
+                label: tattoo.style?.replace(/_/g, " ") || ""
             }, //REVIEW: is there a way to only send the enum?
             tattooId: tattoo.id,
         }
@@ -38,6 +40,14 @@ const TattooEditPageClient = ({
     //REVIEW: Interesting to see what it returns. That's what is spreaded on each input
     // console.log(register("name"))
 
+    const styles = getStyleList();
+
+    const bodyParts = getBodyParts();
+
+    const bodyPartsOptions = bodyParts.map(bodyPart => ({
+        value: bodyPart.value,
+        label: bodyPart.label
+    }));
 
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
@@ -158,13 +168,12 @@ const TattooEditPageClient = ({
                     disabled={isLoading}
 
                 />
-                <StyleSelect
+                <CustomSelect
                     errors={errors}
                     value={field.value}
+                    options={styles}
                     // onChange={(style) => handleStyleChange(style)} // this is the same as...
-                    onChange={handleStyleChange}
-
-                />
+                    onChange={handleStyleChange} />
                 {/* TODO: improve validation */}
 
                 <Button type="submit">Guardar</Button>

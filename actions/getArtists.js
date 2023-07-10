@@ -5,26 +5,29 @@ export async function getArtist(searchParams) { // I would call the args "filter
 
     try {
 
-        // const {
-        //     userId = null,
-        //     roomCount,
-        //     category,
-        //     bathRoomCount,
-        //     guestCount,
-        //     locationValue,
-        //     startDate,
-        //     endDate,
+        const {
+            userId,
+            // userId = null,
+            styles,
+            artist_name,
+            city,
+            content,
 
-        // } = searchParams;
+        } = searchParams;
+
 
         // // we are building the query object for prisma
         let query = {};
 
         // // conditionally add properties to the query object...
 
-        // if (userId) {
-        //     query.userId = userId
-        // }
+        if (userId) {
+            query.userId = userId
+        }
+
+        if (styles) {
+            query.styles = { hasSome: styles };
+        }
 
 
 
