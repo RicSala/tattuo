@@ -1,11 +1,11 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import ListingCard from "./ListingCard";
+import TattooCard from "./TattooCard";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
-const ListingGrid = ({
+const TattooListingGrid = ({
     listings,
     listingType,
     currentUser,
@@ -48,10 +48,11 @@ const ListingGrid = ({
     lg:grid-cols-4
     xl:grid-cols-5
     2xl:grid-cols-6
+    justify-center
+    content-center
     ">
             {listings.map((listing) => (
-
-                <ListingCard
+                <TattooCard
                     key={listing.id}
                     data={listing}
                     listingType={listingType}
@@ -64,10 +65,9 @@ const ListingGrid = ({
                     actionId={listing.id}
                     currentUser={currentUser}
                 />
-
             ))}
 
         </div>
     )
 };
-export default ListingGrid;
+export default TattooListingGrid;

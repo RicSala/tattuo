@@ -4,10 +4,12 @@ import { getFavoriteTattooIdsOfUser } from '@/actions/getFavoriteTattooIdsOfUser
 import getTattoos from '@/actions/getTattoos'
 import Container from '@/components/Container'
 import Heading from '@/components/Heading'
-import Search from '@/components/search/Search'
-import ListingCard from '@/components/listings/ListingCard'
-import ListingGrid from '@/components/listings/ListingGrid'
+import Search from '@/components/search/SearchBar'
+import TattooCard from '@/components/listings/TattooCard'
+import TattooListingGrid from '@/components/listings/TattooListingGrid'
 import Image from 'next/image'
+import ListingGrid from '@/components/ListingGrid'
+import ArtistCard from '@/components/ArtistCard'
 
 //TODO:
 // SITEMAP
@@ -16,7 +18,7 @@ import Image from 'next/image'
 export default async function Home({ searchParams }) {
 
     const tattoos = await getTattoos(searchParams)
-    const artist = await getArtist(searchParams)
+    const artists = await getArtist(searchParams)
     const currentUser = await getCurrentUser()
 
     return (
@@ -25,17 +27,18 @@ export default async function Home({ searchParams }) {
             <div>
                 <div className='mt-6'>
                     <Heading title={'Tatuajes'} />
-                    <ListingGrid
+                    <TattooListingGrid
                         listings={tattoos}
                         currentUser={currentUser}
                         listingType="tattoos" />
                 </div>
                 <div className='mt-6'>
                     <Heading title={'Tatuadores'} />
-                    <ListingGrid
-                        listings={artist}
-                        currentUser={currentUser}
-                        listingType="artists" />
+                    <ListingGrid>
+                        {artists.map((artist) => (
+                            <ArtistCard key={artist.id} artist={artist} currentUser={currentUser} />
+                        ))}
+                    </ListingGrid>
                 </div>
             </div>
 

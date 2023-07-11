@@ -1,92 +1,68 @@
 import prisma from "@/libs/prismadb";
+import { NextResponse } from "next/server";
+import qs from "query-string";
 
 
 export default async function getTattoos(searchParams) { // I would call the args "filters", because actually the function could without "searchParams" specifically
 
     try {
 
-        // const {
-        //     userId = null,
-        //     roomCount,
-        //     category,
-        //     bathRoomCount,
-        //     guestCount,
-        //     locationValue,
-        //     startDate,
-        //     endDate,
-
-        // } = searchParams;
-
-        // // we are building the query object for prisma
         let query = {};
 
-        // // conditionally add properties to the query object...
-
-        // if (userId) {
-        //     query.userId = userId
-        // }
 
 
+        const {
+            style,
+            bodyPart,
+            freeSearch
+        } = searchParams
 
-        // if (category) {
-        //     query.category = category
-        // }
+        const styleArray = style?.split(',')
+        const styleEnums = styleArray?.map(style => {
+            //replace ALL spaces with underscores
+            return style.replace(/\s/g, '_')
 
+        })
 
+        if (styleArray && styleArray.length > 0) {
+            query = {
+                ...query,
+                style: {
+                    in: styleEnums
+                }
+            }
+        }
 
-        // if (roomCount) {
-        //     query.roomCount =
-        //     {                       // this is how you add a condition to a query in prisma
-        //         gte: +roomCount // gte = greater than or equal to & +roomCount converts string to number
-        //     }
-        // }
+        const bodyPartArray = bodyPart?.split(',')
+        if (bodyPartArray && bodyPartArray.length > 0) {
+            query = {
+                ...query,
+                bodyPart: {
+                    in: bodyPartArray
+                }
+            }
+        }
 
-
-
-        // if (bathRoomCount) { // TODO: fix capitalization
-        //     query.bathroomCount = {
-        //         gte: +bathRoomCount
-        //     }
-        // }
-
-
-
-        // if (guestCount) {
-        //     query.guestCount = {
-        //         gte: +guestCount
-        //     }
-        // }
-
-
-
-        // if (locationValue) {
-        //     query.locationValue = locationValue
-        // }
-
-
-
-        // if (startDate && endDate) {
-        //     console.log("startDate", startDate)
-        //     console.log("endDate", endDate)
-        //     query.NOT = {
-        //         reservations: {
-        //             some: {
-        //                 OR: [
-        //                     {   // if the start date is between the start and end date of any reservation
-        //                         endDate: { gte: startDate },
-        //                         startDate: { lte: startDate }
-        //                     },
-        //                     {   // if the end date is between the start and end date of any reservation
-        //                         endDate: { gte: endDate },
-        //                         startDate: { lte: endDate }
-        //                     },
-        //                 ] // then exclude that listing from the results, because it is not available
-        //             }
-        //         }
-        //     }
-        // }
-
-
+        // create a query that returns the tattoos that match the search in the title or description
+        if (freeSearch) {
+            query = {
+                ...query,
+                OR: [
+                    {
+                        title: {
+                            contains: freeSearch,
+                            mode: "insensitive"
+                        }
+                    },
+                    {
+                        description: {
+                            contains: freeSearch,
+                            mode: "insensitive"
+                        }
+                    },
+                ]
+            }
+        }
 
         // GET ALL LISTINGS using prisma
         const listings = await prisma.tattoo.findMany({
@@ -99,6 +75,7 @@ export default async function getTattoos(searchParams) { // I would call the arg
         return listings;
 
     } catch (error) {
-        throw new Error(error); // TODO: where does this error go?
+        console.log('error: ', error);
+        return []
     }
 }

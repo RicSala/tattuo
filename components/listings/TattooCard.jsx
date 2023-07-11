@@ -9,7 +9,7 @@ import Button from "../Button";
 import HeartButton from "../HeartButton";
 import SaveButton from "../SaveButton";
 
-const ListingCard = ({
+const TattooCard = ({
     data,
     listingType,
     reservation,
@@ -23,15 +23,7 @@ const ListingCard = ({
 }) => {
 
 
-
     const router = useRouter();
-
-    const location = useMemo(() => {
-        return {
-            region: 'Spain',
-            label: 'Barcelona'
-        }
-    }, [])
 
 
     const translatedResource = useMemo(() => {
@@ -63,33 +55,6 @@ const ListingCard = ({
         }
         onSecondaryAction?.(actionId)
     }, [actionId, disabled, onSecondaryAction])
-
-    // const price = useMemo(() => {
-
-    //     if (reservation) {
-    //         return reservation.totalPrice
-    //     }
-
-    //     return data.price
-    // }, [data.price, reservation])
-
-    const reservationDate = useMemo(() => {
-
-        if (!reservation) {
-            return null
-        }
-
-        const start = new Date(reservation.startDate);
-        const end = new Date(reservation.endDate)
-
-        return `${format(start, 'PP')} - ${format(end, 'PP')}`
-
-    }, [reservation])
-
-
-    // INSIGHT: "fill" in the image seems to fix the problem with ""
-
-    //TODO: no index & no follow in the admin pages
 
 
     return (
@@ -134,22 +99,6 @@ const ListingCard = ({
                     </div>
                 </div>
 
-                {/* <div className=" font-semibold text-lg">
-                    {location?.region}, {location?.label}
-                </div>
-
-                <div className="font-light text-neutral-500">
-                    {reservationDate || data.category}
-                </div> */}
-
-                {/* <div className="flex flex-row items-center gap-1">
-                    <div className="font-semibold">{
-                        '100'
-                    }€</div>
-                    {!reservation && (
-                        <div className="font-light">por noche</div>
-                    )}
-                </div> */}
                 <div className="flex flex-row justify-between gap-7">
                     {onAction && actionLabel && (
                         <Button
@@ -175,4 +124,4 @@ const ListingCard = ({
     )
 };
 
-export default ListingCard;
+export default TattooCard;

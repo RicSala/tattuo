@@ -26,15 +26,6 @@ const ProfilePage = async ({
 
     return (
         <>
-            <p>
-                Profile Page
-            </p>
-
-            <p>
-                {
-                    JSON.stringify(currentUser)
-                }
-            </p>
 
             <ProfilePageClient artist={artist} />
 

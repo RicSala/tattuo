@@ -14,7 +14,7 @@ async function NavBar({
     // Create a navBar component that will be used in the layout.js file
     return (
         // <Container>
-        <div className="fixed w-full bg-white z-10 shadow-sm text-black">
+        <div className="fixed w-full bg-white shadow-sm text-black z-40">
             <div className="py-4 border-b-[1px]">
                 <Container>
                     <div className="flex flex-row items-center justify-between gap-3 md:gap-0">

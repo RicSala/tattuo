@@ -2,8 +2,10 @@
 
 import ArtistPrices from "@/components/ArtistPrices";
 import ArtistSocials from "@/components/ArtistSocials";
+import Heading from "@/components/Heading";
 import HeartButton from "@/components/HeartButton";
-import ListingGrid from "@/components/listings/ListingGrid";
+import LikesCount from "@/components/LikesCount";
+import TattooListingGrid from "@/components/listings/TattooListingGrid";
 import SaveButton from "@/components/SaveButton";
 
 const ArtistDetailsPageClient = ({
@@ -12,32 +14,30 @@ const ArtistDetailsPageClient = ({
     currentUser,
 }) => {
 
+
     return (
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center w-full">
             <h1>Title: {artist.user.name}</h1>
-            {/* <ListingCard data={artist} />
-            <ArtistSmallCard artist={artist.artistProfile} /> */}
             <SaveButton listingId={artist.id} currentUser={currentUser}
-                listingType="artists"
-            />
+                listingType="artists" />
+
             <HeartButton listingId={artist.id} currentUser={currentUser}
-                listingType="artists"
-            />
+                listingType="artists" />
 
             {/* TODO: move to component */}
 
-            {
-                artist.likes?.length > 0 && (
-                    <div className="flex flex-row items-center gap-1">
-                        {artist.likes?.length} likes
-                    </div>)
-
-            }
+            <LikesCount likesArray={artist.likes} />
 
             <ArtistSocials artist={artist} />
             <ArtistPrices artist={artist} />
             <h2 className="mt-20 font-bold">Otros trabajos de {artist.artisticName}</h2>
-            <ListingGrid listings={artistTattoos} currentUser={currentUser} listingType={'tattoos'} />
+            <div className="mt-6 w-full mx-auto">
+                <Heading title={'Tatuadores'} />
+
+                <TattooListingGrid listings={artistTattoos} currentUser={currentUser} listingType={'tattoos'} />
+
+            </div>
+
 
         </div>
     )

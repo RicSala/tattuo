@@ -2,8 +2,8 @@
 
 import ArtistCard from "@/components/ArtistCard";
 import Container from "@/components/Container";
-import ListingCard from "@/components/listings/ListingCard";
-import ListingGrid from "@/components/listings/ListingGrid";
+import TattooCard from "@/components/listings/TattooCard";
+import TattooListingGrid from "@/components/listings/TattooListingGrid";
 import { useRouter } from "next/navigation";
 
 const SavedTattosPageClient = ({

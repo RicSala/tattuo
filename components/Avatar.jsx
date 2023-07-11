@@ -10,8 +10,6 @@ export default function Avatar({
     isArtist
 }) {
 
-    console.log("FROM AVATAR", user)
-
     if (isArtist) {
         user.image = user.mainImage
         user.name = user.artisticName

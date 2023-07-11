@@ -1,7 +1,7 @@
 import EmptyState from "@/components/EmptyState";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId";
-import ListingGrid from "@/components/listings/ListingGrid";
+import TattooListingGrid from "@/components/listings/TattooListingGrid";
 import { getArtistById } from "@/actions/getArtistById";
 import Button from "@/components/Button";
 import Link from "next/link";
@@ -44,7 +44,7 @@ const MyTattoosPage = async ({ params }) => {
                         <Link href="/admin/tatuajes/new">Nuevo tatuaje</Link>
                     </div>
                 </div>
-                <ListingGrid listings={tattoos} currentUser={currentUser}
+                <TattooListingGrid listings={tattoos} currentUser={currentUser}
                     actionLabel={'Editar'}
                     secondaryActionLabel={'Eliminar'}
                     listingType={'tattoos'}

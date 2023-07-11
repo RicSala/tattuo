@@ -30,7 +30,7 @@ const Button = ({
         ${small ? `font-light` : `font-semibold`}
         ${small ? `border-[1px]` : `border-2`}
         `}>
-            {Icon && <Icon size={24} className="absolute left-4 top-3" />
+            {Icon && <Icon size={24} className="absolute left-4 top-1" />
 
             }
             {label}

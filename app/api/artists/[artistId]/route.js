@@ -30,26 +30,28 @@ export async function PUT(request) {
 
     const body = await request.json();
 
-    const {
-        bio,
-        location,
-        artisticName,
-        mainImage,
-        image,
-    } = body
+    const updatedInfo = { ...body }
+
+    console.log("updatedInfo", updatedInfo)
+
+    const stylesArray = updatedInfo.styles.map(style => {
+        return style.label
+    })
+
+    const location = updatedInfo.location.label
+
+    updatedInfo.styles = stylesArray
+    updatedInfo.location = location
+    updatedInfo.minWorkPrice = parseInt(updatedInfo.minWorkPrice)
+    updatedInfo.pricePerHour = parseInt(updatedInfo.pricePerHour)
+    updatedInfo.pricePerSession = parseInt(updatedInfo.pricePerSession)
 
     // find and update the artist profile
     const updatedArtistProfile = await prisma.artistProfile.update({
         where: {
             id: currentUser.artistProfileId
         },
-        data: {
-            bio,
-            location,
-            artisticName: artisticName,
-            mainImage,
-            images: [image]
-        }
+        data: updatedInfo
     })
 
     return NextResponse.json(updatedArtistProfile)

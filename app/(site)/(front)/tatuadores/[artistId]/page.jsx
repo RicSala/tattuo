@@ -17,6 +17,7 @@ const ArtistDetailsPage = async ({ params }) => {
         )
     }
 
+
     return (
 
         <>

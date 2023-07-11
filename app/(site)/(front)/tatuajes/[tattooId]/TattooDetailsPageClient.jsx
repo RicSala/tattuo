@@ -2,8 +2,8 @@
 
 import ArtistSmallCard from "@/components/ArtistSmallCard";
 import ShareButtons from "@/components/ShareButtons";
-import ListingCard from "@/components/listings/ListingCard";
-import ListingGrid from "@/components/listings/ListingGrid";
+import TattooCard from "@/components/listings/TattooCard";
+import TattooListingGrid from "@/components/listings/TattooListingGrid";
 import Image from "next/image";
 
 const TattooDetailsPageClient = ({
@@ -18,7 +18,7 @@ const TattooDetailsPageClient = ({
     return (
         <div className="flex flex-col justify-center items-center">
             <h1>Title: {tattoo.title}</h1>
-            <ListingCard data={tattoo} currentUser={currentUser}
+            <TattooCard data={tattoo} currentUser={currentUser}
                 listingType="tattoos" />
             {
                 <p> {
@@ -43,7 +43,7 @@ const TattooDetailsPageClient = ({
             </div>
             <ShareButtons url={`http://localhost:3000/tatuajes/${tattoo.id}`} />
             <h2 className="mt-20 font-bold text-lg">También te pueden gustar...</h2>
-            <ListingGrid
+            <TattooListingGrid
                 listings={similarTattoos}
                 currentUser={currentUser}
                 listingType="tattoos"

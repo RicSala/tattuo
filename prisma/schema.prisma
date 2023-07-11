@@ -66,6 +66,7 @@ model ArtistProfile {
 
   // Profile fields
   artisticName    String?       @unique
+  email           String?
   bio             String?
   location        String?
   phone           String?
@@ -80,7 +81,7 @@ model ArtistProfile {
   styles          String[]
   pricePerHour    Int?
   pricePerSession Int?
-  maxPrice        Int?
+  minWorkPrice    Int?
   tattoos         Tattoo[]
   saves           SavedArtist[]
   likes           LikedArtist[]
@@ -94,7 +95,7 @@ model Tattoo {
   title       String
   description String
   imageSrc    String
-  category    String
+  content     String?
   bodyPart    String
   style       Styles?
   // numLikes      Int      @default(0)

@@ -161,7 +161,7 @@ const UserMenu = ({
                     <AiOutlineMenu size={20} />
 
                     <div className="hidden md:block">
-                        <Avatar user={currentUser} />
+                        <Avatar user={currentUser} isArtist={false} />
                     </div>
 
                 </div>

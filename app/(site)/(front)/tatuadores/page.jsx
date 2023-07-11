@@ -1,52 +1,59 @@
 import { getArtist } from '@/actions/getArtists'
 import { getCurrentUser } from '@/actions/getCurrentUser'
-import getTattoos from '@/actions/getTattoos'
 import ArtistCard from '@/components/ArtistCard'
 import ArtistSearchBar from '@/components/search/ArtistSearchBar'
 import Container from '@/components/Container'
 import Heading from '@/components/Heading'
-import Search from '@/components/search/Search'
-import ListingGrid from '@/components/listings/ListingGrid'
 import EmptyState from '@/components/EmptyState'
+import Search from '@/components/search/SearchBar'
+import { getStyleList } from '@/libs/getStyleList'
+import { getCities } from '@/libs/getCities'
 
 //TODO:
 // SITEMAP
 // ROBOTS.TXT
+
+const styles = getStyleList()
+const cities = getCities()
+
 
 export default async function ArtistPage({ searchParams }) {
 
     const artists = await getArtist(searchParams)
     const currentUser = await getCurrentUser()
 
+    const filtro1 = {
+        label: 'Estilos',
+        value: 'styles',
+        options: styles
+    }
+
+    const filtro2 = {
+        label: 'Ciudad',
+        value: 'city',
+        options: cities
+    }
+
+
 
     if (artists.length < 1) {
         return (
-            <>
-                <ArtistSearchBar />
+            <Container>
+                <Search filtro1={filtro1} filtro2={filtro2} />
 
-                <EmptyState title="No se han encontrado tatuador@s con esos filtros"
+                <EmptyState title="No se han encontrado tatuadores con esos filtros"
                     subtitle="Modifica tus filtros para encontrar más resultados"
+                    actionUrl={'/tatuadores'}
+                    actionLabel={'Quitar filtros'}
                 />
-
-            </>
+            </Container>
         )
     }
 
     return (
         <>
-
-            {/* Search will have:
-        text search: will search tattoo description, tattoo content hidden text, artist name
-        Filter by city
-        Filter by style
-        Filter by body part
-
-         */}
-
-
             <Container>
-                <ArtistSearchBar />
-
+                <Search filtro1={filtro1} filtro2={filtro2} />
                 <Heading title="Tatuadores" />
                 <div className="flex flex-wrap justify-between">
                     {artists.map((artist) => {

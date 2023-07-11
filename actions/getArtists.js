@@ -12,6 +12,7 @@ export async function getArtist(searchParams) { // I would call the args "filter
             artist_name,
             city,
             content,
+            freeSearch,
 
         } = searchParams;
 
@@ -28,6 +29,32 @@ export async function getArtist(searchParams) { // I would call the args "filter
         if (styles) {
             query.styles = { hasSome: styles };
         }
+
+        if (city) {
+            query.location = city
+        }
+
+        // create a query that returns the tattoos that match the search in the title or description
+        if (freeSearch) {
+            query = {
+                ...query,
+                OR: [
+                    {
+                        artisticName: {
+                            contains: freeSearch,
+                            mode: "insensitive"
+                        }
+                    },
+                    {
+                        bio: {
+                            contains: freeSearch,
+                            mode: "insensitive"
+                        }
+                    }
+                ]
+            }
+        }
+
 
 
 

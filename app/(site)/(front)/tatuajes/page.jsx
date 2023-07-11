@@ -2,43 +2,39 @@ import { getCurrentUser } from '@/actions/getCurrentUser'
 import getTattoos from '@/actions/getTattoos'
 import Container from '@/components/Container'
 import Heading from '@/components/Heading'
-import Search from '@/components/search/Search'
-import ListingGrid from '@/components/listings/ListingGrid'
+import Search from '@/components/search/SearchBar'
+import TattooListingGrid from '@/components/listings/TattooListingGrid'
 import EmptyState from '@/components/EmptyState'
+import { getStyleList } from '@/libs/getStyleList'
 
 //TODO:
 // SITEMAP
 // ROBOTS.TXT
+const styles = getStyleList()
 
-export default async function TattoosPage() {
+export default async function TattoosPage({ searchParams }) {
 
-    const tattoos = await getTattoos()
+    const tattoos = await getTattoos(searchParams)
     const currentUser = await getCurrentUser()
 
-    if (artists.length < 1) {
+    if (tattoos.length < 1) {
         return (
-            <EmptyState title="No se han encontrado tatuajes con esos filtros"
-                subtitle="Modifica tus filtros para encontrar más resultados"
-            />
+            <Container>
+                <EmptyState title="No se han encontrado tatuajes con esos filtros"
+                    subtitle="Modifica tus filtros para encontrar más resultados"
+                    actionUrl={'/tatuajes'}
+                    actionLabel={'Quitar filtros'}
+                />
+            </Container>
         )
     }
 
     return (
         <>
-
-            {/* Search will have:
-        text search: will search tattoo description, tattoo content hidden text, artist name
-        Filter by city
-        Filter by style
-        Filter by body part
-
-         */}
-
-
             <Container>
                 <Search />
                 <Heading title={'Tatuajes'} />
-                <ListingGrid
+                <TattooListingGrid
                     listings={tattoos}
                     currentUser={currentUser}
                     listingType="tattoos"

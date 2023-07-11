@@ -9,6 +9,7 @@ const Input = ({
     disabled,
     formatPrice,
     required,
+    validation,
     register, //For React Hook Form
     errors, //For React Hook Form
 }) => {
@@ -21,7 +22,10 @@ const Input = ({
             <input
                 id={id}
                 disabled={disabled}
-                {...register(id, { required })}
+                {...register(id, {
+                    required: required ? 'Campo requerido' : false,
+                    ...validation
+                })}
                 placeholder=" " // for the animation
                 type={type}
                 className={`
@@ -61,7 +65,7 @@ const Input = ({
             peer-focus:-translate-y-4
             ${errors[id] ? 'text-rose-500' : 'text-zinc-400'}`
                 }>
-                {label}
+                {label} {errors[id] && '- ' + (errors[id].message ? errors[id].message : '')}
             </label>
 
 

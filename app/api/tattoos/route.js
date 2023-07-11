@@ -21,6 +21,7 @@ export async function POST(request) {
         category,
         location,
         tattooId,
+        bodyPart,
     } = body;
 
     // create or update the listing
@@ -31,6 +32,7 @@ export async function POST(request) {
             imageSrc,
             category,
             location,
+            bodyPart: bodyPart.value,
             artistProfile: {
                 connect: {
                     id: artistProfile.id
@@ -41,23 +43,6 @@ export async function POST(request) {
 
     })
 
-
-    // create the listing with prisma instead of mongoose
-    // const listing = await prisma.tattoo.create({
-    //     data: {
-    //         title,
-    //         description,
-    //         imageSrc,
-    //         category,
-    //         location,
-    //         artistProfile: {
-    //             connect: {
-    //                 id: artistProfile.id
-    //             }
-    //         }
-
-    //     }
-    // })
 
 
     return NextResponse.json(listing)
@@ -81,6 +66,7 @@ export async function PUT(request) {
         location,
         tattooId,
         style,
+        bodyPart,
     } = body;
 
     // create or update the listing
@@ -94,7 +80,8 @@ export async function PUT(request) {
             imageSrc,
             category,
             location,
-            style: style.value
+            style: style.value,
+            bodyPart: bodyPart.value
             // artistProfile: {
             //     connect: {
             //         id: artistProfile.id
