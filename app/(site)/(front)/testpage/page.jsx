@@ -6,6 +6,8 @@ import Heading from "@/components/Heading";
 import ArtistCard from "@/components/listings/ArtistCard";
 import ListingGrid from "@/components/listings/ListingGrid";
 import TattooListingGrid from "@/components/listings/TattooListingGrid";
+export const dynamic = "force-dynamic";
+
 
 const page = async ({
     searchParams

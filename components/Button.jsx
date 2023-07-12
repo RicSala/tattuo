@@ -7,13 +7,15 @@ const Button = ({
     disabled,
     outline,
     small,
-    icon: Icon
+    icon: Icon,
+    type = "button"
 
 }) => {
     return (
         <button
             onClick={onClick}
             disabled={disabled}
+            type={type}
             className={`
         relative
         disabled:opacity-50

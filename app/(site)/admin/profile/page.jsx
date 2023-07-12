@@ -28,9 +28,7 @@ const ProfilePage = async ({
 
     return (
         <>
-
             <ProfilePageClient artist={artist} />
-
         </>
 
     )

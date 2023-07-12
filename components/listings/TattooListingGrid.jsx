@@ -29,7 +29,7 @@ const TattooListingGrid = ({
         onSecondaryAction = (id) => {
             axios.delete(`/api/tattoos/${id}`)
                 .then(() => {
-                    router.push(`/admin/tatuajes`)
+                    router.refresh()
                     toast.success("Tatuaje eliminado")
                 })
                 .catch((error) => {

@@ -56,12 +56,18 @@ const UserMenu = ({
         <>
             <MenuItem
                 onMouseEnter={() => router.prefetch("/admin/tatuajes")}
-                onClick={() => { router.push("/admin/tatuajes") }}
+                onClick={() => {
+                    setIsOpen(false)
+                    router.push("/admin/tatuajes")
+                }}
                 label="Mis tatuajes"
             />
             <MenuItem
                 onMouseEnter={() => router.prefetch("/admin/profile")}
-                onClick={() => { router.push("/admin/profile") }}
+                onClick={() => {
+                    setIsOpen(false)
+                    router.push("/admin/profile")
+                }}
                 label="Mi perfil"
             />
             <MenuItem
@@ -76,22 +82,34 @@ const UserMenu = ({
         <>
             <MenuItem
                 onMouseEnter={() => router.prefetch("/tatuadores")}
-                onClick={() => { router.push("/tatuadores") }}
+                onClick={() => {
+                    setIsOpen(false)
+                    router.push("/tatuadores")
+                }}
                 label="Descubrir tatuadores"
             />
             <MenuItem
                 onMouseEnter={() => router.prefetch("/tatuajes")}
-                onClick={() => { router.push("/tatuajes") }}
+                onClick={() => {
+                    setIsOpen(false)
+                    router.push("/tatuajes")
+                }}
                 label="Descubrir tatuajes"
             />
             <MenuItem
                 onMouseEnter={() => router.prefetch("/tatuadores/saved")}
-                onClick={() => { router.push("/tatuadores/saved") }}
+                onClick={() => {
+                    setIsOpen(false)
+                    router.push("/tatuadores/saved")
+                }}
                 label="Mis tatuadores favoritos"
             />
             <MenuItem
                 onMouseEnter={() => router.prefetch("/tatuajes/saved")}
-                onClick={() => { router.push("/tatuajes/saved") }}
+                onClick={() => {
+                    setIsOpen(false)
+                    router.push("/tatuajes/saved")
+                }}
                 label="Mis tatuajes guardados"
             />
             <MenuItem

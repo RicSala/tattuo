@@ -3,6 +3,7 @@ import TattooListingGrid from "@/components/listings/TattooListingGrid"
 import { getCurrentUser } from "@/actions/getCurrentUser"
 import { getSavedTattoosByUserId } from "@/actions/getSavedTattoosByUserId"
 import Container from "@/components/Container"
+import Heading from "@/components/Heading"
 
 export default async function SavedArtistsPage() {
 
@@ -28,6 +29,7 @@ export default async function SavedArtistsPage() {
     return (
 
         <Container>
+            <Heading title="Tatuajes guardados" subtitle="Estos son los tatuajes que has guardado" />
             <TattooListingGrid listings={tattoos} currentUser={currentUser}
                 listingType="tattoos"
             />
