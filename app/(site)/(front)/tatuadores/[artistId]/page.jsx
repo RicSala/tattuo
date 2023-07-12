@@ -3,6 +3,8 @@ import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getArtistById } from "@/actions/getArtistById";
 import ArtistDetailsPageClient from "./ArtistDetailsPageClient";
 import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId";
+export const dynamic = "force-dynamic";
+
 
 const ArtistDetailsPage = async ({ params }) => {
 

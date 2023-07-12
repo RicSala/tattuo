@@ -1,9 +1,9 @@
 'use client'
 import Image from "next/image";
-import Avatar from "./Avatar";
+import Avatar from "../Avatar";
 import Link from "next/link";
-import HeartButton from "./HeartButton";
-import SaveButton from "./SaveButton";
+import HeartButton from "../HeartButton";
+import SaveButton from "../SaveButton";
 import { useRouter } from "next/navigation";
 
 const ArtistCard = ({
@@ -29,6 +29,7 @@ const ArtistCard = ({
          flex-col
         cursor-pointer
         justify-between
+        
 
         ">
             <div
@@ -43,8 +44,8 @@ const ArtistCard = ({
                         listingType="artists" />
                 </div>
 
-                <div className="h-60 overflow-hidden">
-                    <div className="inset-0 transition-transform">
+                <div className="aspect-square overflow-hidden">
+                    <div className="aspect-square inset-0 transition-transform">
                         <Image
                             fill={true}
                             src={artist.mainImage}

@@ -56,69 +56,6 @@ export async function getArtist(searchParams) { // I would call the args "filter
         }
 
 
-
-
-        // if (category) {
-        //     query.category = category
-        // }
-
-
-
-        // if (roomCount) {
-        //     query.roomCount =
-        //     {                       // this is how you add a condition to a query in prisma
-        //         gte: +roomCount // gte = greater than or equal to & +roomCount converts string to number
-        //     }
-        // }
-
-
-
-        // if (bathRoomCount) { // TODO: fix capitalization
-        //     query.bathroomCount = {
-        //         gte: +bathRoomCount
-        //     }
-        // }
-
-
-
-        // if (guestCount) {
-        //     query.guestCount = {
-        //         gte: +guestCount
-        //     }
-        // }
-
-
-
-        // if (locationValue) {
-        //     query.locationValue = locationValue
-        // }
-
-
-
-        // if (startDate && endDate) {
-        //     console.log("startDate", startDate)
-        //     console.log("endDate", endDate)
-        //     query.NOT = {
-        //         reservations: {
-        //             some: {
-        //                 OR: [
-        //                     {   // if the start date is between the start and end date of any reservation
-        //                         endDate: { gte: startDate },
-        //                         startDate: { lte: startDate }
-        //                     },
-        //                     {   // if the end date is between the start and end date of any reservation
-        //                         endDate: { gte: endDate },
-        //                         startDate: { lte: endDate }
-        //                     },
-        //                 ] // then exclude that listing from the results, because it is not available
-        //             }
-        //         }
-        //     }
-        // }
-
-
-
-        // GET ALL LISTINGS using prisma
         const artists = await prisma.artistProfile.findMany({
             where: query,
             orderBy: {

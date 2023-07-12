@@ -106,6 +106,9 @@ export const authOptions = {
 
             const dbUser = await prisma.user.findUnique({ where: { id: token.sub } })
 
+            // Do we have to do this?
+            if (!dbUser) { return token }
+
             if (dbUser.role === 'ARTIST') {
                 const artistProfile = await prisma.artistProfile.findUnique({
                     where: {

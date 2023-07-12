@@ -1,4 +1,6 @@
 import prisma from "@/libs/prismadb";
+export const dynamic = "force-dynamic";
+
 
 
 // given an artist id, the profile, including the artist user data

@@ -2,8 +2,6 @@ import EmptyState from "@/components/EmptyState";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId";
 import TattooListingGrid from "@/components/listings/TattooListingGrid";
-import { getArtistById } from "@/actions/getArtistById";
-import Button from "@/components/Button";
 import Link from "next/link";
 import Container from "@/components/Container";
 

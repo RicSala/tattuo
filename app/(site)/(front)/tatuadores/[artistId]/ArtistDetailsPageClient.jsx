@@ -1,7 +1,7 @@
 'use client'
 
-import ArtistPrices from "@/components/ArtistPrices";
-import ArtistSocials from "@/components/ArtistSocials";
+import ArtistPrices from "@/components/artist/ArtistPrices";
+import ArtistSocials from "@/components/artist/ArtistSocials";
 import Heading from "@/components/Heading";
 import HeartButton from "@/components/HeartButton";
 import LikesCount from "@/components/LikesCount";
@@ -17,7 +17,8 @@ const ArtistDetailsPageClient = ({
 
     return (
         <div className="flex flex-col justify-center items-center w-full">
-            <h1>Title: {artist.user.name}</h1>
+            <h1 className="text-3xl font-bold text-center mt-6"
+            >{artist.user.name}</h1>
             <SaveButton listingId={artist.id} currentUser={currentUser}
                 listingType="artists" />
 
@@ -30,9 +31,8 @@ const ArtistDetailsPageClient = ({
 
             <ArtistSocials artist={artist} />
             <ArtistPrices artist={artist} />
-            <h2 className="mt-20 font-bold">Otros trabajos de {artist.artisticName}</h2>
             <div className="mt-6 w-full mx-auto">
-                <Heading title={'Tatuadores'} />
+                <Heading title={`Otros trabajos de ${artist.artisticName}`} />
 
                 <TattooListingGrid listings={artistTattoos} currentUser={currentUser} listingType={'tattoos'} />
 

@@ -6,11 +6,25 @@ import Search from '@/components/search/SearchBar'
 import TattooListingGrid from '@/components/listings/TattooListingGrid'
 import EmptyState from '@/components/EmptyState'
 import { getStyleList } from '@/libs/getStyleList'
+import { getBodyParts } from '@/libs/getBodyParts'
 
 //TODO:
 // SITEMAP
 // ROBOTS.TXT
 const styles = getStyleList()
+const bodyParts = getBodyParts()
+
+const filtro1 = {
+    label: 'Estilos',
+    value: 'style',
+    options: styles
+}
+
+const filtro2 = {
+    label: 'Parte del cuerpo',
+    value: 'bodyPart',
+    options: bodyParts
+}
 
 export default async function TattoosPage({ searchParams }) {
 
@@ -19,7 +33,10 @@ export default async function TattoosPage({ searchParams }) {
 
     if (tattoos.length < 1) {
         return (
+
+
             <Container>
+                <Search filtro1={filtro1} filtro2={filtro2} />
                 <EmptyState title="No se han encontrado tatuajes con esos filtros"
                     subtitle="Modifica tus filtros para encontrar más resultados"
                     actionUrl={'/tatuajes'}
@@ -32,7 +49,7 @@ export default async function TattoosPage({ searchParams }) {
     return (
         <>
             <Container>
-                <Search />
+                <Search filtro1={filtro1} filtro2={filtro2} />
                 <Heading title={'Tatuajes'} />
                 <TattooListingGrid
                     listings={tattoos}

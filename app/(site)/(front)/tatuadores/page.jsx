@@ -1,13 +1,14 @@
 import { getArtist } from '@/actions/getArtists'
 import { getCurrentUser } from '@/actions/getCurrentUser'
-import ArtistCard from '@/components/ArtistCard'
-import ArtistSearchBar from '@/components/search/ArtistSearchBar'
+import ArtistCard from '@/components/listings/ArtistCard'
 import Container from '@/components/Container'
 import Heading from '@/components/Heading'
 import EmptyState from '@/components/EmptyState'
 import Search from '@/components/search/SearchBar'
 import { getStyleList } from '@/libs/getStyleList'
 import { getCities } from '@/libs/getCities'
+export const dynamic = "force-dynamic";
+
 
 //TODO:
 // SITEMAP

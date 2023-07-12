@@ -96,7 +96,17 @@ const SearchFilterButton = ({
                             {option.label}
                         </div>
                     ))}
-                    <button className="bg-white border-gray-200 border rounded-md shadow-md px-5 py-2 hover:bg-gray-100 cursor-pointer"
+                    <button className="
+                    w-full
+                    bg-white 
+                    border-gray-200
+                     border 
+                    rounded-md
+                    shadow-md
+                    px-5 
+                    py-2
+                    hover:bg-gray-100
+                    cursor-pointer"
                         onClick={() => applyFilters()}
                     >
                         Aplicar filtros

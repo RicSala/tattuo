@@ -1,6 +1,6 @@
 'use client'
 
-import ArtistSmallCard from "@/components/ArtistSmallCard";
+import ArtistSmallCard from "@/components/artist/ArtistSmallCard";
 import ShareButtons from "@/components/ShareButtons";
 import TattooCard from "@/components/listings/TattooCard";
 import TattooListingGrid from "@/components/listings/TattooListingGrid";

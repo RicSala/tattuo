@@ -1,6 +1,6 @@
 import prisma from "@/libs/prismadb";
-import { NextResponse } from "next/server";
-import qs from "query-string";
+export const dynamic = "force-dynamic";
+
 
 
 export default async function getTattoos(searchParams) { // I would call the args "filters", because actually the function could without "searchParams" specifically

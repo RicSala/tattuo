@@ -82,6 +82,7 @@ model ArtistProfile {
   pricePerHour    Int?
   pricePerSession Int?
   minWorkPrice    Int?
+  isComplete      Boolean?      @default(false)
   tattoos         Tattoo[]
   saves           SavedArtist[]
   likes           LikedArtist[]

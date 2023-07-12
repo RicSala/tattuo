@@ -46,6 +46,12 @@ export async function PUT(request) {
     updatedInfo.pricePerHour = parseInt(updatedInfo.pricePerHour)
     updatedInfo.pricePerSession = parseInt(updatedInfo.pricePerSession)
 
+    // TODO: if profile is complete, set isComplete to true
+    if (true) {
+        updatedInfo.isComplete = true
+    }
+
+
     // find and update the artist profile
     const updatedArtistProfile = await prisma.artistProfile.update({
         where: {
