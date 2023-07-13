@@ -1,15 +1,31 @@
-import Select from 'react-select';
+import dynamic from 'next/dynamic';
 
+
+const Select = dynamic(() => import('react-select'), {
+    ssr: false,
+    loading: () => (
+        //render an input skeleton
+        <div className="w-full h-10 bg-gray-200 rounded animate-pulse"></div>
+    ),
+});
 
 
 const CustomSelect = ({
+    //REVIEW: This is another way to destructure a prop
+    field: {
+        value,
+        onChange,
+        onBlur,
+    },
+
     options,
     isMulti = false,
-    value,
-    onChange,
     placeholder = "Select...",
-    onBlur,
 }) => {
+
+
+
+    console.log("value", value)
 
     return (
 

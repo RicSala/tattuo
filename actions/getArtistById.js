@@ -15,6 +15,8 @@ export async function getArtistById(artistId) {
             include: {
                 user: true,
                 likes: true,
+                styles: true,
+                city: true,
             }
         });
 

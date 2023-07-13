@@ -34,14 +34,18 @@ export async function PUT(request) {
 
     console.log("updatedInfo", updatedInfo)
 
-    const stylesArray = updatedInfo.styles.map(style => {
-        return style.label
+    const styleIds = updatedInfo.styles.map(style => {
+        return style.id
     })
 
-    const location = updatedInfo.location.label
+    // print on the console the styles array
 
-    updatedInfo.styles = stylesArray
-    updatedInfo.location = location
+
+
+    // delete the property "city" of the updatedInfo object
+    delete updatedInfo.styles
+    const cityId = updatedInfo.city.id
+    delete updatedInfo.city
     updatedInfo.minWorkPrice = parseInt(updatedInfo.minWorkPrice)
     updatedInfo.pricePerHour = parseInt(updatedInfo.pricePerHour)
     updatedInfo.pricePerSession = parseInt(updatedInfo.pricePerSession)
@@ -51,13 +55,18 @@ export async function PUT(request) {
         updatedInfo.isComplete = true
     }
 
-
-    // find and update the artist profile
+    // find and update the artist profile and connect the city
     const updatedArtistProfile = await prisma.artistProfile.update({
         where: {
             id: currentUser.artistProfileId
         },
-        data: updatedInfo
+        data: {
+            ...updatedInfo,
+            city: { connect: { id: cityId } },
+            styles: {
+                connect: styleIds.map((styleId) => ({ id: styleId })),
+            },
+        }
     })
 
     return NextResponse.json(updatedArtistProfile)

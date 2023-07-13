@@ -28,13 +28,18 @@ const TattooEditPage = async ({
         id: 'new',
     }
 
+    const styles = await prisma.style.findMany()
+    const bodyParts = await prisma.bodyPart.findMany()
+
     if (!isNew) {
         tattoo = await prisma.tattoo.findUnique({
             where: {
                 id: tattooId
             },
             include: {
-                artistProfile: true
+                artistProfile: true,
+                style: true,
+                bodyPart: true
             }
         })
     }
@@ -42,7 +47,9 @@ const TattooEditPage = async ({
     return (
 
         <Container>
-            <TattooEditPageClient tattoo={tattoo} user={user} />
+            <TattooEditPageClient tattoo={tattoo} user={user}
+                styles={styles} bodyParts={bodyParts}
+            />
         </Container>
     )
 };

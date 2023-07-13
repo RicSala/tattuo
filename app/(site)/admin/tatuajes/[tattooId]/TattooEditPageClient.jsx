@@ -4,8 +4,7 @@ import Button from "@/components/Button";
 import CustomSelect from "@/components/CustomSelect";
 import ImageUploadControlled from "@/components/inputs/ImageUploadControlled";
 import Input from "@/components/inputs/Input";
-import { getBodyParts } from "@/libs/getBodyParts";
-import { getStyleList } from "@/libs/getStyleList";
+import { DevTool } from "@hookform/devtools";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -13,7 +12,9 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
 const TattooEditPageClient = ({
-    tattoo
+    tattoo,
+    styles,
+    bodyParts,
 }) => {
 
 
@@ -22,15 +23,9 @@ const TattooEditPageClient = ({
             title: tattoo.title,
             description: tattoo.description,
             imageSrc: tattoo.imageSrc,
-            style: tattoo.style ?
-                { value: tattoo.style, label: tattoo.style.replace(/_/g, " ") }
-                : null,
+            style: tattoo.style,
             tattooId: tattoo.id,
-            bodyPart: {
-                value: tattoo.bodyPart || "",
-                label: tattoo.bodyPart?.replace(/_/g, " ") || ""
-            },
-
+            bodyPart: tattoo.bodyPart,
         }
     });
 
@@ -40,16 +35,11 @@ const TattooEditPageClient = ({
     //REVIEW: Interesting to see what it returns. That's what is spreaded on each input
     // console.log(register("name"))
 
-    const styles = getStyleList();
-    const bodyParts = getBodyParts();
-
-    const bodyPartsOptions = bodyParts.map(bodyPart => ({
-        value: bodyPart.value,
-        label: bodyPart.label
-    }));
-
+    console.log("TATTOO", tattoo)
 
     const onSubmit = async (data) => {
+
+        console.log("SUBMIT", data)
 
         setIsLoading(true)
         if (data.tattooId === "new") {
@@ -128,7 +118,6 @@ const TattooEditPageClient = ({
                     errors={errors.imageSrc}
                     rules={{ required: 'Debes subir una imagen' }}
                     render={({ field }) => {
-                        console.log(field);
                         return (<ImageUploadControlled
                             // This looks like a bit "hacky" but it works (instead of passing the error in the Controller)
                             // errors={errors?.imageSrc?.message}
@@ -145,22 +134,24 @@ const TattooEditPageClient = ({
                         {errors.style.message}
                     </div>
                 }
+
+
                 <Controller
                     name="style"
                     control={control}
                     rules={{
                         required: "Debes seleccionar un estilo",
                         // max lenth of the array is 3
-                        validate: (value) => value.length <= 3 || "Máximo 3 estilos"
                     }}
                     render={({ field }) =>
                         <CustomSelect
-                            isMulti={true}
+                            isMulti={false}
                             // The next three lines are the same as doing: ...field
-                            value={field.value}
-                            onChange={(option) => field.onChange(option)}
-                            onBlur={field.onBlur}
+                            // value={field.value}
+                            // onChange={(option) => field.onChange(option)}
+                            // onBlur={field.onBlur}
                             options={styles}
+                            field={field}
                         />} />
 
 
@@ -176,14 +167,18 @@ const TattooEditPageClient = ({
                         <CustomSelect
                             isMulti={false}
                             // The next three lines are the same as doing: ...field
-                            value={field.value}
-                            onChange={(option) => field.onChange(option)}
-                            onBlur={field.onBlur}
-                            options={bodyPartsOptions}
+                            // value={field.value}
+                            // onChange={(option) => field.onChange(option)}
+                            // onBlur={field.onBlur}
+                            field={field}
+                            options={bodyParts}
                         />} />
 
                 <Button type="submit" label="Guardar" disabled={isLoading} />
             </form>
+
+            <DevTool control={control} /> {/* set up the dev tool */}
+
         </div >
     )
 };

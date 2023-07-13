@@ -15,12 +15,13 @@ export async function POST(request) {
     const body = await request.json();
 
     const {
+        tattooId,
         title,
         description,
         imageSrc,
         category,
         location,
-        tattooId,
+        style,
         bodyPart,
     } = body;
 
@@ -32,13 +33,12 @@ export async function POST(request) {
             imageSrc,
             category,
             location,
-            bodyPart: bodyPart.value,
-            artistProfile: {
-                connect: {
-                    id: artistProfile.id
-                }
+            style: {
+                connect: { id: style.id },
+            },
+            bodyPart: {
+                connect: { id: bodyPart.id }
             }
-
         }
 
     })
@@ -59,12 +59,12 @@ export async function PUT(request) {
     const body = await request.json();
 
     const {
+        tattooId,
         title,
         description,
         imageSrc,
         category,
         location,
-        tattooId,
         style,
         bodyPart,
     } = body;
@@ -80,14 +80,12 @@ export async function PUT(request) {
             imageSrc,
             category,
             location,
-            style: style.value,
-            bodyPart: bodyPart.value
-            // artistProfile: {
-            //     connect: {
-            //         id: artistProfile.id
-            //     }
-            // }
-
+            style: {
+                connect: { id: style.id },
+            },
+            bodyPart: {
+                connect: { id: bodyPart.id }
+            }
         }
 
     })

@@ -10,7 +10,9 @@ const Logo = () => {
     return (
         <div
             onClick={() => router.push("/")}
-            className=""
+            className="
+            cursor-pointer
+            "
 
         >
             <Image
@@ -20,6 +22,7 @@ const Logo = () => {
                 height={100}
                 // REVIEW: Why do I need this???
                 style={{ width: 'auto', height: '100%' }}
+                priority={true}
             />
         </div>
     )

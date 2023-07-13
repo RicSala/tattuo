@@ -25,10 +25,12 @@ const ProfilePage = async ({
         />
     }
 
+    const styles = await prisma.style.findMany()
+
 
     return (
         <>
-            <ProfilePageClient artist={artist} />
+            <ProfilePageClient artist={artist} styles={styles} />
         </>
 
     )
