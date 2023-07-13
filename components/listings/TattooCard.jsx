@@ -65,10 +65,13 @@ const TattooCard = ({
         >
             <div className="flex flex-col gap-2 w-full">
                 <div className="
+                                    min-w-[200px]
                 aspect-square w-full relative overflow-hidden rounded-xl
                 ">
                     <Image
-                        fill={true}
+                        fill
+                        // REVIEW: Why do I need this???
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         alt='listing'
                         src={listingType === 'tattoos' ? data.imageSrc : data.mainImage}
                         // TODO: to refactor

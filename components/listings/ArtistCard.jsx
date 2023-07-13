@@ -45,8 +45,9 @@ const ArtistCard = ({
                 </div>
 
                 <div className="aspect-square overflow-hidden">
-                    <div className="aspect-square inset-0 transition-transform">
+                    <div className="relative overflow-hidden  aspect-square inset-0 transition-transform">
                         <Image
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             fill={true}
                             src={artist.mainImage}
                             alt="profile picture"

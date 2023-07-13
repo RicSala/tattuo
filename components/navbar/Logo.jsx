@@ -8,13 +8,20 @@ const Logo = () => {
     const router = useRouter();
 
     return (
-        <Image
+        <div
             onClick={() => router.push("/")}
-            className="hidden md:block cursor-pointer"
-            src="/images/logo.png"
-            alt="Picture of the author"
-            width={100}
-            height={100} />
+            className=""
+
+        >
+            <Image
+                src="/images/logo.png"
+                alt="Logo image"
+                width={100}
+                height={100}
+                // REVIEW: Why do I need this???
+                style={{ width: 'auto', height: '100%' }}
+            />
+        </div>
     )
 };
 

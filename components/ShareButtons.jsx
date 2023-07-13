@@ -1,6 +1,7 @@
 import FacebookShareButton from 'react-share/lib/FacebookShareButton';
 import FacebookIcon from 'react-share/lib/FacebookIcon';
 import { PinterestIcon, PinterestShareButton, WhatsappIcon, WhatsappShareButton } from 'react-share';
+import { BsFacebook, BsPinterest, BsWhatsapp } from 'react-icons/bs';
 
 const ShareButtons = ({
     url,
@@ -22,8 +23,10 @@ const ShareButtons = ({
             <FacebookShareButton
                 url={url}
                 quote={"Check out this awesome article!"}
+                hashtag={"#tattoo"}
             >
-                <FacebookIcon size={32} round={true} />
+                <BsFacebook size={20} />
+
             </FacebookShareButton>
 
             <WhatsappShareButton
@@ -31,14 +34,14 @@ const ShareButtons = ({
                 title={whatsappTitle}
                 separator=':: '
             >
-                <WhatsappIcon size={32} round={true} />
+                <BsWhatsapp size={20} />
             </WhatsappShareButton>
 
             <PinterestShareButton
                 media={pinterestImage}
                 description={pinterestDescription}
             >
-                <PinterestIcon size={32} round={true} />
+                <BsPinterest size={20} />
             </PinterestShareButton>
 
 

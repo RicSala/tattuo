@@ -1,6 +1,6 @@
 'use client'
 import axios from "axios";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
@@ -12,6 +12,8 @@ import Input from "@/components/inputs/Input";
 import { getStyleList } from "@/libs/getStyleList";
 import { getCities } from "@/libs/getCities";
 import Image from "next/image";
+import ImageUploadControlled from "@/components/inputs/ImageUploadControlled";
+import { DevTool } from "@hookform/devtools";
 
 const estilos = getStyleList()
 const cities = getCities()
@@ -30,81 +32,40 @@ const ProfilePageClient = ({
     const [isMounted, setIsMounted] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
 
-    const { setError, clearErrors, control, register, handleSubmit, setValue, getValues, watch, reset, formState: { errors } } = useForm({
-        defaultValues: {
-            artisticName: artist.artisticName || "",
-            email: artist.email || "",
-            bio: artist.bio || "",
-            location: artist.location || "",
-            images: artist.images || [],
-            mainImage: artist.mainImage || "",
-            styles: stylesArray || "",
-            minWorkPrice: artist.minWorkPrice || null,
-            phone: artist.phone || "",
-            pricePerHour: artist.pricePerHour || null,
-            pricePerSession: artist.pricePerSession || null,
-            facebook: artist.facebook || "",
-            instagram: artist.instagram || "",
-            tiktok: artist.tiktok || "",
-            twitter: artist.twitter || "",
-            website: artist.website || "",
-            youtube: artist.youtube || "",
+    const { setError, clearErrors, control, register, handleSubmit, setValue, getValues, values,
 
-        }
-    })
+        trigger, watch, reset, formState: { errors } } = useForm({
 
-    const watchMainImage = watch("mainImage")
-    const watchImages = watch("images")
+            defaultValues: {
+                artisticName: artist.artisticName || "",
+                email: artist.email || "",
+                bio: artist.bio || "",
+                location: artist.location || "",
+                images: artist.images || [],
+                mainImage: artist.mainImage || "",
+                styles: stylesArray || "",
+                minWorkPrice: artist.minWorkPrice || null,
+                phone: artist.phone || "",
+                pricePerHour: artist.pricePerHour || null,
+                pricePerSession: artist.pricePerSession || null,
+                facebook: artist.facebook || "",
+                instagram: artist.instagram || "",
+                tiktok: artist.tiktok || "",
+                twitter: artist.twitter || "",
+                website: artist.website || "",
+                youtube: artist.youtube || "",
+
+            }
+        })
 
 
     // workaround to avoid console error
     useEffect(() => setIsMounted(true), []);
 
 
-
-    // Clear errors when the user uploads (otherwise error is permanent)
-    useEffect(() => {
-        clearErrors("mainImage")
-        clearErrors("images")
-    }, [watchMainImage, watchImages, clearErrors])
-
-    // Validation for the watched fields
-    useEffect(() => {
-        // if no main image, set an error message
-        if (!watchMainImage) {
-            setError("mainImage", {
-                type: "manual",
-                message: "Imagen principal requerida"
-            })
-        }
-
-        // if less than 3 images, set an error message
-        if (watchImages.length < 3) {
-            setError("images", {
-                type: "manual",
-                message: "Sube 3 imagenes"
-            })
-        }
-    }, [setError, watchImages.length, watchMainImage])
-
-
-    const handleDeleteImage = async (image) => {
-        const newImages = getValues("images").filter(img => img !== image)
-        setValue("images", newImages)
-        const imageId = image.split("/").pop().split(".")[0]
-        console.log("imageId", imageId)
-        await axios.delete(`/api/images/${imageId}`)
-    }
-
-    const handleDeleteMainImage = async (image) => {
-        setValue("mainImage", undefined)
-        const imageId = image.split("/").pop().split(".")[0]
-        console.log("imageId", imageId)
-        await axios.delete(`/api/images/${imageId}`)
-    }
-
-
     const onSubmit = async (data) => {
+
+        console.log("data", data)
 
         setIsLoading(true)
 
@@ -121,22 +82,16 @@ const ProfilePageClient = ({
             })
     }
 
-
-
-    const customSetValue = (field, value) => {
-        setValue(field, value, {
-            shouldValidate: true, // By default, setting the field value using setValue does not trigger validation. However, if you set shouldValidate to true, it will trigger validation for that field.
-            shouldDirty: true,  // Marking a field as dirty means that its value has changed from the initial/default value
-            shouldTouch: true, // Marking a field as touched means that the user has interacted with the field, even if it was not changed
-        });
-    }
+    const onError = (errors, e) => {
+        toast.error("Por favor, revisar el formulario")
+    };
 
 
 
     return (
         <>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit, onError)}>
 
                 <Input
                     id="artisticName"
@@ -258,9 +213,6 @@ const ProfilePageClient = ({
                 />
 
 
-
-
-
                 {isMounted &&
                     <Controller
                         name="location"
@@ -275,7 +227,6 @@ const ProfilePageClient = ({
                     />
                 }
 
-
                 {
                     errors.mainImage &&
                     <div className="text-red-500">
@@ -283,17 +234,39 @@ const ProfilePageClient = ({
                     </div>
                 }
 
-                <ImageUpload
-                    value={watchMainImage}
-                    onChange={(value) => customSetValue("mainImage", value)}
+                <Controller
+                    name="mainImage"
+                    control={control}
+                    rules={{
+                        required: 'Campo requerido',
+                    }}
+                    render={({ field }) =>
+                        <ImageUploadControlled
+                            maxFiles={1}
+                            value={field.value}
+                            onChange={(value) => {
+                                field.onChange(value);
+                                trigger('mainImage'); // trigger validation for the field
+                            }}
+                            onBlur={field.onBlur}
+                        />}
                 />
                 {
-                    watchMainImage &&
+                    getValues("mainImage") &&
                     <div>
                         <div className="relative inline-block">
-                            <Image src={watchMainImage} alt="image" width={100} height={100} />
+                            <Image src={getValues("mainImage")} alt="image" width={100} height={100} />
                             <div
-                                onClick={() => handleDeleteMainImage(watchMainImage)}
+                                onClick={() => {
+                                    const imageToDelete = getValues("mainImage")
+                                    setValue("mainImage", null, {
+                                        shouldValidate: true,
+                                        shouldDirty: true
+                                    })
+                                    axios.delete(`/api/images/${imageToDelete.split("/").pop().split(".")[0]}`)
+
+                                }
+                                }
                                 className="absolute right-1 top-1 cursor-pointer">
                                 x
                             </div>
@@ -301,40 +274,78 @@ const ProfilePageClient = ({
                     </div>}
 
 
+
+
+
+
+
                 {
                     errors.images &&
                     <div className="text-red-500">
                         {errors.images.message}
-                        {watchImages.length}
                     </div>
                 }
-                <ImageUpload
-                    value={watchImages}
-                    onChange={(value) => {
-                        return (
-                            customSetValue("images", getValues("images").concat(value)))
-                    }}
-                />
 
-                <div className="flex flex-row gap-3">
-                    {
-                        // for each image in the array, render an image upload component
-                        getValues("images").map((image, index) => {
-                            return (
-                                <div key={image}>
-                                    <div key={image} className="relative">
+                <Controller
+                    name="images"
+                    control={control}
+                    rules={{
+                        required: 'Campo requerido',
+                        // min length of the array is 3
+                        validate: (value) => value.length >= 3 || "Mínimo 3 imágenes"
+                    }}
+                    render={({ field }) =>
+                        <ImageUploadControlled
+                            maxFiles={3}
+                            value={field.value}
+                            onChange={(value) => {
+                                field.onChange(value);
+                                trigger('images'); // trigger validation for the field
+                            }}
+                            onBlur={field.onBlur}
+                        />}
+                />
+                {
+                    getValues("images") &&
+                    <div>
+                        {
+                            getValues("images").map(image => {
+                                return (
+
+                                    <div key={image} className="relative inline-block">
                                         <Image src={image} alt="image" width={100} height={100} />
                                         <div
-                                            onClick={() => handleDeleteImage(image)}
+                                            onClick={() => {
+                                                const imageToDelete = image
+                                                setValue("images",
+                                                    getValues("images").filter(image => image !== imageToDelete)
+                                                    , {
+                                                        shouldValidate: true,
+                                                        shouldDirty: true
+                                                    })
+                                                axios.delete(`/api/images/${imageToDelete.split("/").pop().split(".")[0]}`)
+
+                                            }
+                                            }
                                             className="absolute right-1 top-1 cursor-pointer">
                                             x
                                         </div>
                                     </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
+
+
+                                )
+
+                            })
+                        }
+
+                    </div>
+                }
+
+
+
+
+
+
 
                 {
                     errors.styles &&
@@ -368,6 +379,8 @@ const ProfilePageClient = ({
 
 
             </form>
+
+
         </>
     )
 
