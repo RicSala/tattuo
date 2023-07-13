@@ -23,6 +23,7 @@ export async function POST(request) {
         location,
         style,
         bodyPart,
+        tags,
     } = body;
 
     // create or update the listing
@@ -38,6 +39,13 @@ export async function POST(request) {
             },
             bodyPart: {
                 connect: { id: bodyPart.id }
+            },
+            artistProfile: {
+                connect: { id: artistProfile.id }
+            },
+            tags: {
+                connect: tags.map(tag => ({ id: tag.id }))
+
             }
         }
 

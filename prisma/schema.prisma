@@ -106,6 +106,7 @@ model Tattoo {
 
   saves SavedTattoo[]
   likes LikedTattoo[]
+  Tags  TaggedTattoo[]
 
   styleId String? @db.ObjectId
   style   Style?  @relation(fields: [styleId], references: [id])
@@ -164,6 +165,20 @@ model LikedTattoo {
   @@unique([userId, tattooId])
 }
 
+model TaggedTattoo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tattooId String @db.ObjectId
+  tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
+
+  tagId String @db.ObjectId
+  tag   Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([tattooId, tagId])
+}
+
 // liked artist
 model LikedArtist {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -214,4 +229,13 @@ model Style {
   tattoos         Tattoo[]
   ArtistProfile   ArtistProfile? @relation(fields: [artistProfileId], references: [id])
   artistProfileId String?        @db.ObjectId
+}
+
+model Tag {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  label     String         @unique
+  value     String         @unique
+  Tattoos   TaggedTattoo[]
 }

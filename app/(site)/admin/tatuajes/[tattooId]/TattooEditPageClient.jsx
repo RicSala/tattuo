@@ -4,8 +4,12 @@ import Button from "@/components/Button";
 import CustomSelect from "@/components/CustomSelect";
 import ImageUploadControlled from "@/components/inputs/ImageUploadControlled";
 import Input from "@/components/inputs/Input";
+import TagSelector from "@/components/inputs/TagSelect";
+import TagSelect from "@/components/inputs/TagSelect";
+import TagSelectorControlled from "@/components/inputs/TagSelectControlled";
 import { DevTool } from "@hookform/devtools";
 import axios from "axios";
+import { sub } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -18,7 +22,7 @@ const TattooEditPageClient = ({
 }) => {
 
 
-    const { setError, clearErrors, control, register, handleSubmit, setValue, getValues, watch, reset, formState: { errors }, formState } = useForm({
+    const { trigger, setError, clearErrors, control, register, handleSubmit, setValue, getValues, watch, reset, formState: { errors }, formState } = useForm({
         defaultValues: {
             title: tattoo.title,
             description: tattoo.description,
@@ -26,6 +30,7 @@ const TattooEditPageClient = ({
             style: tattoo.style,
             tattooId: tattoo.id,
             bodyPart: tattoo.bodyPart,
+            tags: tattoo.tags,
         }
     });
 
@@ -77,6 +82,16 @@ const TattooEditPageClient = ({
         return
     }
 
+
+    // is this really the best way to do this?
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter' && event.target.tagName.toLowerCase() !== 'textarea') {
+            event.preventDefault(); // prevent the default action
+            event.stopPropagation(); // stop the event from bubbling up
+        }
+    };
+
+
     return (
         <div>
             <h1>Edit Tattoo</h1>
@@ -87,7 +102,13 @@ const TattooEditPageClient = ({
             </p>
 
 
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={
+                handleSubmit(onSubmit)
+            }
+
+                onKeyDown={handleKeyDown}
+            >
+
                 <Input
                     id="title"
                     label="Título"
@@ -105,6 +126,20 @@ const TattooEditPageClient = ({
                     disabled={isLoading}
 
                 />
+
+                {/* <TagSelector /> */}
+
+                <TagSelectorControlled
+                    control={control}
+                    name="tags"
+                    trigger={trigger}
+                    errors={errors}
+                    setValue={setValue}
+                    rules={{
+                        required: "Debes seleccionar al menos un tag",
+                    }}
+                />
+
 
                 {
                     errors.imageSrc &&
@@ -160,19 +195,14 @@ const TattooEditPageClient = ({
                     control={control}
                     rules={{
                         required: "Debes seleccionar una parte del cuerpo"
-                        // max lenth of the array is 3
-                        // validate: (value) => value.length <= 3 || "Máximo 3 estilos"
                     }}
                     render={({ field }) =>
                         <CustomSelect
                             isMulti={false}
-                            // The next three lines are the same as doing: ...field
-                            // value={field.value}
-                            // onChange={(option) => field.onChange(option)}
-                            // onBlur={field.onBlur}
                             field={field}
                             options={bodyParts}
                         />} />
+
 
                 <Button type="submit" label="Guardar" disabled={isLoading} />
             </form>

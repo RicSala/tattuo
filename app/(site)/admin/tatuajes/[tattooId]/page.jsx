@@ -39,7 +39,8 @@ const TattooEditPage = async ({
             include: {
                 artistProfile: true,
                 style: true,
-                bodyPart: true
+                bodyPart: true,
+                tags: true,
             }
         })
     }
