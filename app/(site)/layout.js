@@ -12,7 +12,7 @@ const siteLayout = async ({ children }) => {
     return (
         <>
             <NavBar currentUser={user} />
-            <div className="pb-20 pt-20 w-full  text-slate-900">
+            <div className="pb-20 pt-24 w-full  text-slate-900">
                 {children}
             </div>
             <Footer />

@@ -71,8 +71,11 @@ const UserMenu = ({
                 label="Mi perfil"
             />
             <MenuItem
-                onClick={onOpenRentModal}
-                label="Blog"
+                onMouseEnter={() => router.prefetch("/blog")}
+                onClick={() => {
+                    setIsOpen(false)
+                    router.push("/blog")
+                }} label="Blog"
             />
         </>
     )

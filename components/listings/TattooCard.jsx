@@ -12,7 +12,6 @@ import SaveButton from "../SaveButton";
 const TattooCard = ({
     data,
     listingType,
-    reservation,
     onAction,
     actionLabel,
     onSecondaryAction,
