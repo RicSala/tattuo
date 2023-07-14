@@ -3,6 +3,10 @@ const nextConfig = {
 
     output: 'standalone', // https://nextjs.org/docs/app/api-reference/next-config-js/output
 
+    // experimental: {
+    //     mdxRs: true,
+    // },
+
     images: {
         remotePatterns:
             [
@@ -27,5 +31,6 @@ const nextConfig = {
             ]
     },
 }
-
+// const withMDX = require('@next/mdx')()
+// module.exports = withMDX(nextConfig)
 module.exports = nextConfig
