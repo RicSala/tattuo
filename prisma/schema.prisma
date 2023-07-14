@@ -106,7 +106,7 @@ model Tattoo {
 
   saves SavedTattoo[]
   likes LikedTattoo[]
-  Tags  TaggedTattoo[]
+  tags  TaggedTattoo[]
 
   styleId String? @db.ObjectId
   style   Style?  @relation(fields: [styleId], references: [id])
@@ -204,7 +204,7 @@ model City {
   code          String
   label         String
   value         String
-  ArtistProfile ArtistProfile[]
+  artistProfile ArtistProfile[]
 }
 
 // model BodyPart
@@ -215,7 +215,7 @@ model BodyPart {
 
   label  String
   value  String
-  Tattoo Tattoo[]
+  tattoo Tattoo[]
 }
 
 model Style {
@@ -227,7 +227,7 @@ model Style {
   value String
 
   tattoos         Tattoo[]
-  ArtistProfile   ArtistProfile? @relation(fields: [artistProfileId], references: [id])
+  artistProfile   ArtistProfile? @relation(fields: [artistProfileId], references: [id])
   artistProfileId String?        @db.ObjectId
 }
 
@@ -237,5 +237,5 @@ model Tag {
   updatedAt DateTime       @updatedAt
   label     String         @unique
   value     String         @unique
-  Tattoos   TaggedTattoo[]
+  tattoos   TaggedTattoo[]
 }

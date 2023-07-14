@@ -4,14 +4,11 @@ import Button from "@/components/Button";
 import CustomSelect from "@/components/CustomSelect";
 import ImageUploadControlled from "@/components/inputs/ImageUploadControlled";
 import Input from "@/components/inputs/Input";
-import TagSelector from "@/components/inputs/TagSelect";
-import TagSelect from "@/components/inputs/TagSelect";
 import TagSelectorControlled from "@/components/inputs/TagSelectControlled";
 import { DevTool } from "@hookform/devtools";
 import axios from "axios";
-import { sub } from "date-fns";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
@@ -30,7 +27,7 @@ const TattooEditPageClient = ({
             style: tattoo.style,
             tattooId: tattoo.id,
             bodyPart: tattoo.bodyPart,
-            tags: tattoo.tags,
+            tags: tattoo.tags?.map(tag => (tag.tag))
         }
     });
 
@@ -137,6 +134,8 @@ const TattooEditPageClient = ({
                     setValue={setValue}
                     rules={{
                         required: "Debes seleccionar al menos un tag",
+                        // max lenth of the array is 3
+                        validate: (value) => value.length <= 3 || "Máximo 3 tags"
                     }}
                 />
 
