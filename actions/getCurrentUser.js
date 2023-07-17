@@ -37,6 +37,7 @@ export async function getCurrentUser() {
             artistProfileId: session.user.artistProfileId,
             favoriteIds: session.user.favoriteIds,
             savedIds: session.user.savedIds,
+            boards: session.user.boards,
         };
     } catch (error) {
         return null;

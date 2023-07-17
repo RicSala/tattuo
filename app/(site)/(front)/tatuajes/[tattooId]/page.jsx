@@ -3,6 +3,7 @@ import EmptyState from "@/components/EmptyState";
 import TattooDetailsPageClient from "./TattooDetailsPageClient";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import getSimilarTattoos from "@/actions/getSimilarTattoos";
+import { getBoardsOfUser } from "@/actions/getBoardsOfUser";
 
 const TattooDetailsPage = async ({ params }) => {
 

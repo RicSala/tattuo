@@ -9,6 +9,7 @@ import { getSavedTattoosByUserId } from '@/actions/getSavedTattoosByUserId';
 import { getSavedArtistsByUserId } from '@/actions/getSavedArtistByUserId';
 import { getFavoriteTattooIdsOfUser } from '@/actions/getFavoriteTattooIdsOfUser';
 import { getFavoriteArtistIdsOfUser } from '@/actions/getFavoriteArtistIdsOfUser';
+import { getBoardsOfUser } from '@/actions/getBoardsOfUser';
 
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
@@ -123,6 +124,7 @@ export const authOptions = {
             const favoriteArtistIds = await getFavoriteArtistIdsOfUser(dbUser)
             const savedArtists = await getSavedArtistsByUserId(dbUser.id)
             const savedTattoos = await getSavedTattoosByUserId(dbUser.id)
+            const boards = await getBoardsOfUser(dbUser)
 
 
             const arraySavedArtistsId = savedArtists.map(savedListing => savedListing.id)
@@ -133,6 +135,7 @@ export const authOptions = {
             token.favoriteIds = favoriteTattooIds.concat(favoriteArtistIds)
             token.role = dbUser.role
             token.savedIds = arraySavedArtistsId.concat(arraySavedTattoosId)
+            token.boards = boards
 
 
             return token
@@ -151,6 +154,7 @@ export const authOptions = {
                 session.user.favoriteIds = token.favoriteIds
                 session.user.id = token.sub
                 session.user.savedIds = token.savedIds
+                session.user.boards = token.boards
                 if (token.artistProfileId) {
                     session.user.artistProfileId = token.artistProfileId
                 }

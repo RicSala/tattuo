@@ -316,12 +316,6 @@ const ProfilePageClient = ({
                         </div>
                     </div>}
 
-
-
-
-
-
-
                 {
                     errors.images &&
                     <div className="text-red-500">

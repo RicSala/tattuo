@@ -8,6 +8,19 @@ import Image from "next/image";
 import Button from "../Button";
 import HeartButton from "../HeartButton";
 import SaveButton from "../SaveButton";
+import TattooBoardAdder from "../TattooBoardAdder";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+
+
+// TODO: to be created
+
+const boards = [
+    { id: 1, title: 'Board 1' },
+    { id: 2, title: 'Board 2' },
+    { id: 3, title: 'Board 3' },
+    { id: 4, title: 'Board 4' },
+]
 
 const TattooCard = ({
     data,
@@ -55,6 +68,35 @@ const TattooCard = ({
         onSecondaryAction?.(actionId)
     }, [actionId, disabled, onSecondaryAction])
 
+    const onBoardCreate = useCallback((title) => {
+        console.log('create board', title)
+
+        axios.post('/api/boards', { title: title })
+            .then(res => {
+                console.log(res.data)
+                toast.success('Board created')
+            })
+            .catch(err => {
+                toast.error('Something went wrong')
+            }
+            )
+
+    }, [])
+
+    const onBoardSelect = useCallback((tattoo, board) => {
+        // add the tattoo to the board
+        console.log('select board', tattoo, board)
+        axios.post(`/api/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
+            .then(res => {
+                console.log(res.data)
+                toast.success('Tattoo added to board')
+            })
+            .catch(err => {
+                toast.error('Something went wrong')
+            }
+            )
+    }, [])
+
 
     return (
         <div
@@ -98,6 +140,15 @@ const TattooCard = ({
                             listingType={listingType}
                         />
 
+                    </div>
+                    <div className="absolute bottom-3 left-3">
+                        <TattooBoardAdder
+                            tattoo={data}
+                            boards={boards}
+                            onBoardCreate={onBoardCreate}
+                            onBoardSelect={onBoardSelect}
+                            currentUser={currentUser}
+                        />
                     </div>
                 </div>
 

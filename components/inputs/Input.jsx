@@ -50,6 +50,7 @@ const Input = ({
             <label
                 htmlFor={id}
                 className={`
+            cursor-text
             absolute
             text-md
             duration-150

@@ -14,7 +14,7 @@ export const mdxComponents = {
         // See the details below for my solution.
 
         // eslint-disable-next-line jsx-a11y/alt-text
-        return <Image {...props} />
+        return <Image {...props} className="rounded-lg" />
     },
     // add a component call 'square' that renders a div with a 1:1 aspect ratio
     Heading: ({ children, props }) => {

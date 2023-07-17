@@ -9,7 +9,7 @@ import Image from "next/image";
 const TattooDetailsPageClient = ({
     tattoo,
     currentUser,
-    similarTattoos
+    similarTattoos,
 }) => {
 
 
@@ -18,8 +18,10 @@ const TattooDetailsPageClient = ({
     return (
         <div className="flex flex-col justify-center items-center">
             <h1>Title: {tattoo.title}</h1>
-            <TattooCard data={tattoo} currentUser={currentUser}
-                listingType="tattoos" />
+            <TattooCard data={tattoo}
+                currentUser={currentUser}
+                listingType="tattoos"
+            />
             {
                 <p> {
                     age === 0 ? 'Publicado hoy' :

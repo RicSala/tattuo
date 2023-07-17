@@ -116,6 +116,14 @@ const UserMenu = ({
                 label="Mis tatuajes guardados"
             />
             <MenuItem
+                onMouseEnter={() => router.prefetch("/tatuajes/boards")}
+                onClick={() => {
+                    setIsOpen(false)
+                    router.push("/tatuajes/boards")
+                }}
+                label="Mis tableros"
+            />
+            <MenuItem
                 onClick={onOpenRentModal}
                 label="Mi perfil"
             />

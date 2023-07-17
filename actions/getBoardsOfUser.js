@@ -1,0 +1,34 @@
+import prisma from "@/libs/prismadb";
+
+// get all the boards of the current user
+export async function getBoardsOfUser(user) {
+
+    try {
+
+        if (!user) {
+            return null;
+        }
+
+        const boards = await prisma.tattooBoard.findMany({
+            where: {
+                userId: user.id
+            },
+            include: {
+                tattoos: true
+            }
+        }
+        );
+
+        if (!boards) {
+            return [];
+        }
+
+        return boards;
+    } catch (error) {
+        console.log("error - GETBOARDS.JS", error)
+        return [];
+    }
+
+}
+
+

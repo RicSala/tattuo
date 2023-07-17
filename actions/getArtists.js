@@ -27,7 +27,7 @@ export async function getArtist(searchParams) { // I would call the args "filter
         }
 
         if (styles) {
-            query.styles = { hasSome: styles };
+            query.styles = { some: styles };
         }
 
         if (city) {

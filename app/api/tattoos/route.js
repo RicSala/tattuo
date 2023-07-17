@@ -47,12 +47,8 @@ export async function POST(request) {
                 connect: { id: artistProfile.id }
             },
             tags: {
-                create: tags.map(tag => ({
-                    tag: {
-                        connect: {
-                            id: tag.id
-                        }
-                    }
+                create: randomTags.map(id => ({
+                    tag: { connect: { id } },
                 }))
             }
         }
