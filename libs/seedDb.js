@@ -7,14 +7,16 @@ const numArtists = 10;
 const numTattoos = 10;
 const numSaves = 20;
 const numLikes = 50;
+const numBoards = 20;
 const onlyDelete = false;
 
 
-// Create a function that pics a random element from an array
+// pics a random element from an array
 const randomElement = (array) => {
     return array[Math.floor(Math.random() * array.length)];
 }
 
+// pics n random elements from an array
 const selectNFromArray = (array, n) => {
     const randomElementsArray = []
     for (let i = 0; randomElementsArray.length < n && i < array.length; i++) {
@@ -26,12 +28,12 @@ const selectNFromArray = (array, n) => {
     return randomElementsArray
 }
 
+// pics a random number between min and max
 const randomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 
-// Create an array with the ids of the collections
 const styleIds = await prisma.style.findMany().then(styles => styles.map(style => style.id));
 const cityIds = await prisma.city.findMany().then(cities => cities.map(city => city.id));
 const tagIds = await prisma.tag.findMany().then(tags => tags.map(tag => tag.id));
@@ -48,6 +50,8 @@ export const seedDb = async () => {
         await prisma.artistProfile.deleteMany({});
         await prisma.user.deleteMany({});
         await prisma.taggedTattoo.deleteMany({});
+        await prisma.board.deleteMany({});
+        await prisma.boardTattoo.deleteMany({});
         return;
     }
 
@@ -112,12 +116,12 @@ export const seedDb = async () => {
 
 
 
+    await prisma.board.deleteMany({});
     await prisma.user.deleteMany({});
     console.log("PREVIOUS CLIENTS deleted");
 
-    // create a user with email 'ricardo@google.com' and password '88888888' that is an ARTIST
-
-
+    // creates a user with email 'ricardo@google.com' and password '88888888' that is an ARTIST
+    // so I can login with this user
     const hashedPassword = await bcrypt.hash('88888888', 2);
     const user = await prisma.user.create({
         data: {
@@ -158,6 +162,7 @@ export const seedDb = async () => {
 
     await prisma.$transaction(clientPromises);
     console.log("CLIENTS created");
+    // we need the user ids to create the artist profiles and the tattoos later
     const userIds = await prisma.user.findMany().then(users => users.map(user => user.id));
 
 
@@ -239,21 +244,20 @@ export const seedDb = async () => {
         artistProfilePromises.push(artistProfile);
     });
 
-    await prisma.$transaction(artistProfilePromises);
-    console.log("ARTISTS and ARTIST PROFILES created");
+    const newArtistProfiles = await prisma.$transaction(artistProfilePromises);
+    console.log(`${newArtistProfiles.length}ARTISTS and ARTIST PROFILES created`);
 
     // delete all the tattoos in the database
     await prisma.tattoo.deleteMany({});
     console.log("TATTOOS deleted");
 
+    const artistProfileIds = await prisma.artistProfile.findMany().then(artistProfiles => artistProfiles.map(artistProfile => artistProfile.id));
 
 
     console.log("STARTING TATTOO CREATION")
     // generate 3 random tagIds
-    const artistProfileIds = await prisma.artistProfile.findMany().then(artistProfiles => artistProfiles.map(artistProfile => artistProfile.id));
 
     const randomTags = selectNFromArray(tagIds, 3);
-    console.log("RANDOM TAGS", randomTags);
 
     // create 100 random TATTOO
     const tattooPromises = [];
@@ -262,6 +266,7 @@ export const seedDb = async () => {
         const artist = randomElement(artistProfileIds)
 
 
+        // why would this happen?
         if (!artist) {
             console.error('Invalid ARTIST ID:', artist);
             return null;
@@ -298,8 +303,8 @@ export const seedDb = async () => {
         tattooPromises.push(tattoo);
     }
 
-    await prisma.$transaction(tattooPromises);
-    console.log("TATTOOS created");
+    const newTattoos = await prisma.$transaction(tattooPromises);
+    console.log(`${newTattoos.length}TATTOOS created`);
 
     const tattooIds = await prisma.tattoo.findMany().then(tattoos => tattoos.map(tattoo => tattoo.id));
 
@@ -308,20 +313,24 @@ export const seedDb = async () => {
     await prisma.savedTattoo.deleteMany({});
     console.log("TATTOO SAVES deleted");
 
-    // get an array of 200 random tattooIds
+    // get an array of numSaves random tattooIds
     const randomTattooIds = selectNFromArray(tattooIds, numSaves);
-    // get an array of 200 random userIds
-    // const randomUserIds = selectNFromArray(userIds, numSaves);
+    const randomUserIds = selectNFromArray(userIds, numSaves);
 
     console.log("STARTING SAVES CREATION")
     // create 200 random saves
     // console.log("RANDOM USER IDS", randomUserIds)
 
-    const savedTattoosPromises = randomTattooIds.map((tattooId, index) => (
+    const savedTattoosPromises = randomTattooIds.map((tattooId, index) => {
 
 
+        if (!randomUserIds[index]) {
+            console.error('Invalid user ID:', randomUserIds2[index]);
+            return null;
+        }
 
-        prisma.savedTattoo.create({
+
+        return prisma.savedTattoo.create({
             data: {
                 tattoo: {
                     connect: {
@@ -335,7 +344,9 @@ export const seedDb = async () => {
 
                 }
             }
-        })))
+        })
+    }
+    ).filter(Boolean);
 
 
     await prisma.$transaction(savedTattoosPromises)
@@ -396,10 +407,15 @@ export const seedDb = async () => {
     console.log("STARTING SAVES CREATION")
     // create 200 random saves
 
-    const savedArtistPromises = randomArtistIds.map((artistId, index) => (
+    const savedArtistPromises = randomArtistIds.map((artistId, index) => {
+
+        if (!randomUserIds3[index]) {
+            console.error('Invalid user ID:', randomUserIds2[index]);
+            return null;
+        }
 
 
-        prisma.savedArtist.create({
+        return prisma.savedArtist.create({
             data: {
                 artistProfile: {
                     connect: {
@@ -413,7 +429,9 @@ export const seedDb = async () => {
 
                 }
             }
-        })))
+        })
+    }).filter(Boolean);
+
 
 
     await prisma.$transaction(savedArtistPromises)
@@ -431,10 +449,14 @@ export const seedDb = async () => {
     console.log("STARTING ARTIST LIKES CREATION")
     // create 200 random saves
 
-    const likedArtistPromises = randomArtistIds2.map((artistId, index) => (
+    const likedArtistPromises = randomArtistIds2.map((artistId, index) => {
 
+        if (!randomUserIds3[index]) {
+            console.error('Invalid user ID:', randomUserIds2[index]);
+            return null;
+        }
 
-        prisma.likedArtist.create({
+        return prisma.likedArtist.create({
             data: {
                 artistProfile: {
                     connect: {
@@ -448,11 +470,103 @@ export const seedDb = async () => {
 
                 }
             }
-        })))
+        }
+        )
+    }).filter(Boolean);
+
 
 
     await prisma.$transaction(likedArtistPromises)
     console.log("ARTIST LIKES created");
+
+
+    // delete all the boards in the database
+    await prisma.board.deleteMany({});
+
+    // get an array of numBoards random userIds
+    const randomUserIds5 = selectNFromArray(userIds, numBoards);
+
+    console.log("STARTING BOARDS CREATION")
+    // create numBoards random boards
+
+    const boardPromises = randomUserIds5.map((userId, index) => {
+
+        if (!randomUserIds5[index]) {
+            console.error('Invalid user ID:', randomUserIds5[index]);
+            return null;
+        }
+
+        return prisma.board.create({
+            data: {
+                title: faker.lorem.sentence({ min: 3, max: 5 }),
+                user: {
+                    connect: {
+                        id: randomElement(userIds)
+                    }
+
+                }
+            }
+        })
+    }
+    ).filter(Boolean);
+
+
+    await prisma.$transaction(boardPromises)
+    console.log("BOARDS created");
+
+    const boardIds = await prisma.board.findMany().then(boards => boards.map(board => board.id));
+
+    // delete all the boardTattoos in the database
+    await prisma.boardTattoo.deleteMany({});
+    console.log("BOARD TATTOOS deleted");
+
+    // get an array of 3 x numBoards random boardIds
+    const randomBoardIds = selectNFromArray(boardIds, 3 * numBoards);
+
+    // get an array of 3 x numBoards random tattooIds
+    const randomTattooIds3 = selectNFromArray(tattooIds, 3 * numBoards);
+
+    console.log("STARTING BOARD TATTOOS CREATION")
+
+    // create 3 x numBoards random boardTattoos
+
+    const boardTattooPromises = randomBoardIds.map((boardId, index) => {
+
+        if (!randomBoardIds[index]) {
+            console.error('Invalid board ID:', randomBoardIds[index]);
+            return null;
+        }
+        if (!randomTattooIds3[index]) {
+            console.error('Invalid board ID:', randomBoardIds[index]);
+            return null;
+        }
+
+        return prisma.boardTattoo.create({
+            data: {
+                board: {
+                    connect: {
+                        id: boardId
+                    }
+                },
+                tattoo: {
+                    connect: {
+                        id: randomTattooIds3[index]
+                    }
+
+                }
+            }
+        })
+    }
+
+    ).filter(Boolean);
+
+
+    await prisma.$transaction(boardTattooPromises)
+    console.log("BOARD TATTOOS created");
+
+
+
+
 
 
 

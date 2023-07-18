@@ -7,6 +7,8 @@ import TattooListingGrid from '@/components/listings/TattooListingGrid'
 import EmptyState from '@/components/EmptyState'
 import { getStyleList } from '@/libs/getStyleList'
 import { getBodyParts } from '@/libs/getBodyParts'
+export const dynamic = "force-dynamic";
+
 
 //TODO:
 // SITEMAP

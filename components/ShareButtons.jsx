@@ -1,6 +1,7 @@
+'use client'
+
 import FacebookShareButton from 'react-share/lib/FacebookShareButton';
-import FacebookIcon from 'react-share/lib/FacebookIcon';
-import { PinterestIcon, PinterestShareButton, WhatsappIcon, WhatsappShareButton } from 'react-share';
+import { PinterestShareButton, WhatsappShareButton } from 'react-share';
 import { BsFacebook, BsPinterest, BsWhatsapp } from 'react-icons/bs';
 
 const ShareButtons = ({

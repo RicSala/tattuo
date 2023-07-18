@@ -22,7 +22,7 @@ export default async function getSimilarTattoos(tattoo) { // I would call the ar
         return similarTattoos;
 
     } catch (error) {
-        console.log("error", error)
+        console.log("ERROR - getSimilarTattoos", error)
         return null;
     }
 }

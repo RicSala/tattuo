@@ -43,8 +43,7 @@ const RegisterArtistModal = ({ }) => {
             })
             .catch((err) => {
                 toast.error(err.response?.data.error || 'Algo salió mal 🙄');
-                console.log("ERROR:", err.response?.data.error);
-                console.log("ERROR:", err);
+                console.log("ERROR - RegisterArtistModal", err);
             })
             .finally(() => {
                 setIsLoading(false);

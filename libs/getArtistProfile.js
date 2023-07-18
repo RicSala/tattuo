@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { NextResponse } from "next/server";
+import prisma from "./prismadb";
 
 async function getArtistProfile(request) {
     const currentUser = await getCurrentUser(request);

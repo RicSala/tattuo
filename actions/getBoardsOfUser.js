@@ -25,7 +25,7 @@ export async function getBoardsOfUser(user) {
 
         return boards;
     } catch (error) {
-        console.log("error - GETBOARDS.JS", error)
+        console.log("ERROR - getBoardsOfUser", error)
         return [];
     }
 

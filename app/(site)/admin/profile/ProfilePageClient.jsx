@@ -38,9 +38,14 @@ const ProfilePageClient = ({
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const { setError, clearErrors, control, register, handleSubmit, setValue, getValues, values,
-
-        trigger, watch, reset, formState: { errors } } = useForm({
+    const {
+        control,
+        register,
+        handleSubmit,
+        setValue,
+        getValues,
+        trigger,
+        formState: { errors } } = useForm({
 
             defaultValues: {
                 artisticName: artist.artisticName || "",
@@ -64,11 +69,9 @@ const ProfilePageClient = ({
             }
         })
 
-    console.log("artist", artist)
 
     const onSubmit = async (data) => {
 
-        console.log("data", data)
 
 
         setIsLoading(true)
@@ -78,7 +81,7 @@ const ProfilePageClient = ({
                 toast.success("Profile updated")
             })
             .catch(err => {
-                console.log(err)
+                console.log("ERROR - ProfilePageClient", err)
                 toast.error("Error updating profile")
             })
             .finally(() => {
@@ -439,9 +442,8 @@ const ProfilePageClient = ({
                             field={field}
                         />} />
 
-                <Button type="submit" isLoading={isLoading} disabled={isLoading}>
-                    Save
-                </Button>
+                <Button type="submit" isLoading={isLoading} disabled={isLoading}
+                    label={isLoading ? "Guardando..." : "Guardar"} />
 
 
             </form>

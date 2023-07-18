@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-export const mdxComponents = {
+export const MdxComponents = {
     a: ({ children, ...props }) => {
         return (
             <Link {...props} href={props.href || ''}>

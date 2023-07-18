@@ -20,7 +20,7 @@ export async function getTattoosByArtistId(artistId) {
         return tattoos
 
     } catch (error) {
-        console.log("error", error)
+        console.log("ERROR - getTattoosByArtistId", error)
         return null;
     }
 }

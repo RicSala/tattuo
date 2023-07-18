@@ -5,6 +5,7 @@ import prisma from "@/libs/prismadb";
 
 export async function PUT(request) {
 
+
     const currentUser = await getCurrentUser(request);
 
     if (!currentUser) {
@@ -31,8 +32,6 @@ export async function PUT(request) {
     const body = await request.json();
 
     const updatedInfo = { ...body }
-
-    console.log("updatedInfo", updatedInfo)
 
     const styleIds = updatedInfo.styles.map(style => {
         return style.id

@@ -4,7 +4,7 @@ export default withAuth(
 
     //REVIEW: Why this does not work?
     function middleware(req) {
-        console.log("MIDDLEWARE")
+        console.log("⏭ MIDDLEWARE")
     },
 
     {

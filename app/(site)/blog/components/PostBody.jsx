@@ -1,7 +1,5 @@
-import { getPosts } from "@/libs/posts";
-import PostCard from "./PostCard";
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { mdxComponents } from "./mdx-components";
+import { MdxComponents } from "./Mdx-components";
 
 
 const PostBody = ({
@@ -11,7 +9,7 @@ const PostBody = ({
     return (
         <MDXRemote
             source={children}
-            components={mdxComponents} />
+            components={MdxComponents} />
     )
 };
 export default PostBody;

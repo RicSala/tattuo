@@ -75,7 +75,7 @@ export default async function getTattoos(searchParams) { // I would call the arg
         return listings;
 
     } catch (error) {
-        console.log('error: ', error);
+        console.log('ERROR - getTattoos', error);
         return []
     }
 }

@@ -60,7 +60,7 @@ const UserMenu = ({
                     setIsOpen(false)
                     router.push("/admin/tatuajes")
                 }}
-                label="Mis tatuajes"
+                label="Mis tatuajes publicados"
             />
             <MenuItem
                 onMouseEnter={() => router.prefetch("/admin/profile")}
@@ -68,14 +68,14 @@ const UserMenu = ({
                     setIsOpen(false)
                     router.push("/admin/profile")
                 }}
-                label="Mi perfil"
+                label="Mi perfil de tatuador"
             />
             <MenuItem
                 onMouseEnter={() => router.prefetch("/blog")}
                 onClick={() => {
                     setIsOpen(false)
                     router.push("/blog")
-                }} label="Blog"
+                }} label="Blog · Marketing para tatuadores"
             />
         </>
     )
@@ -107,22 +107,24 @@ const UserMenu = ({
                 }}
                 label="Mis tatuadores favoritos"
             />
-            <MenuItem
-                onMouseEnter={() => router.prefetch("/tatuajes/saved")}
-                onClick={() => {
-                    setIsOpen(false)
-                    router.push("/tatuajes/saved")
-                }}
-                label="Mis tatuajes guardados"
-            />
+
             <MenuItem
                 onMouseEnter={() => router.prefetch("/tatuajes/boards")}
                 onClick={() => {
                     setIsOpen(false)
                     router.push("/tatuajes/boards")
                 }}
-                label="Mis tableros"
+                label="Mis tableros de tatuajes"
             />
+            {/* <MenuItem
+                onMouseEnter={() => router.prefetch("/tatuajes/saved")}
+                onClick={() => {
+                    setIsOpen(false)
+                    router.push("/tatuajes/saved")
+                }}
+                label="Mis tatuajes guardados"
+            /> */}
+
             <MenuItem
                 onClick={onOpenRentModal}
                 label="Mi perfil"
@@ -204,7 +206,7 @@ const UserMenu = ({
                 rounded-xl
                 shadow-md
                 w-[40vw]
-                md:w-3/4
+                md:w-[20vw]
                 bg-white
                 overflow-hidden
                 right-0

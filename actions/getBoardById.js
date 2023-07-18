@@ -6,12 +6,16 @@ export async function getBoardById(boardId) {
 
     try {
 
-        const board = await prisma.tattooBoard.findUnique({
+        const board = await prisma.board.findUnique({
             where: {
                 id: boardId,
             },
             include: {
-                tattoos: true,
+                tattoos: {
+                    include: {
+                        tattoo: true
+                    }
+                }
             }
         });
 

@@ -21,7 +21,10 @@ export async function getCurrentUser() {
         const currentUser = await prisma.user.findUnique({
             where: {
                 email: session.user.email,
-            }
+            },
+            include: {
+                boards: true,
+            },
         });
 
         if (!currentUser) {
@@ -37,7 +40,6 @@ export async function getCurrentUser() {
             artistProfileId: session.user.artistProfileId,
             favoriteIds: session.user.favoriteIds,
             savedIds: session.user.savedIds,
-            boards: session.user.boards,
         };
     } catch (error) {
         return null;

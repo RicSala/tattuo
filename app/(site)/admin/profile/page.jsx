@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/actions/getCurrentUser";
 import ProfilePageClient from "./ProfilePageClient";
 import { getArtistById } from "@/actions/getArtistById";
 import EmptyState from "@/components/EmptyState";
+import prisma from "@/libs/prismadb";
 export const dynamic = "force-dynamic";
 
 

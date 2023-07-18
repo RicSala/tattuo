@@ -28,7 +28,7 @@ export async function getArtistById(artistId) {
 
     }
     catch (error) {
-        console.log("error", error)
+        console.log("ERROR - getArtistById.js", error)
         return null;
     }
 }

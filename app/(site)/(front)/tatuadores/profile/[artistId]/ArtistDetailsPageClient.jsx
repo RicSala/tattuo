@@ -1,5 +1,7 @@
 'use client'
 
+// NOT USED!
+
 import ArtistPrices from "@/components/artist/ArtistPrices";
 import ArtistSocials from "@/components/artist/ArtistSocials";
 import Heading from "@/components/Heading";

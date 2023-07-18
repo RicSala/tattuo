@@ -22,17 +22,13 @@ const SearchFilterButton = ({
 
 
     const handleOnClick = (option) => {
-        console.log('options: ', options);
-        console.log('click');
         onClick(option.label);
-        console.log('clicked on option: ', option.value);
 
     };
 
     const applyFilters = () => {
         setShow(false);
         if (selected.length === 0) {
-            console.log('selected.length === 0');
             return router.push(pathname)
         }
 

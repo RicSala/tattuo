@@ -63,7 +63,6 @@ const Search = ({
 
     const onFreeSearchClick = () => {
         if (freeSearch === '') {
-            console.log('no search');
             return router.push(pathname)
         }
 

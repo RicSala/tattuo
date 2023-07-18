@@ -26,7 +26,7 @@ export async function getFavoriteArtistIdsOfUser(user) {
 
         return favoriteIds.map(favoriteId => favoriteId.artistProfileId);
     } catch (error) {
-        console.log("error", error)
+        console.log("ERROR - getFavoriteArtistIdsOfUser", error)
         return [];
     }
 

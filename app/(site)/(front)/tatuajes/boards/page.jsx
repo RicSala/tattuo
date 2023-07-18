@@ -2,18 +2,19 @@ import { getCurrentUser } from '@/actions/getCurrentUser'
 import Container from '@/components/Container'
 import Heading from '@/components/Heading'
 import EmptyState from '@/components/EmptyState'
-import { getBoardsOfUser } from '@/actions/getBoardsOfUser'
 import Link from "next/link";
+import ListingGrid from '@/components/listings/ListingGrid'
 
 
 
 export default async function BoardsPage({ searchParams }) {
 
-    const currentUser = await getCurrentUser()
-    const boards = await getBoardsOfUser(currentUser)
-    console.log("BOARDS!!!!", boards)
+    console.log('searchParams', searchParams)
 
-    if (boards.length < 1) {
+    const currentUser = await getCurrentUser()
+    const boards = currentUser?.boards
+
+    if (!boards || boards.length < 1) {
         return (
 
 
@@ -31,20 +32,30 @@ export default async function BoardsPage({ searchParams }) {
         <>
             <Container>
                 <Heading title={'Tus tableros'} />
-                {
-                    boards.map(board => (
-                        <Link href={`/tatuajes/boards/${board.id}`}
-                            key={board.id}
+                <ListingGrid>
 
-                        >
-                            <div key={board.id}>
+                    {
+                        boards.map(board => (
+                            <div key={board.id} className="
+                        bg-white
+                        rounded-lg
+                        p-4
+                        shadow-md
+                        hover:shadow-lg
+                        transition-shadow
+                        duration-200
+                        ">
 
-                                <h2>{board.title}</h2>
+                                <Link href={`/tatuajes/boards/${board.id}`}>
+                                    <div key={board.id}>
+                                        <h2>{board.title}</h2>
+                                    </div>
+                                </Link>
                             </div>
-                        </Link>
-                    ))
+                        ))
 
-                }
+                    }
+                </ListingGrid>
             </Container>
         </>
     )

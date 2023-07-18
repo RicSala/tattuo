@@ -20,12 +20,13 @@ export default async function Home({ searchParams }) {
     const filteredArtists = artists.filter(artist => artist.isComplete)
     const currentUser = await getCurrentUser()
 
+
     return (
 
         <Container>
             <div>
                 <div className='mt-6'>
-                    <Heading title={'Tatuajes'} />
+                    <Heading title={'Descubre Tatuajes'} />
                     <TattooListingGrid
                         listings={tattoos}
                         currentUser={currentUser}

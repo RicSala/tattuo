@@ -13,29 +13,23 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 
 
-// TODO: to be created
-
-const boards = [
-    { id: 1, title: 'Board 1' },
-    { id: 2, title: 'Board 2' },
-    { id: 3, title: 'Board 3' },
-    { id: 4, title: 'Board 4' },
-]
-
 const TattooCard = ({
     data,
     listingType,
     onAction,
+    test,
     actionLabel,
     onSecondaryAction,
     secondaryActionLabel,
     disabled,
     actionId,
     currentUser,
+    boardAdder = true
 }) => {
 
 
     const router = useRouter();
+
 
 
     const translatedResource = useMemo(() => {
@@ -69,12 +63,10 @@ const TattooCard = ({
     }, [actionId, disabled, onSecondaryAction])
 
     const onBoardCreate = useCallback((title) => {
-        console.log('create board', title)
-
-        axios.post('/api/boards', { title: title })
+        return axios.post('/api/boards', { title: title })
             .then(res => {
-                console.log(res.data)
                 toast.success('Board created')
+                return res.data
             })
             .catch(err => {
                 toast.error('Something went wrong')
@@ -85,14 +77,15 @@ const TattooCard = ({
 
     const onBoardSelect = useCallback((tattoo, board) => {
         // add the tattoo to the board
-        console.log('select board', tattoo, board)
+        toast.success('Tattoo added to board')
+
         axios.post(`/api/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
             .then(res => {
-                console.log(res.data)
-                toast.success('Tattoo added to board')
+                console.log("response data:", res.data)
             })
             .catch(err => {
-                toast.error('Something went wrong')
+                console.log("ERROR - TattooCard", err)
+                toast.error(err.response.data.error)
             }
             )
     }, [])
@@ -133,23 +126,26 @@ const TattooCard = ({
                         />
 
                     </div>
-                    <div className="absolute top-3 left-3">
+                    {/* <div className="absolute top-3 left-3">
                         <SaveButton
                             listingId={data.id}
                             currentUser={currentUser}
                             listingType={listingType}
                         />
 
-                    </div>
-                    <div className="absolute bottom-3 left-3">
-                        <TattooBoardAdder
-                            tattoo={data}
-                            boards={boards}
-                            onBoardCreate={onBoardCreate}
-                            onBoardSelect={onBoardSelect}
-                            currentUser={currentUser}
-                        />
-                    </div>
+                    </div> */}
+                    {
+                        boardAdder &&
+                        <div className="absolute bottom-3 left-3">
+                            <TattooBoardAdder
+                                key={data.id}
+                                tattoo={data}
+                                onBoardCreate={onBoardCreate}
+                                onBoardSelect={onBoardSelect}
+                                currentUser={currentUser}
+                            />
+                        </div>
+                    }
                 </div>
 
                 <div className="flex flex-row justify-between gap-7">

@@ -25,8 +25,6 @@ const CustomSelect = ({
 
 
 
-    console.log("value", value)
-
     return (
 
         <>

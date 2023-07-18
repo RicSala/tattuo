@@ -1,7 +1,20 @@
-import { getPost } from "@/libs/posts";
+import { getPost, getPosts } from "@/libs/posts";
 import PostBody from "../components/PostBody";
 import { notFound } from "next/navigation";
 
+
+
+export const generateStaticParams = async () => {
+
+    const posts = await getPosts();
+
+    console.log("🟨 posts: ", posts)
+
+    return posts.map((post) => ({
+        slug: post.slug,
+    }))
+
+}
 
 export const generateMetadata = async ({
     params
@@ -23,8 +36,7 @@ export const generateMetadata = async ({
     }
 };
 
-const page = async ({
-    children,
+const PostPage = async ({
     params
 }) => {
 
@@ -63,4 +75,4 @@ const page = async ({
         </div>
     )
 };
-export default page;
+export default PostPage;

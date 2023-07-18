@@ -14,7 +14,8 @@ export async function POST(req) {
         const user = await getCurrentUser();
         console.log("user", user)
         // check if the a board with the same title and the same user already exists
-        const board = await prisma.tattooBoard.findFirst({
+
+        const board = await prisma.board.findFirst({
             where: {
                 title: body.title,
                 userId: user.id
@@ -31,7 +32,7 @@ export async function POST(req) {
 
         // TODO: User -> user
         console.log("Board NOT found 🟩. Creating...")
-        const newBoard = await prisma.tattooBoard.create({
+        const newBoard = await prisma.board.create({
             data: {
                 title: body.title,
                 user: {
@@ -40,11 +41,38 @@ export async function POST(req) {
                 }
             }
         })
+        console.log("Board created 🟩")
 
         return NextResponse.json(newBoard);
 
     } catch (error) {
         console.log(error, 'REGISTRATION_ERROR');
+        return NextResponse.json({ error: 'Something went wrong' }, { status: 500 })
+    }
+}
+
+export async function GET(req) {
+
+    try {
+        const user = await getCurrentUser();
+
+        if (!user) {
+            return NextResponse.json({ error: 'User not found' }, { status: 404 })
+        }
+
+        const boards = await prisma.board.findMany({
+            where: {
+                userId: user.id
+            },
+            include: {
+                tattoos: true
+            }
+        })
+
+        return NextResponse.json(boards);
+
+    } catch (error) {
+        console.log(error, 'GET_BOARDS_ERROR');
         return NextResponse.json({ error: 'Something went wrong' }, { status: 500 })
     }
 }

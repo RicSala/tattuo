@@ -47,7 +47,7 @@ export const metadata = {
 }
 
 
-const layout = ({
+const Layout = ({
     children
 }) => {
     return (
@@ -58,4 +58,4 @@ const layout = ({
         </Container>
     )
 };
-export default layout;
+export default Layout;

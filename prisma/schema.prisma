@@ -24,7 +24,7 @@ model User {
   role            UserRole  @default(CLIENT)
 
   // RELATIONS
-  boards       TattooBoard[]
+  boards       Board[]
   accounts     Account[]
   artist       ArtistProfile?
   savedTattoos SavedTattoo[]
@@ -112,10 +112,10 @@ model Tattoo {
   styleId String? @db.ObjectId
   style   Style?  @relation(fields: [styleId], references: [id])
 
-  bodyPartId    String?      @db.ObjectId
-  bodyPart      BodyPart?    @relation(fields: [bodyPartId], references: [id])
-  tattooBoardId String?      @db.ObjectId
-  TattooBoard   TattooBoard? @relation(fields: [tattooBoardId], references: [id])
+  bodyPartId String?   @db.ObjectId
+  bodyPart   BodyPart? @relation(fields: [bodyPartId], references: [id])
+
+  boards BoardTattoo[]
 }
 
 enum UserRole {
@@ -243,16 +243,31 @@ model Tag {
   tattoos   TaggedTattoo[]
 }
 
-model TattooBoard {
+model Board {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String
   public    Boolean? @default(false)
-  tattoos   Tattoo[]
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
 
+  tattoos BoardTattoo[]
+
   // userid and title must be unique
   @@unique([userId, title])
+}
+
+model BoardTattoo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  boardId String @db.ObjectId
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  tattooId String @db.ObjectId
+  tattoo   Tattoo @relation(fields: [tattooId], references: [id], onDelete: Cascade)
+
+  @@unique([boardId, tattooId])
 }

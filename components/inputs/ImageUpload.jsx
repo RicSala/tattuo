@@ -1,20 +1,17 @@
 'use client'
 
 import { CldUploadWidget } from "next-cloudinary";
-import Image from "next/image";
 import { useCallback } from "react";
 import { TbPhotoPlus } from "react-icons/tb";
 import Button from "../Button";
 
 const ImageUpload = ({
     onChange,
-    value,
     maxFiles = 3,
 }) => {
 
 
     const handleUpload = useCallback((result) => {
-        console.log("result", result)
         onChange(result.info.secure_url);
     }, [onChange]);
 

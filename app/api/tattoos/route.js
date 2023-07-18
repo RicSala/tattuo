@@ -26,8 +26,6 @@ export async function POST(request) {
         tags,
     } = body;
 
-    console.log("TAGS!", tags)
-
 
     // create or update the listing
     const listing = await prisma.tattoo.create({
@@ -47,9 +45,10 @@ export async function POST(request) {
                 connect: { id: artistProfile.id }
             },
             tags: {
-                create: randomTags.map(id => ({
-                    tag: { connect: { id } },
+                create: tags.map(tag => ({
+                    tag: { connect: { id: tag.id } }
                 }))
+
             }
         }
 
@@ -63,6 +62,7 @@ export async function POST(request) {
 
 // same as POST
 export async function PUT(request) {
+
 
     const { errorResponse, currentUser, artistProfile } = await getArtistProfile(request);
 
@@ -153,38 +153,6 @@ export async function PUT(request) {
     // Execute the transaction
     const transactionResult = await prisma.$transaction(operations);
 
-
-    // // create or update the listing
-    // const listing = await prisma.tattoo.update({
-    //     where: {
-    //         id: tattooId
-    //     },
-    //     data: {
-    //         title,
-    //         description,
-    //         imageSrc,
-    //         category,
-    //         location,
-    //         style: {
-    //             connect: { id: style.id },
-    //         },
-    //         bodyPart: {
-    //             connect: { id: bodyPart.id }
-    //         },
-    //         artistProfile: {
-    //             connect: { id: artistProfile.id }
-    //         },
-    //         tags: {
-    //             create: tags.map(tag => ({
-    //                 tag: {
-    //                     connect: {
-    //                         id: tag.id
-    //                     }
-    //                 }
-    //             }))
-    //         }
-    //     }
-    // });
 
     return NextResponse.json(transactionResult[0])
 

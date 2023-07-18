@@ -3,7 +3,7 @@ import PostCard from "./components/PostCard";
 import { getPosts } from "@/libs/posts";
 import PostGrid from "./components/PostGrid";
 
-const page = async ({
+const Page = async ({
     children
 }) => {
 
@@ -20,4 +20,4 @@ const page = async ({
         </div>
     )
 };
-export default page;
+export default Page;

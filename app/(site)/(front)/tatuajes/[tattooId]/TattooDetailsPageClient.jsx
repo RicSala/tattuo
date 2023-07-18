@@ -1,10 +1,12 @@
 'use client'
 
+// NOT USED!
+
 import ArtistSmallCard from "@/components/artist/ArtistSmallCard";
 import ShareButtons from "@/components/ShareButtons";
 import TattooCard from "@/components/listings/TattooCard";
 import TattooListingGrid from "@/components/listings/TattooListingGrid";
-import Image from "next/image";
+import Heading from "@/components/Heading";
 
 const TattooDetailsPageClient = ({
     tattoo,
@@ -17,7 +19,7 @@ const TattooDetailsPageClient = ({
 
     return (
         <div className="flex flex-col justify-center items-center">
-            <h1>Title: {tattoo.title}</h1>
+            <Heading title={tattoo.title} />
             <TattooCard data={tattoo}
                 currentUser={currentUser}
                 listingType="tattoos"

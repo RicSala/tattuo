@@ -9,7 +9,6 @@ import { getSavedTattoosByUserId } from '@/actions/getSavedTattoosByUserId';
 import { getSavedArtistsByUserId } from '@/actions/getSavedArtistByUserId';
 import { getFavoriteTattooIdsOfUser } from '@/actions/getFavoriteTattooIdsOfUser';
 import { getFavoriteArtistIdsOfUser } from '@/actions/getFavoriteArtistIdsOfUser';
-import { getBoardsOfUser } from '@/actions/getBoardsOfUser';
 
 export const authOptions = {
     adapter: PrismaAdapter(prisma),
@@ -55,7 +54,7 @@ export const authOptions = {
     // custom pages
     pages: {
         signIn: '/',
-        newUser: '/', // New users will be directed here on first sign in (leave the property out if not of interest)
+        newUser: '/', // New users will be directed here on first sign in
     },
 
     debug: process.env.NODE_ENV === 'development',
@@ -76,7 +75,7 @@ export const authOptions = {
         // Seconds - Throttle how frequently to write to database to extend a session.
         // Use it to limit write operations. Set to 0 to always update the database.
         // Note: This option is ignored if using JSON Web Tokens (as is the case)
-        updateAge: 24 * 60 * 60, // 24 hours
+        // updateAge: 24 * 60 * 60, // 24 hours
     },
 
     //REVIEW: When we use the Prisma adapter, who decides which fields are gonna be saved in the session?
@@ -86,7 +85,8 @@ export const authOptions = {
 
         // to control if a user is allowed to sign in.
         async signIn(user, account, profile) {
-            // console.log("SIGN IN", user)
+
+
             return true
         },
         // called anytime the user is redirected to a callback URL (e.g. on signin or signout).
@@ -103,6 +103,7 @@ export const authOptions = {
         // and it is stored in a cookie.
         // The arguments user, account, profile and isNewUser are only passed the first time this callback 
         // is called on a new session, after the user signs in. In subsequent calls, only token will be available.
+        // whatever this callback returns will be the token that is stored in the cookie.
         async jwt({ token }) {
 
             const dbUser = await prisma.user.findUnique({ where: { id: token.sub } })
@@ -120,11 +121,11 @@ export const authOptions = {
                 token.artistProfileId = artistProfile.id
             }
 
+
             const favoriteTattooIds = await getFavoriteTattooIdsOfUser(dbUser)
             const favoriteArtistIds = await getFavoriteArtistIdsOfUser(dbUser)
             const savedArtists = await getSavedArtistsByUserId(dbUser.id)
             const savedTattoos = await getSavedTattoosByUserId(dbUser.id)
-            const boards = await getBoardsOfUser(dbUser)
 
 
             const arraySavedArtistsId = savedArtists.map(savedListing => savedListing.id)
@@ -135,7 +136,6 @@ export const authOptions = {
             token.favoriteIds = favoriteTattooIds.concat(favoriteArtistIds)
             token.role = dbUser.role
             token.savedIds = arraySavedArtistsId.concat(arraySavedTattoosId)
-            token.boards = boards
 
 
             return token
@@ -147,14 +147,13 @@ export const authOptions = {
         // via the jwt() callback, you have to explicitly forward it here to make it available to the client.
         // When using database sessions, the User (user) object is passed as an argument.
         // When using JSON Web Tokens for sessions, the JWT payload (token) is provided instead.
-        async session({ session, token }) {
+        async session({ session, token, user }) {
 
             if (session && session.user) {
                 session.user.role = token.role
                 session.user.favoriteIds = token.favoriteIds
                 session.user.id = token.sub
                 session.user.savedIds = token.savedIds
-                session.user.boards = token.boards
                 if (token.artistProfileId) {
                     session.user.artistProfileId = token.artistProfileId
                 }

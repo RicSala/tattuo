@@ -2,8 +2,6 @@
 
 import ArtistCard from "@/components/listings/ArtistCard";
 import Container from "@/components/Container";
-import TattooCard from "@/components/listings/TattooCard";
-import TattooListingGrid from "@/components/listings/TattooListingGrid";
 import { useRouter } from "next/navigation";
 import ListingGrid from "@/components/listings/ListingGrid";
 import Heading from "@/components/Heading";
