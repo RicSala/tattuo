@@ -17,7 +17,7 @@ const ArtistCard = ({
     return (
 
         <div
-            onClick={() => router.push(`/tatuadores/${artist.id}`)}
+            onClick={() => router.push(`/tatuadores/profile/${artist.id}`)}
 
             className="
          border

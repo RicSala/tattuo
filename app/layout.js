@@ -35,7 +35,18 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
 
-        {children}
+        <UiProvider>
+          <CustomSessionProvider>
+            <AuthProvider>
+              <ToasterContext />
+              <RegisterModal />
+              <RegisterArtistModal />
+              <LoginModal />
+              {children}
+
+            </AuthProvider>
+          </CustomSessionProvider>
+        </UiProvider>
 
       </body>
     </html>

@@ -12,6 +12,7 @@ const page = async ({ params }) => {
 
     const { cityName } = params;
     const artists = await getArtistByCityName(cityName);
+
     if (!artists || artists.length === 0) {
         console.log("page not found")
         notFound()
