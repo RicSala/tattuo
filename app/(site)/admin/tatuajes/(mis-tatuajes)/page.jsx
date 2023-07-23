@@ -4,6 +4,7 @@ import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId";
 import TattooListingGrid from "@/components/listings/TattooListingGrid";
 import Link from "next/link";
 import Container from "@/components/Container";
+import Heading from "@/components/Heading";
 
 const MyTattoosPage = async ({ params }) => {
 
@@ -35,20 +36,13 @@ const MyTattoosPage = async ({ params }) => {
 
     return (
 
-        <>
-            <Container>
-                <div className="flex justify-end items-center py-2 mt-4">
-                    <div className="bg-blue-700 p-2 rounded-md text-white">
-                        <Link href="/admin/tatuajes/new">Nuevo tatuaje</Link>
-                    </div>
-                </div>
-                <TattooListingGrid listings={tattoos} currentUser={currentUser}
-                    actionLabel={'Editar'}
-                    secondaryActionLabel={'Eliminar'}
-                    listingType={'tattoos'}
-                />
-            </Container>
-        </>
+        <TattooListingGrid listings={tattoos} currentUser={currentUser}
+            actionLabel={'Editar'}
+            secondaryActionLabel={'Eliminar'}
+            listingType={'tattoos'}
+            canLike={false}
+            canSave={false}
+        />
     )
 
 };

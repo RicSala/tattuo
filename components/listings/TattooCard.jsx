@@ -2,12 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
-import { format } from 'date-fns'
 import Image from "next/image";
-// import HeartButton from "../HeartButton";
 import Button from "../Button";
 import HeartButton from "../HeartButton";
-import SaveButton from "../SaveButton";
 import TattooBoardAdder from "../TattooBoardAdder";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -24,7 +21,9 @@ const TattooCard = ({
     disabled,
     actionId,
     currentUser,
-    boardAdder = true
+    boardAdder = true,
+    canLike = true,
+    canSave = true,
 }) => {
 
 
@@ -77,7 +76,7 @@ const TattooCard = ({
 
     const onBoardSelect = useCallback((tattoo, board) => {
         // add the tattoo to the board
-        toast.success('Tattoo added to board')
+        toast.success('Tatuaje añadido a tu tablero')
 
         axios.post(`/api/boards/${board.id}/tattoos`, { tattooId: tattoo.id })
             .then(res => {
@@ -118,12 +117,17 @@ const TattooCard = ({
                     "
 
                     />
-                    <div className="absolute top-3 right-3">
-                        <HeartButton
-                            listingId={data.id}
-                            currentUser={currentUser}
-                            listingType={listingType}
-                        />
+                    <div className="absolute top-3 right-3
+                    opacity-0 group-hover:opacity-100 transition duration-400 ease-in-out
+                    ">
+                        {
+                            canLike &&
+                            <HeartButton
+                                listingId={data.id}
+                                currentUser={currentUser}
+                                listingType={listingType}
+                            />
+                        }
 
                     </div>
                     {/* <div className="absolute top-3 left-3">
@@ -135,8 +139,11 @@ const TattooCard = ({
 
                     </div> */}
                     {
-                        boardAdder &&
-                        <div className="absolute bottom-3 left-3">
+                        canSave && boardAdder &&
+                        <div className="absolute bottom-3 left-3
+                        opacity-0 group-hover:opacity-80 transition duration-400 ease-in-out
+
+                        ">
                             <TattooBoardAdder
                                 key={data.id}
                                 tattoo={data}

@@ -161,7 +161,7 @@ export const authOptions = {
             }
             return session
         }
-    }
+    },
 
     // We also have "events"
     // what's the difference between callbacks and events?
@@ -173,6 +173,18 @@ export const authOptions = {
     // async linkAccount(message) { /* account (e.g. Twitter) linked to a user */ },
     // async session(message) { /* session is active */ },
 
+    // https://dev.to/mfts/how-to-send-a-warm-welcome-email-with-resend-next-auth-and-react-email-576f
+    // events: {
+    //     async createUser(message) {
+    //       const params = {
+    //         user: {
+    //           name: message.user.name,
+    //           email: message.user.email,
+    //         },
+    //       };
+    //       await sendWelcomeEmail(params); // <-- send welcome email
+    //     }
+    //   },
 
     //REVIEW: When you supply a session prop in _app.js, useSession won't show a loading state,
     // as it'll already have the session available. In this way, you can provide a more seamless user experience.

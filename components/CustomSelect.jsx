@@ -1,3 +1,5 @@
+'use client'
+
 import dynamic from 'next/dynamic';
 
 
@@ -21,8 +23,13 @@ const CustomSelect = ({
     options,
     isMulti = false,
     placeholder = "Select...",
+    errors,
+    name,
 }) => {
 
+    //REVIEW: why can't I use errors[name] directly in the placeholder???
+    // In Input.jsx I can do it, but here I can't
+    // In Input.jsx we are doing {errors[id] && '- ' + (errors[id].message ? errors[id].message : '')}
 
 
     return (
@@ -34,7 +41,7 @@ const CustomSelect = ({
                 onChange={onChange}
                 onBlur={onBlur}
                 isMulti={isMulti}
-                placeholder={placeholder}
+                placeholder={placeholder + `${errors && errors[name] ? " - ".concat(errors[name].message) : ""}`}
                 isSearchable
                 // noOptionsMessage={() => "No hay opciones"}
                 styles={{

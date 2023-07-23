@@ -11,10 +11,6 @@ const ShareButtons = ({
     whatsappTitle,
     pinterestImage,
     pinterestDescription,
-
-
-
-
 }) => {
     return (
         <div className='

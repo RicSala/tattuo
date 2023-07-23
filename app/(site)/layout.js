@@ -9,7 +9,7 @@ import RegisterModal from "@/components/modals/RegisterModal";
 import RegisterArtistModal from "@/components/modals/RegisterArtistModal";
 import LoginModal from "@/components/modals/LoginModal";
 
-const siteLayout = async ({ children }) => {
+const SiteLayout = async ({ children }) => {
 
     const user = await getCurrentUser();
 
@@ -26,4 +26,4 @@ const siteLayout = async ({ children }) => {
 
     )
 };
-export default siteLayout;
+export default SiteLayout;

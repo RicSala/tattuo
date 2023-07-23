@@ -13,6 +13,8 @@ const TattooListingGrid = ({
     actionLabel,
     onSecondaryAction,
     secondaryActionLabel,
+    canLike = true,
+    canSave = true,
 
 
 }) => {
@@ -64,6 +66,8 @@ const TattooListingGrid = ({
                     disabled={false}
                     actionId={listing.id}
                     currentUser={currentUser}
+                    canLike={canLike}
+                    canSave={canSave}
                 />
             ))}
 

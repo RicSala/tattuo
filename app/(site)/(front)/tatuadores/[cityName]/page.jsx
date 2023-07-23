@@ -7,7 +7,7 @@ import ListingGrid from "@/components/listings/ListingGrid";
 import { notFound } from 'next/navigation'
 
 
-const page = async ({ params }) => {
+const CityPage = async ({ params }) => {
 
 
     const { cityName } = params;
@@ -37,4 +37,4 @@ const page = async ({ params }) => {
         </Container>
     )
 };
-export default page;
+export default CityPage;

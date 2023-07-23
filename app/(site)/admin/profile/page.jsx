@@ -12,6 +12,8 @@ const ProfilePage = async ({
 
     const currentUser = await getCurrentUser()
 
+
+    // REVIEW: We should do this with the middleware, but I need a way to diff between client and artist
     if (!currentUser) {
         return (
             <EmptyState title="No estás autorizado. Por favor, loguéate" />

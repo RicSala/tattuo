@@ -3,7 +3,6 @@
 import Button from "@/components/Button";
 import CustomSelect from "@/components/CustomSelect";
 import Heading from "@/components/Heading";
-import ImageUploadControlled from "@/components/inputs/ImageUploadControlled";
 import Input from "@/components/inputs/Input";
 import TagSelectorControlled from "@/components/inputs/TagSelectControlled";
 import axios from "axios";
@@ -11,7 +10,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import Image from "next/image";
+import ImageUploadControlled2 from "@/components/inputs/ImageUploadControlled2";
+import ImageThumbnails from "@/components/ImageThumbnails";
 
 const TattooEditPageClient = ({
     tattoo,
@@ -22,13 +22,13 @@ const TattooEditPageClient = ({
 
     const { trigger, setError, clearErrors, control, register, handleSubmit, setValue, getValues, watch, reset, formState: { errors, isSubmitted }, formState } = useForm({
         defaultValues: {
-            title: tattoo.title,
-            description: tattoo.description,
-            imageSrc: tattoo.imageSrc,
-            style: tattoo.style,
-            tattooId: tattoo.id,
-            bodyPart: tattoo.bodyPart,
-            tags: tattoo.tags?.map(tag => (tag.tag))
+            title: tattoo.title || "",
+            description: tattoo.description || "",
+            imageSrc: tattoo.imageSrc || "",
+            style: tattoo.style || "",
+            tattooId: tattoo.id || "new",
+            bodyPart: tattoo.bodyPart || undefined,
+            tags: tattoo.tags?.map(tag => (tag.tag)) || undefined,
         }
     });
 
@@ -42,10 +42,14 @@ const TattooEditPageClient = ({
     const onSubmit = async (data) => {
 
         setIsLoading(true)
+
+        // if tatto is new, we need to create it
         if (data.tattooId === "new") {
             axios.post(`/api/tattoos/`, data) //TODO: change to fetch (from Next)
                 .then(res => {
                     toast.success("Tatuaje actualizado")
+                    // after creating the tattoo, we redirect to the edit page,
+                    // so the user does not add more tattoos by mistake
                     router.push(`/admin/tatuajes/${res.data.id}`)
                 })
                 .catch(err => {
@@ -58,6 +62,8 @@ const TattooEditPageClient = ({
             return
         }
 
+
+        // else we update it
         axios.put(`/api/tattoos/`, data)
             .then(res => {
                 toast.success("Tatuaje actualizado")
@@ -139,54 +145,28 @@ const TattooEditPageClient = ({
                     </div>
                 }
 
-                {
-                    getValues("imageSrc") &&
-                    <div>
-                        <div className="relative inline-block">
-                            <Image src={getValues("imageSrc")} alt="image" width={100} height={100}
-                                style={{ width: 'auto' }}
 
-
-                            />
-                            <div
-                                onClick={() => {
-                                    const imageToDelete = getValues("imageSrc")
-                                    setValue("imageSrc", null, {
-                                        shouldValidate: true,
-                                        shouldDirty: true
-                                    })
-                                    axios.delete(`/api/images/${imageToDelete.split("/").pop().split(".")[0]}`)
-
-                                }
-                                }
-                                className="absolute right-1 top-1 cursor-pointer">
-                                x
-                            </div>
-                        </div>
-                    </div>}
-
-                <Controller
-                    name="imageSrc"
+                <ImageThumbnails imageSrc={getValues("imageSrc") || null} setValue={setValue} />
+                <ImageUploadControlled2
                     control={control}
-                    errors={errors.imageSrc}
-                    rules={{ required: 'Debes subir una imagen' }}
-                    render={({ field }) => {
-                        return (<ImageUploadControlled
-                            // This looks like a bit "hacky" but it works (instead of passing the error in the Controller)
-                            // errors={errors?.imageSrc?.message}
-                            value={field.value}
-                            onChange={(value) => field.onChange(value)}
-                            onBlur={field.onBlur}
-                        />)
-                    }} />
+                    maxFiles={1}
+                    name="imageSrc"
+                    trigger={trigger}
+                    errors={errors}
+                    rules={{
+                        required: "Debes subir al menos una imagen",
+                        // at least 3 images required
+                        // validate: (value) => value.length >= 3 || "Mínimo 3 imágenes"
+                    }}
+                />
 
 
-                {
+                {/* {
                     errors.style &&
                     <div className="text-red-500">
                         {errors.style.message}
                     </div>
-                }
+                } */}
                 <Controller
                     name="style"
                     control={control}
@@ -197,15 +177,23 @@ const TattooEditPageClient = ({
                     render={({ field }) =>
                         <CustomSelect
                             isMulti={false}
+                            name={field.name}
                             // The next three lines are the same as doing: ...field
                             // value={field.value}
                             // onChange={(option) => field.onChange(option)}
                             // onBlur={field.onBlur}
                             options={styles}
                             field={field}
+                            errors={errors}
                         />} />
 
 
+                {
+                    errors.bodyPart &&
+                    <div className="text-red-500">
+                        {errors.bodyPart.message}
+                    </div>
+                }
                 <Controller
                     name="bodyPart"
                     control={control}
@@ -218,8 +206,7 @@ const TattooEditPageClient = ({
                             field={field}
                             options={bodyParts}
                         />} />
-                <Button type="submit" label={isLoading ? "Guardando..." : "Guardar"}
-                    disabled={isLoading} />
+                <Button type="submit" label={isLoading ? "Guardando..." : "Guardar"} disabled={isLoading} />
             </form>
 
         </div >

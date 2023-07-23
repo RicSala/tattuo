@@ -2,12 +2,12 @@ import prisma from "@/libs/prismadb";
 import { fakerES as faker } from '@faker-js/faker';
 import bcrypt from 'bcryptjs';
 
-const numClients = 20;
-const numArtists = 10;
-const numTattoos = 10;
-const numSaves = 20;
-const numLikes = 50;
-const numBoards = 20;
+const numClients = 50;
+const numArtists = 20;
+const numTattoos = 60;
+const numSaves = 200;
+const numLikes = 200;
+const numBoards = 50;
 const onlyDelete = false;
 
 
@@ -35,7 +35,17 @@ const randomNumber = (min, max) => {
 
 
 const styleIds = await prisma.style.findMany().then(styles => styles.map(style => style.id));
-const cityIds = await prisma.city.findMany().then(cities => cities.map(city => city.id));
+// const cityIds = await prisma.city.findMany().then(cities => cities.map(city => city.id));
+// array of ids of cities whose label is Madrid, Barcelona or Zaragoza
+const cityIds = await prisma.city.findMany({
+    where: {
+        OR: [
+            { label: 'Madrid' },
+            { label: 'Barcelona' },
+            { label: 'Zaragoza' },
+        ],
+    },
+}).then(cities => cities.map(city => city.id));
 const tagIds = await prisma.tag.findMany().then(tags => tags.map(tag => tag.id));
 const bodyPartIds = await prisma.bodyPart.findMany().then(bodyParts => bodyParts.map(bodyPart => bodyPart.id));
 
@@ -185,6 +195,16 @@ export const seedDb = async () => {
             youtube: faker.internet.url(),
             tiktok: faker.internet.url(),
             mainImage: faker.image.avatar(),
+            images: [faker.image.url({ width: 512, height: 512 }),
+            faker.image.url({ width: 512, height: 512 }),
+            faker.image.url({ width: 512, height: 512 }),
+            ],
+            styles: { connect: [{ id: randomElement(styleIds) }] },
+            pricePerHour: faker.number.int({ min: 10, max: 100 }),
+            pricePerSession: faker.number.int({ min: 80, max: 800 }),
+            minWorkPrice: faker.number.int({ min: 50, max: 200 }),
+            isComplete: true,
+            city: { connect: { id: randomElement(cityIds) } },
         }
     });
 
@@ -219,7 +239,7 @@ export const seedDb = async () => {
         const artistProfile = prisma.artistProfile.create({
             data: {
                 user: { connect: { id: user.id } },
-                artisticName: `${user.name}-${randomNumber(1, 200)}`,
+                artisticName: `${user.name}-${i}`,
                 email: faker.internet.email({ firstName: `${user.name}-${randomNumber(1, 200)}`, provider: 'tatuador.com' }),
                 bio: faker.person.bio(),
                 phone: faker.phone.number(),
@@ -230,14 +250,16 @@ export const seedDb = async () => {
                 youtube: faker.internet.url(),
                 tiktok: faker.internet.url(),
                 mainImage: faker.image.avatar(),
-                images: [faker.image.urlLoremFlickr({ category: 'fashion', width: 512, height: 512 }), faker.image.avatar(), faker.image.avatar()],
-                styles: {
-                    connect: randomStyles.map((styleId) => ({ id: styleId })),
-                },
+                images: [faker.image.url({ width: 512, height: 512 }),
+                faker.image.url({ width: 512, height: 512 }),
+                faker.image.url({ width: 512, height: 512 }),
+                ],
+                styles: { connect: [{ id: randomElement(styleIds) }] },
                 pricePerHour: faker.number.int({ min: 10, max: 100 }),
                 pricePerSession: faker.number.int({ min: 80, max: 800 }),
                 minWorkPrice: faker.number.int({ min: 50, max: 200 }),
                 isComplete: true,
+                city: { connect: { id: randomElement(cityIds) } },
             }
         });
 
@@ -325,7 +347,7 @@ export const seedDb = async () => {
 
 
         if (!randomUserIds[index]) {
-            console.error('Invalid user ID:', randomUserIds2[index]);
+            console.error('Invalid user ID:');
             return null;
         }
 
@@ -360,7 +382,6 @@ export const seedDb = async () => {
     const randomTattooIds2 = selectNFromArray(tattooIds, numLikes);
     // get an array of 400 random userIds
     const randomUserIds2 = selectNFromArray(userIds, numLikes);
-    console.log("RANDOM USER IDS", randomUserIds2);
 
     console.log("STARTING TATTOO LIKES CREATION")
     // create 200 random saves
@@ -410,7 +431,7 @@ export const seedDb = async () => {
     const savedArtistPromises = randomArtistIds.map((artistId, index) => {
 
         if (!randomUserIds3[index]) {
-            console.error('Invalid user ID:', randomUserIds2[index]);
+            console.error('Invalid user ID:', randomUserIds3[index]);
             return null;
         }
 
@@ -452,7 +473,7 @@ export const seedDb = async () => {
     const likedArtistPromises = randomArtistIds2.map((artistId, index) => {
 
         if (!randomUserIds3[index]) {
-            console.error('Invalid user ID:', randomUserIds2[index]);
+            console.error('Invalid user ID:', randomUserIds3[index]);
             return null;
         }
 

@@ -4,6 +4,8 @@ import Heading from '@/components/Heading'
 import EmptyState from '@/components/EmptyState'
 import Link from "next/link";
 import ListingGrid from '@/components/listings/ListingGrid'
+import prisma from '@/libs/prismadb';
+import Image from 'next/image'
 
 
 
@@ -13,6 +15,20 @@ export default async function BoardsPage({ searchParams }) {
 
     const currentUser = await getCurrentUser()
     const boards = currentUser?.boards
+    const getTattoosOfBoard = async (board) => {
+        const tattoos = await prisma.boardTattoo.findMany({
+            where: {
+                boardId: board.id
+            },
+            include: {
+                tattoo: true
+            }
+        })
+
+        return tattoos.map(boardTattoo => boardTattoo.tattoo)
+    }
+
+
 
     if (!boards || boards.length < 1) {
         return (
@@ -50,6 +66,12 @@ export default async function BoardsPage({ searchParams }) {
                                     <div key={board.id}>
                                         <h2>{board.title}</h2>
                                     </div>
+                                    {/* show the imageSrc of tattoo */}
+                                    <Image
+                                        src={getFirstTattooOfBoard(board).imageSrc}
+                                        alt="image" width={100} height={200}
+                                        style={{ width: 'auto' }} className={imageStyle} />
+
                                 </Link>
                             </div>
                         ))

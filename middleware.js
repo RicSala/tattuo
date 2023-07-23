@@ -2,7 +2,6 @@ import { withAuth } from 'next-auth/middleware'
 
 export default withAuth(
 
-    //REVIEW: Why this does not work?
     function middleware(req) {
         console.log("⏭ MIDDLEWARE")
     },
@@ -15,6 +14,10 @@ export default withAuth(
         },
     }
 )
+
+// TODO: Role base auth:
+// https://medium.com/ascentic-technology/authentication-with-next-js-13-and-next-auth-9c69d55d6bfd
+// https://authjs.dev/guides/basics/role-based-access-control
 
 
 

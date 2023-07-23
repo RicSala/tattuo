@@ -1,9 +1,7 @@
 'use client'
 
 import { AiOutlineMenu } from 'react-icons/ai';
-// import Avatar from '../Avatar';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-// import MenuItem from './MenuItem';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Avatar from '../Avatar';

@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
             try {
                 const getBoardsFromDb = async () => {
                     const res = await axios.get('/api/boards')
-                    const user = { ...data?.user, boards: res.data }
+                    const user = { ...data?.user, boards: res?.data }
                     dispatch({ type: '[AUTH] - Login', payload: user });
                 }
                 getBoardsFromDb()

@@ -69,6 +69,10 @@ export async function GET(req) {
             }
         })
 
+        if (boards.length === 0 || !boards) {
+            return NextResponse.json({ boards: [] })
+        }
+
         return NextResponse.json(boards);
 
     } catch (error) {

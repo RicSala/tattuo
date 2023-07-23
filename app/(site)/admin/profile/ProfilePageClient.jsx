@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 
 import Button from "@/components/Button";
@@ -13,6 +14,8 @@ import ImageUploadControlled2 from "@/components/inputs/ImageUploadControlled2";
 import CustomAsyncSelect from "@/components/inputs/AsyncSelect";
 import { DevTool } from "@hookform/devtools";
 import CustomSelect from "@/components/CustomSelect";
+import Heading from "@/components/Heading";
+import ImageThumbnails from "@/components/ImageThumbnails";
 
 // Not sure I want to use this
 const inputFields = [
@@ -36,6 +39,8 @@ const ProfilePageClient = ({
     styles,
 }) => {
 
+    console.log("ProfilePageClient - artist", artist)
+
     const [isLoading, setIsLoading] = useState(false)
 
     const {
@@ -48,7 +53,7 @@ const ProfilePageClient = ({
         formState: { errors } } = useForm({
 
             defaultValues: {
-                artisticName: artist.artisticName || "",
+                artisticName: artist?.artisticName || "",
                 email: artist.email || "",
                 bio: artist.bio || "",
                 city: artist.city || "",
@@ -97,7 +102,6 @@ const ProfilePageClient = ({
 
     return (
         <>
-
             <form onSubmit={handleSubmit(onSubmit, onError)}>
                 <>
 
@@ -293,31 +297,9 @@ const ProfilePageClient = ({
                 /> */}
 
                 </>
-                {
-                    getValues("mainImage") &&
-                    <div>
-                        <div className="relative inline-block">
-                            <Image src={getValues("mainImage")} alt="image" width={100} height={100}
-                                style={{ width: 'auto' }}
-
-
-                            />
-                            <div
-                                onClick={() => {
-                                    const imageToDelete = getValues("mainImage")
-                                    setValue("mainImage", null, {
-                                        shouldValidate: true,
-                                        shouldDirty: true
-                                    })
-                                    axios.delete(`/api/images/${imageToDelete.split("/").pop().split(".")[0]}`)
-
-                                }
-                                }
-                                className="absolute right-1 top-1 cursor-pointer">
-                                x
-                            </div>
-                        </div>
-                    </div>}
+                <ImageThumbnails imageSrc={getValues("mainImage")}
+                    setValue={setValue}
+                />
 
                 {
                     errors.images &&
@@ -337,48 +319,9 @@ const ProfilePageClient = ({
                         validate: (value) => value.length >= 3 || "Mínimo 3 imágenes"
                     }}
                 />
-
-
-                {
-                    getValues("images") &&
-                    <div>
-                        {
-                            getValues("images").map(image => {
-                                return (
-
-                                    <div key={image} className="relative inline-block">
-                                        <Image src={image} alt="image" width={100} height={100}
-                                            style={{ width: 'auto', height: '100%' }}
-
-
-                                        //REVIEW: Curiously enought the warning in images only happen in none square images!
-                                        />
-                                        <div
-                                            onClick={() => {
-                                                const imageToDelete = image
-                                                setValue("images",
-                                                    getValues("images").filter(image => image !== imageToDelete)
-                                                    , {
-                                                        shouldValidate: true,
-                                                        shouldDirty: true
-                                                    })
-                                                axios.delete(`/api/images/${imageToDelete.split("/").pop().split(".")[0]}`)
-
-                                            }
-                                            }
-                                            className="absolute right-1 top-1 cursor-pointer">
-                                            x
-                                        </div>
-                                    </div>
-
-
-                                )
-
-                            })
-                        }
-
-                    </div>
-                }
+                <ImageThumbnails imageSrc={getValues("images")}
+                    setValue={setValue}
+                />
 
 
 
@@ -394,20 +337,6 @@ const ProfilePageClient = ({
 
                 }
 
-                {/* <Controller
-                    name="styles"
-                    control={control}
-                    rules={{
-                        required: true,
-                        // max lenth of the array is 3
-                        validate: (value) => value.length <= 3 || "Máximo 3 estilos"
-                    }}
-                    render={({ field }) =>
-                        <CustomSelect
-                            isMulti
-                            field={field} options={estilos}
-                        />}
-                /> */}
 
                 <Controller
                     name="city"
@@ -447,10 +376,8 @@ const ProfilePageClient = ({
 
 
             </form>
-
-            <DevTool control={control} /> {/* set up the dev tool */}
-
-
+            {/* Dev tools for React Hook Forms  */}
+            {/* <DevTool control={control} /> */}
 
         </>
     )
