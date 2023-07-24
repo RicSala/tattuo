@@ -33,44 +33,22 @@ const ArtistDetailsPage = async ({ params }) => {
         )
     }
 
-
     return (
-
-        <>
-            {/* <ArtistDetailsPageClient
-                artist={artist}
-                currentUser={currentUser}
-                artistTattoos={artistTattoos}
-            /> 
-            
-            */}
-
-            <div className="flex flex-col justify-center items-center w-full">
-                <h1 className="text-3xl font-bold text-center mt-6"
-                >{artist.artisticName}</h1>
-                <SaveButton listingId={artist.id} currentUser={currentUser}
-                    listingType="artists" />
-
-                <HeartButton listingId={artist.id} currentUser={currentUser}
-                    listingType="artists" />
-
-                {/* TODO: move to component */}
-
-                <LikesCount likesArray={artist.likes} />
-
-                <ArtistSocials artist={artist} />
-                <ArtistPrices artist={artist} />
-                <div className="mt-6 w-full mx-auto">
-                    <Heading title={`Otros trabajos de ${artist.artisticName}`} />
-
-                    <TattooListingGrid listings={artistTattoos} currentUser={currentUser} listingType={'tattoos'} />
-
-                </div>
-
-
+        <div className="flex flex-col justify-center items-center w-full">
+            <h1 className="text-3xl font-bold text-center mt-6"
+            >{artist.artisticName}</h1>
+            <SaveButton listingId={artist.id} currentUser={currentUser}
+                listingType="artists" />
+            <HeartButton listingId={artist.id} currentUser={currentUser}
+                listingType="artists" />
+            <LikesCount likesArray={artist.likes} />
+            <ArtistSocials artist={artist} />
+            <ArtistPrices artist={artist} />
+            <div className="mt-6 w-full mx-auto">
+                <Heading title={`Otros trabajos de ${artist.artisticName}`} />
+                <TattooListingGrid listings={artistTattoos} currentUser={currentUser} listingType={'tattoos'} />
             </div>
-
-        </>
+        </div>
     )
 };
 

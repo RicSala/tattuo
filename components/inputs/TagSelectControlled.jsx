@@ -64,7 +64,8 @@ const TagSelectorControlled = ({
                     }}
                     onBlur={onBlur}
                     onChange={(value) => {
-                        onChange(value); trigger(name)
+                        onChange(value);
+                        trigger(name)
                     }}
                     value={value}
                     isMulti={true}

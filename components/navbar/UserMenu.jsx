@@ -2,7 +2,7 @@
 
 import { AiOutlineMenu } from 'react-icons/ai';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Avatar from '../Avatar';
 import { UiContext } from '@/providers/ui/UiProvider';
@@ -12,7 +12,6 @@ const UserMenu = ({
     currentUser,
 }) => {
 
-    const userFromFE = useSession();
     // Snippet to close the menu when clicking outside of it
     const menuRef = useRef(null);
     const router = useRouter();
@@ -148,7 +147,7 @@ const UserMenu = ({
 
 
     return (
-        <div className="relative" ref={menuRef}>
+        <div className="relative flex flex-col" ref={menuRef}>
             <div className="flex flex-row items-center gap-3">
                 <div
                     onClick={onOpenRegisterArtistModal}

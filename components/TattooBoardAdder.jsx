@@ -12,7 +12,7 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
     const [showBoards, setShowBoards] = useState(false);
     const [showInput, setShowInput] = useState(false);
     const { onOpenLoginModal } = useContext(UiContext)
-    const { addBoardToUser, removeBoardFromUser, user: userFromContext } = useContext(AuthContext)
+    const { removeBoardFromUser, user: userFromContext } = useContext(AuthContext)
     const [boards, setBoards] = useState([
         currentUser?.boards
     ])

@@ -1,4 +1,6 @@
 'use client'
+import PropTypes from 'prop-types';
+
 
 
 const Button = ({
@@ -8,7 +10,8 @@ const Button = ({
     outline,
     small,
     icon: Icon,
-    type = "button"
+    type = "button",
+    className
 
 }) => {
     return (
@@ -24,13 +27,15 @@ const Button = ({
         hover:opacity-80
         transition
         w-full
-        ${outline ? `bg-white` : `bg-rose-500`}
-        ${outline ? `border-black` : `border-rose-500`}
-        ${outline ? `text-black` : `text-white`}
+        px-2
+        ${outline ? `bg-white` : `bg-primary`}
+        ${outline ? `border-black` : `border-primary`}
+        ${outline ? `text-black` : `text-primary-foreground`}
         ${small ? `py-1` : `py-3`}
         ${small ? `text-sm` : `text-md`}
         ${small ? `font-light` : `font-semibold`}
         ${small ? `border-[1px]` : `border-2`}
+        ${className}
         `}>
             {Icon && <Icon size={24} className="absolute left-4 top-1" />
 
@@ -41,3 +46,16 @@ const Button = ({
 };
 
 export default Button;
+
+Button.propTypes = {
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
+    disabled: PropTypes.bool,
+    outline: PropTypes.bool,
+    small: PropTypes.bool,
+    icon: PropTypes.elementType,
+    type: PropTypes.string
+};
+
+
+
