@@ -2,7 +2,7 @@
 
 import { CldUploadWidget } from "next-cloudinary";
 import { TbPhotoPlus } from "react-icons/tb";
-import Button from "../Button";
+import Button from "../ui/Button";
 import { Controller } from "react-hook-form";
 
 const ImageUploadControlled2 = ({
@@ -25,7 +25,10 @@ const ImageUploadControlled2 = ({
                 <CldUploadWidget
                     onUpload={
                         (result) => {
-                            if (Array.isArray(field.value)) { field.onChange([...field.value, result.info.secure_url]) }
+                            if (Array.isArray(field.value)) {
+                                field.onChange([...field.value, result.info.secure_url])
+                                trigger(name)
+                            }
                             // if value is a string, replace it
                             else {
                                 field.onChange(result.info.secure_url)

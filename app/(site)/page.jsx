@@ -1,12 +1,11 @@
 import { getArtist } from '@/actions/getArtists'
 import { getCurrentUser } from '@/actions/getCurrentUser'
 import getTattoos from '@/actions/getTattoos'
-import Container from '@/components/Container'
-import Heading from '@/components/Heading'
+import Container from '@/components/ui/Container'
 import TattooListingGrid from '@/components/listings/TattooListingGrid'
 import ListingGrid from '@/components/listings/ListingGrid'
 import ArtistCard from '@/components/listings/ArtistCard'
-import HeadingWithButton from '@/components/HeadingWithButton'
+import HeadingWithButton from '@/components/ui/HeadingWithButton'
 export const dynamic = "force-dynamic";
 
 

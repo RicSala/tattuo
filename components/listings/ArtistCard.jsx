@@ -1,9 +1,9 @@
 'use client'
 import Image from "next/image";
-import Avatar from "../Avatar";
+import Avatar from "../ui/Avatar";
 import Link from "next/link";
-import HeartButton from "../HeartButton";
-import SaveButton from "../SaveButton";
+import HeartButton from "../ui/HeartButton";
+import SaveButton from "../ui/SaveButton";
 import { useRouter } from "next/navigation";
 
 const ArtistCard = ({

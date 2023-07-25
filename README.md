@@ -16,6 +16,11 @@ Maps: Leaflet?
  
 Other: Tailwind
 
+## Comments
+- Try to use components as much as possible and make them reusable
+- For color, use the palette in tailwind.config.js
+- Document everything in the code to make it easier to understand
+- We are using storybook. No necesary but keep it in mind
 
 
 ## DATABASE STRUCTURE:
@@ -64,31 +69,34 @@ Share artist
 
 Blog
 
-## Pages:
+## Pages /App/(site)
+- page.jsx --> Home
 
 ### Frontend /(front)
-- Home
-- Browse Artists
-- Saved Artists
-- Artist by city
-- Artist Profile Page
-- Browse Tattoos
-- Saved Tattoos (Boards)
-- Tattoo Details Page
-- Tattoos by style
+- /tatuadores --> tattoo artists 
+    - /page.jsx --> Browse Artists with filters
+    - /tatuadores/profile/[slug]/page.jsx --> public artist profile
+    - /tatuadores/[cityName]/page.jsx --> artists by city
+    - /tatuadores/[saved]/page.jsx --> artist saved by user
+
+- /tatuajes --> tattoos
+    - /page.jsx --> Browse Tattoos with filters
+    - /tatuajes/[tattooId]/page.jsx --> tattoo details
+    - /tatuajes/[boards]/page.jsx --> tattoos saved by user in a board
+    - /tatuajes/[saved]/page.jsx --> NOT USED! tattoos saved by user
 
 ### Admin area /admin
-This is the admin area for the tattoo artists to manage their profile and tattoos, not ours
-- Dashboard
-- Artist Profile (to edit their profile)
-- Tattoos list
-- Tattoo edit page
+- /page.jsx --> Not done yet! Admin Home
+- /profile/page.jsx --> Edit user profile page
+- /profile/ProfilePageClient.jsx --> Edit user profile page (Client elements)
+- /tatuajes/page.jsx --> Created and Edit tattoos by artist
 
 ### Blog /blog
-- Blog Home
-- Blog Post --> [slug]
-- "blogposts"--> .mdx files
-- Components: custom jsx components for the blog posts
+- /page.jsx --> Blog Home
+- /[slug]/page.jsx --> Blog Post
+- /blogposts --> .mdx files
+- /components --> custom jsx components for the blog posts
+
 
 ## To rund the project:
 

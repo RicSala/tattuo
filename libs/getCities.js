@@ -1,3 +1,6 @@
+// Used to load some styles in the dropdowns
+// TODO: To be replaced by a call to the API
+
 export const getCities = () => {
 
     // for now return only Madrid, Barcelona, Zaragoza, Valencia, Sevilla, Bilbao.

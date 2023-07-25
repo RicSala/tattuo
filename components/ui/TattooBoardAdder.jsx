@@ -1,11 +1,12 @@
 'use client'
 
 import { useContext, useEffect, useRef, useState } from 'react';
-import Input from './inputs/Input';
+import Input from '../inputs/Input';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { UiContext } from '@/providers/ui/UiProvider';
 import { AuthContext } from '@/providers/auth/AuthProvider';
+import Button from './Button';
 
 const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser }) => {
 
@@ -26,8 +27,6 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
     // - when the user clicks, we update the local state and send the request to the server
     // - if the request is succesful, the currentUser will be updated and the "data" of the session will change
     // - the useEffect of the context (that depends on the data( will update the global state with the new data
-
-
 
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -90,58 +89,86 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
             onMouseEnter={() => setShowBoards(true)}
             onMouseLeave={() => setShowBoards(false)}
         >
-            {!showBoards && !showInput && (
-                <div className="heart-icon bg-transparent rounded-full">❤️</div>
-            )}
-            {showBoards && !showInput && (
-                <div className="boards-list">
-                    {userFromContext && boards.map((board) => (
-                        <div
-                            key={board.id}
+            {
+                // Adder button -> show list of boards
+                !showBoards && !showInput && (
+                    <div className="heart-icon rounded-full">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6 text-foreground"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+
+                    </div>
+                )}
+
+
+            {
+                // Tattoo board list
+                showBoards && !showInput && (
+                    <div className="boards-list
+                    border-border
+                    p-2
+                    ">
+                        {userFromContext && boards.map((board) => (
+                            <div
+                                key={board.id}
+                                onClick={(event) => {
+                                    event.stopPropagation()
+                                    onBoardSelect(tattoo, board);
+                                    setShowBoards(false);
+                                }}
+                                className='
+                                hover:bg-slate-200
+                                cursor-pointer
+                                p-2
+                                rounded-lg
+                                '
+                            >
+                                {board.title}
+                            </div>
+                        ))}
+                        <Button
                             onClick={(event) => {
                                 event.stopPropagation()
-                                onBoardSelect(tattoo, board);
-                                setShowBoards(false);
+                                setShowInput(true);
                             }}
-                        >
-                            {board.title}
-                        </div>
-                    ))}
-                    <div
-                        onClick={(event) => {
-                            event.stopPropagation()
-                            setShowInput(true);
-                        }}
-                    >
-                        Create new board
+                            label="Create new board"
+                        />
                     </div>
-                </div>
-            )}
-            {showInput && <div className="board-adder-input
+                )}
+
+            {
+                // Dashboard input to create a new board
+                showInput && <div className="board-adder-input
             
             ">
-                <form onSubmit={handleSubmit(onSubmit)}
-                    onClick={(event) => {
-                        event.stopPropagation()
-                    }
-                    }
-                >
-                    <div className="
+                    <form onSubmit={handleSubmit(onSubmit)}
+                        onClick={(event) => {
+                            event.stopPropagation()
+                        }
+                        }
+                    >
+                        <div className="
                 flex flex-row
                 ">
-                        <Input
-                            id={`title`}
-                            // id is like this to avoid the same id for all the boards. We have to separate them in the endpo
-                            label="New Board"
-                            type="text"
-                            register={register}
-                            errors={errors}
-                        />
+                            <Input
+                                id={`title`}
+                                // id is like this to avoid the same id for all the boards. We have to separate them in the endpo
+                                label="New Board"
+                                type="text"
+                                register={register}
+                                errors={errors}
+                            />
 
-                        <button type="submit">Create</button>
-                    </div>
-                </form>
-            </div>
+                            <button type="submit">Create</button>
+                        </div>
+                    </form>
+                </div>
             }
         </div>
     );

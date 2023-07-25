@@ -1,4 +1,4 @@
-import Container from "@/components/Container";
+import Container from "@/components/ui/Container";
 
 export const metadata = {
     title: {

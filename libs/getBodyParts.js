@@ -1,3 +1,6 @@
+// Used to load some styles in the dropdowns
+// TODO: To be replaced by a call to the API???
+
 export const getBodyParts = () => {
     return [
         { value: 'Cabeza_Cuello', label: 'Cabeza / Cuello' },

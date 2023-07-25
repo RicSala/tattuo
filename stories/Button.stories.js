@@ -1,7 +1,7 @@
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 
-import Button from "../components/Button";
+import Button from "../components/ui/Button";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {

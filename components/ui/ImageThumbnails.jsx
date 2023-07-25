@@ -6,6 +6,7 @@ import { TiDelete } from "react-icons/ti";
 const ImageThumbnails = ({
     imageSrc,
     setValue,
+    fieldName,
 }) => {
 
     if (!imageSrc) return null
@@ -20,14 +21,12 @@ const ImageThumbnails = ({
                 style={{ width: 'auto' }} className={imageStyle} />
             <div
                 onClick={async () => {
-                    // const imageToDelete = getValues("imageSrc")
-                    console.log(`/api/images/${imageSrc.split("/").pop().split(".")[0]}`)
-                    await axios.delete(`/api/images/${imageSrc.split("/").pop().split(".")[0]}`)
-                    setValue("imageSrc", null, {
+                    // const imageToDelete = getValues("imageSrc")ç
+                    setValue(fieldName, null, {
                         shouldValidate: true,
                         shouldDirty: true
                     })
-
+                    // await axios.delete(`/api/images/${imageSrc.split("/").pop().split(".")[0]}`)
                 }
                 }
                 className="absolute right-[-0.5em] top-[-0.5em] cursor-pointer">
@@ -48,19 +47,20 @@ const ImageThumbnails = ({
                         style={{ width: 'auto' }} className={imageStyle} />
                     <div
                         onClick={async () => {
-                            console.log(image)
-                            console.log(`/api/images/${image.split("/").pop().split(".")[0]}`)
 
-                            await axios.delete(`/api/images/${image.split("/").pop().split(".")[0]}`)
-                            setValue("image", null, {
+                            // delete the image whose delete button was clicked
+                            const newImageArray = imageSrc.filter((img, i) => i !== index)
+                            setValue(fieldName, newImageArray, {
                                 shouldValidate: true,
                                 shouldDirty: true
                             })
 
+
+                            // await axios.delete(`/api/images/${image.split("/").pop().split(".")[0]}`)
                         }
                         }
                         className="absolute right-1 top-1 cursor-pointer">
-                        x
+                        <TiDelete size={25} className="text-primary" />
                     </div>
                 </div>
             )

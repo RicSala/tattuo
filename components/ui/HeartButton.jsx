@@ -1,7 +1,7 @@
 'use client'
 
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import useFavorite from "../hooks/useFavorite";
+import useFavorite from "../../hooks/useFavorite";
 
 const HeartButton = ({
   listingId,

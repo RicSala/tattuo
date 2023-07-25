@@ -1,11 +1,11 @@
 import { getCurrentUser } from '@/actions/getCurrentUser'
-import Container from '@/components/Container'
-import Heading from '@/components/Heading'
-import EmptyState from '@/components/EmptyState'
+import Container from '@/components/ui/Container'
+import Heading from '@/components/ui/Heading'
+import EmptyState from '@/components/ui/EmptyState'
 import Link from "next/link";
 import ListingGrid from '@/components/listings/ListingGrid'
-import prisma from '@/libs/prismadb';
 import Image from 'next/image'
+import { getTattoosByBoardId } from '@/actions/getTattoosByBoardId';
 
 
 
@@ -15,18 +15,17 @@ export default async function BoardsPage({ searchParams }) {
 
     const currentUser = await getCurrentUser()
     const boards = currentUser?.boards
-    const getTattoosOfBoard = async (board) => {
-        const tattoos = await prisma.boardTattoo.findMany({
-            where: {
-                boardId: board.id
-            },
-            include: {
-                tattoo: true
-            }
-        })
 
-        return tattoos.map(boardTattoo => boardTattoo.tattoo)
-    }
+    console.log('boards', boards)
+
+
+    // add the first tattoo of each board to the board object as a promise to be resolved
+    //TODO:  I am pretty sure there are better ways to do this...
+    const boardsWithFirstTattoo = await Promise.all(boards.map(async board => {
+        const boardTattoos = await getTattoosByBoardId(board.id)
+        if (boardTattoos.length < 1) return ({ ...board, firstTattoo: null })
+        return { ...board, firstTattoo: boardTattoos[0].imageSrc }
+    }))
 
 
 
@@ -51,8 +50,9 @@ export default async function BoardsPage({ searchParams }) {
                 <ListingGrid>
 
                     {
-                        boards.map(board => (
-                            <div key={board.id} className="
+                        boardsWithFirstTattoo.map(board => (
+                            <Link key={board.id} href={`/tatuajes/boards/${board.id}`}>
+                                <div className="
                         bg-white
                         rounded-lg
                         p-4
@@ -62,18 +62,16 @@ export default async function BoardsPage({ searchParams }) {
                         duration-200
                         ">
 
-                                <Link href={`/tatuajes/boards/${board.id}`}>
                                     <div key={board.id}>
                                         <h2>{board.title}</h2>
                                     </div>
                                     {/* show the imageSrc of tattoo */}
                                     <Image
-                                        src={getFirstTattooOfBoard(board).imageSrc}
+                                        src={board.firstTattoo || '/images/placeholder.png'}
                                         alt="image" width={100} height={200}
-                                        style={{ width: 'auto' }} className={imageStyle} />
-
-                                </Link>
-                            </div>
+                                        style={{ width: 'auto' }} />
+                                </div>
+                            </Link>
                         ))
 
                     }

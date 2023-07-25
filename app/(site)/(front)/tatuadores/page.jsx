@@ -1,12 +1,13 @@
 import { getArtist } from '@/actions/getArtists'
 import { getCurrentUser } from '@/actions/getCurrentUser'
 import ArtistCard from '@/components/listings/ArtistCard'
-import Container from '@/components/Container'
-import Heading from '@/components/Heading'
-import EmptyState from '@/components/EmptyState'
+import Container from '@/components/ui/Container'
+import Heading from '@/components/ui/Heading'
+import EmptyState from '@/components/ui/EmptyState'
 import Search from '@/components/search/SearchBar'
 import { getStyleList } from '@/libs/getStyleList'
 import { getCities } from '@/libs/getCities'
+import ListingGrid from '@/components/listings/ListingGrid'
 export const dynamic = "force-dynamic";
 
 
@@ -41,7 +42,6 @@ export default async function ArtistPage({ searchParams }) {
         return (
             <Container>
                 <Search filtro1={filtro1} filtro2={filtro2} />
-
                 <EmptyState title="No se han encontrado tatuadores con esos filtros"
                     subtitle="Modifica tus filtros para encontrar más resultados"
                     actionUrl={'/tatuadores'}
@@ -56,16 +56,13 @@ export default async function ArtistPage({ searchParams }) {
             <Container>
                 <Search filtro1={filtro1} filtro2={filtro2} />
                 <Heading title="Tatuadores" />
-                <div className="flex flex-wrap justify-between">
+                <ListingGrid>
                     {artists.map((artist) => {
                         return (
-                            <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-2" key={artist.id}>
-                                <ArtistCard key={artist.id} artist={artist} currentUser={currentUser} />
-                            </div>
-
+                            <ArtistCard key={artist.id} artist={artist} currentUser={currentUser} />
                         )
                     })}
-                </div>
+                </ListingGrid>
             </Container>
         </>
     )

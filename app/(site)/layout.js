@@ -1,7 +1,7 @@
 import NavBar from "@/components/navbar/NavBar";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import Footer from "@/components/footer/Footer";
-import Container from "@/components/Container";
+import Container from "@/components/ui/Container";
 
 const SiteLayout = async ({ children }) => {
 

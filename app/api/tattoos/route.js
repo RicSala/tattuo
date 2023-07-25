@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import getArtistProfile from "@/libs/getArtistProfile";
+import getArtistProfile from "@/actions/getArtistProfile";
 import prisma from "@/libs/prismadb";
 
 

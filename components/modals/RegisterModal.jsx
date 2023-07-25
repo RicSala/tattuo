@@ -6,10 +6,10 @@ import { useForm, FieldValues } from 'react-hook-form';
 import { useCallback, useContext, useState } from 'react';
 import Modal from './Modal';
 import { BiHeading } from 'react-icons/bi';
-import Heading from '../Heading';
+import Heading from '../ui/Heading';
 import Input from '../inputs/Input';
 import { toast } from 'react-hot-toast';
-import Button from '../Button';
+import Button from '../ui/Button';
 import { signIn } from 'next-auth/react';
 import { UiContext } from '@/providers/ui/UiProvider';
 

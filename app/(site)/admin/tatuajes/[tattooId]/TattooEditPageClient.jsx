@@ -1,8 +1,7 @@
 'use client'
 
-import Button from "@/components/Button";
-import CustomSelect from "@/components/CustomSelect";
-import Heading from "@/components/Heading";
+import Button from "@/components/ui/Button";
+import CustomSelect from "@/components/inputs/CustomSelect";
 import Input from "@/components/inputs/Input";
 import TagSelectorControlled from "@/components/inputs/TagSelectControlled";
 import axios from "axios";
@@ -11,8 +10,8 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import ImageUploadControlled2 from "@/components/inputs/ImageUploadControlled2";
-import ImageThumbnails from "@/components/ImageThumbnails";
-import HeadingWithButton from "@/components/HeadingWithButton";
+import ImageThumbnails from "@/components/ui/ImageThumbnails";
+import HeadingWithButton from "@/components/ui/HeadingWithButton";
 
 const TattooEditPageClient = ({
     tattoo,

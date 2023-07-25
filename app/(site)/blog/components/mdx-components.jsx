@@ -19,9 +19,7 @@ export const MdxComponents = {
     // add a component call 'square' that renders a div with a 1:1 aspect ratio
     Heading: ({ children, props }) => {
         return (
-            <h2 {...props} className='
-            text-xl font-bold text-gray-900 dark:text-gray-100
-            '>
+            <h2 {...props} className='text-xl font-bold text-primary'>
                 {children}
             </h2>
         )

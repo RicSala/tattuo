@@ -1,4 +1,4 @@
-import Container from "../Container";
+import Container from "../ui/Container";
 import Link from "next/link";
 
 
@@ -23,10 +23,10 @@ const footterMenu = [
     {
         title: "Tatuadores en tu ciudad",
         items: [
-            { label: "Tatuadores en Madrid", url: "tatuadores/madrid" },
-            { label: "Tatuadores en Barcelona", url: "/tatuadores-barcelona" },
-            { label: "Tatuadores en Valencia", url: "/tatuadores-valencia" },
-            { label: "Tatuadores en Zaragoza", url: "/tatuadores-zaragoza" },
+            { label: "Tatuadores en Madrid", url: "/tatuadores/madrid" },
+            { label: "Tatuadores en Barcelona", url: "/tatuadores/barcelona" },
+            { label: "Tatuadores en Valencia", url: "/tatuadores/valencia" },
+            { label: "Tatuadores en Zaragoza", url: "/tatuadores/zaragoza" },
         ],
     },
     {

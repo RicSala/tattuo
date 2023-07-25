@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import Footer from "./footer/Footer";
-import NavBar from "./navbar/NavBar";
+import Footer from "../footer/Footer";
+import NavBar from "../navbar/NavBar";
 
 const NotFoundPage = ({
     children

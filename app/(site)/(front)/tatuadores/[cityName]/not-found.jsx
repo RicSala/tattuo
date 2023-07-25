@@ -1,4 +1,4 @@
-import NotFoundPage from '@/components/NotFoundPage'
+import NotFoundPage from '@/components/ui/NotFoundPage'
 import Link from 'next/link'
 
 export default function NotFound() {

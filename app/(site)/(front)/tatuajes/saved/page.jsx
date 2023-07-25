@@ -1,9 +1,9 @@
-import EmptyState from "@/components/EmptyState"
+import EmptyState from "@/components/ui/EmptyState"
 import TattooListingGrid from "@/components/listings/TattooListingGrid"
 import { getCurrentUser } from "@/actions/getCurrentUser"
 import { getSavedTattoosByUserId } from "@/actions/getSavedTattoosByUserId"
-import Container from "@/components/Container"
-import Heading from "@/components/Heading"
+import Container from "@/components/ui/Container"
+import Heading from "@/components/ui/Heading"
 
 export default async function SavedArtistsPage() {
 

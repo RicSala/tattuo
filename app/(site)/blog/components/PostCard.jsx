@@ -1,3 +1,4 @@
+import Badge from "@/components/ui/Badge";
 import { format } from "date-fns";
 import Link from "next/link";
 
@@ -30,9 +31,9 @@ const PostCard = ({
                         <div className="flex flex-wrap">
                             {
                                 tags.map((tag) => (
-                                    <div key={tag} className="bg-gray-200 dark:bg-gray-800 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                                    <Badge key={tag} tag={tag}>
                                         {tag}
-                                    </div>
+                                    </Badge>
                                 ))
                             }
                         </div>

@@ -2,7 +2,7 @@ import prisma from "@/libs/prismadb";
 
 
 // given an artist id, it returns an array of tattoos that the artist has created
-export async function getArtistByCityName(cityName) {
+export async function getArtistsByCityName(cityName) {
     try {
 
         const artists = await prisma.artistProfile.findMany({

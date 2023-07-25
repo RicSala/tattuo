@@ -1,14 +1,14 @@
 import { getTattoosById } from "@/actions/getTattooById";
-import EmptyState from "@/components/EmptyState";
+import EmptyState from "@/components/ui/EmptyState";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import getSimilarTattoos from "@/actions/getSimilarTattoos";
-import Heading from "@/components/Heading";
-import Container from "@/components/Container";
+import Heading from "@/components/ui/Heading";
+import Container from "@/components/ui/Container";
 import TattooCard from "@/components/listings/TattooCard";
 import ArtistSmallCard from "@/components/artist/ArtistSmallCard";
-import ShareButtons from "@/components/ShareButtons";
+import ShareButtons from "@/components/ui/ShareButtons";
 import TattooListingGrid from "@/components/listings/TattooListingGrid";
-import { Separator } from "@/components/Separator";
+import { Separator } from "@/components/ui/Separator";
 
 const TattooDetailsPage = async ({ params }) => {
 

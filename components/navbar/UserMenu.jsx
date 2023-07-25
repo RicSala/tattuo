@@ -4,7 +4,7 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import Avatar from '../Avatar';
+import Avatar from '../ui/Avatar';
 import { UiContext } from '@/providers/ui/UiProvider';
 import MenuItem from './MenuItem';
 

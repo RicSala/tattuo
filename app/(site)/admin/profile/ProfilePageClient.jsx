@@ -1,19 +1,19 @@
 'use client'
 
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
 
-import Button from "@/components/Button";
+import Button from "@/components/ui/Button";
 import Input from "@/components/inputs/Input";
 import ImageUploadControlled2 from "@/components/inputs/ImageUploadControlled2";
 import CustomAsyncSelect from "@/components/inputs/AsyncSelect";
 import { DevTool } from "@hookform/devtools";
-import CustomSelect from "@/components/CustomSelect";
-import ImageThumbnails from "@/components/ImageThumbnails";
-import HeadingWithButton from "@/components/HeadingWithButton";
+import CustomSelect from "@/components/inputs/CustomSelect";
+import ImageThumbnails from "@/components/ui/ImageThumbnails";
+import HeadingWithButton from "@/components/ui/HeadingWithButton";
 
 // Not sure I want to use this
 const inputFields = [
@@ -37,9 +37,17 @@ const ProfilePageClient = ({
     styles,
 }) => {
 
+
+
     console.log("ProfilePageClient - artist", artist)
 
     const [isLoading, setIsLoading] = useState(false)
+    // create a ref with a list of the images when the component mounts
+    // so we delete them only when the form is submitted
+    // otherwise we would delete them when they click "x" (and maybe they change their mind)
+    // and we would not delete them when they just change the image
+    const imagesRef = useRef(artist.images)
+    const mainImageRef = useRef(artist.mainImage)
 
     const {
         control,
@@ -75,9 +83,28 @@ const ProfilePageClient = ({
 
     const onSubmit = async (data) => {
 
-
-
         setIsLoading(true)
+
+        const imagesToDelete = imagesRef.current.filter(img => !data.images.includes(img))
+        const mainImageToDelete = mainImageRef.current !== data.mainImage ? mainImageRef.current : null
+
+        const arrayToDelete = [...imagesToDelete, mainImageToDelete].filter(img => img)
+
+        console.log("imagesToDelete", imagesToDelete)
+        console.log("mainImageToDelete", mainImageToDelete)
+
+        console.log("arrayToDelete", arrayToDelete)
+
+        // delete images from cloudinary
+        if (arrayToDelete.length > 0) {
+            for (const image of arrayToDelete) {
+                await axios.delete(`/api/images/${image.split("/").pop().split(".")[0]}`)
+            }
+        }
+
+        // set the ref to the new images
+        imagesRef.current = data.images
+        mainImageRef.current = data.mainImage
 
         axios.put(`/api/artists/${artist.id}`, data)
             .then(res => {
@@ -105,6 +132,8 @@ const ProfilePageClient = ({
             <form onSubmit={handleSubmit(onSubmit, onError)}>
                 <>
 
+                    {/* BASIC INFO */}
+                    <p className="text-lg font-semibold">Información básica</p>
 
                     <Input
                         id="artisticName"
@@ -137,6 +166,16 @@ const ProfilePageClient = ({
                     />
 
                     <Input
+                        id="phone"
+                        label="Telefono"
+                        disable={isLoading}
+                        errors={errors}
+                        register={register}
+                    />
+
+                    {/* PRICES */}
+                    <p className="text-lg font-semibold">Precios</p>
+                    <Input
                         id="minWorkPrice"
                         label="Precio mínimo"
                         disable={isLoading}
@@ -168,7 +207,7 @@ const ProfilePageClient = ({
 
 
                     {/* SOCIAL PROFILES */}
-
+                    <p className="text-lg font-semibold">Redes sociales</p>
                     <Input
                         id="facebook"
                         label="Facebook"
@@ -217,13 +256,7 @@ const ProfilePageClient = ({
                         register={register}
                     />
 
-                    <Input
-                        id="phone"
-                        label="Telefono"
-                        disable={isLoading}
-                        errors={errors}
-                        register={register}
-                    />
+
 
                 </>
 
@@ -237,8 +270,10 @@ const ProfilePageClient = ({
                     rules={{ required: 'Campo requerido' }}
                 />
 
-                <ImageThumbnails imageSrc={getValues("mainImage")}
+                <ImageThumbnails
+                    imageSrc={getValues("mainImage")}
                     setValue={setValue}
+                    fieldName="mainImage"
                 />
 
                 {
@@ -259,15 +294,12 @@ const ProfilePageClient = ({
                         validate: (value) => value.length >= 3 || "Mínimo 3 imágenes"
                     }}
                 />
-                <ImageThumbnails imageSrc={getValues("images")}
+                <ImageThumbnails
+                    imageSrc={getValues("images")}
                     setValue={setValue}
+                    fieldName="images"
+
                 />
-
-
-
-
-
-
 
                 {
                     errors.styles &&
@@ -276,7 +308,6 @@ const ProfilePageClient = ({
                     </div>
 
                 }
-
 
                 <Controller
                     name="city"
@@ -303,10 +334,6 @@ const ProfilePageClient = ({
                     render={({ field }) =>
                         <CustomSelect
                             isMulti={true}
-                            // The next three lines are the same as doing: ...field
-                            // value={field.value}
-                            // onChange={(option) => field.onChange(option)}
-                            // onBlur={field.onBlur}
                             options={styles}
                             field={field}
                         />} />

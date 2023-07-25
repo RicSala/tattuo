@@ -1,5 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import Container from "../Container";
+import Container from "../ui/Container";
 import Logo from "./Logo";
 import UserMenu from "./UserMenu";
 import { getServerSession } from "next-auth";
