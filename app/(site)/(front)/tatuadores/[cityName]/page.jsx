@@ -1,7 +1,7 @@
-import { getArtistByCityName } from "@/actions/getArtistByCityName";
+import { getArtistsByCityName } from "@/actions/getArtistsByCityName";
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import Container from "@/components/Container";
-import Heading from "@/components/Heading";
+import Container from "@/components/ui/Container";
+import Heading from "@/components/ui/Heading";
 import ArtistCard from "@/components/listings/ArtistCard";
 import ListingGrid from "@/components/listings/ListingGrid";
 import { notFound } from 'next/navigation'
@@ -11,10 +11,9 @@ const CityPage = async ({ params }) => {
 
 
     const { cityName } = params;
-    const artists = await getArtistByCityName(cityName);
+    const artists = await getArtistsByCityName(cityName);
 
     if (!artists || artists.length === 0) {
-        console.log("page not found")
         notFound()
     }
     console.log(artists)

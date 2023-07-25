@@ -1,6 +1,6 @@
 import prisma from "@/libs/prismadb";
 import TattooEditPageClient from "./TattooEditPageClient";
-import Container from "@/components/Container";
+import Container from "@/components/ui/Container";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 
 
@@ -50,6 +50,7 @@ const TattooEditPage = async ({
         <Container>
             <TattooEditPageClient tattoo={tattoo} user={currentUser}
                 styles={styles} bodyParts={bodyParts}
+                isNew={isNew}
             />
         </Container>
     )

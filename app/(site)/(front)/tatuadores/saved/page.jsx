@@ -1,7 +1,10 @@
-import EmptyState from "@/components/EmptyState";
+import EmptyState from "@/components/ui/EmptyState";
 import { getCurrentUser } from "@/actions/getCurrentUser";
-import SavedTattosPageClient from "./SavedTattoosPageClient";
 import { getSavedArtistsByUserId } from "@/actions/getSavedArtistByUserId";
+import Container from "@/components/ui/Container";
+import Heading from "@/components/ui/Heading";
+import ListingGrid from "@/components/listings/ListingGrid";
+import ArtistCard from "@/components/listings/ArtistCard";
 
 const SavedTattoosPage = async ({ params }) => {
 
@@ -27,10 +30,17 @@ const SavedTattoosPage = async ({ params }) => {
     return (
 
         <>
-            <SavedTattosPageClient
-                artists={artists}
-                currentUser={currentUser}
-            />
+            <Container>
+                <Heading title="Tatuador@s guardad@s"
+                    subtitle="Estos son l@s tatuador@s que has guardado" />
+                <ListingGrid>
+                    {artists.map((artist) => {
+                        return (
+                            <ArtistCard key={artist.id} artist={artist} currentUser={currentUser} />
+                        )
+                    })}
+                </ListingGrid>
+            </Container >
 
         </>
     )

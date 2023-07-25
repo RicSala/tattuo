@@ -4,9 +4,62 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./stories/**/*.{js,ts,jsx,tsx}", // Here!
+
   ],
+
+  // top-level key for defining your theme configuration in Tailwind CSS.
+  // Customizations to the default theme will go under this key.
   theme: {
-    extend: {},
+
+    // used to customize the default container class provided by Tailwind CSS
+    // used to center and constrain the width of content in the layout.
+    container: {
+      center: true, // will center the container horizontally setting margin-left and margin-right to auto
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px", // sets the max-width of the container to 1400px on 2xl screens and up
+      },
+    },
+
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+
+    },
   },
   //The safelist option in the Tailwind CSS configuration file is used to prevent 
   //certain classes from being purged when you build your project for production.

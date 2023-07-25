@@ -2,7 +2,7 @@
 
 import { CldUploadWidget } from "next-cloudinary";
 import { TbPhotoPlus } from "react-icons/tb";
-import Button from "../Button";
+import Button from "../ui/Button";
 import { Controller } from "react-hook-form";
 
 const ImageUploadControlled2 = ({
@@ -25,12 +25,16 @@ const ImageUploadControlled2 = ({
                 <CldUploadWidget
                     onUpload={
                         (result) => {
-                            if (Array.isArray(field.value)) { field.onChange([...field.value, result.info.secure_url]) }
+                            if (Array.isArray(field.value)) {
+                                field.onChange([...field.value, result.info.secure_url])
+                                trigger(name)
+                            }
                             // if value is a string, replace it
                             else {
                                 field.onChange(result.info.secure_url)
                                 trigger(name)
                             }
+                            console.log("result", result)
                         }}
                     uploadPreset="lbgb29le"
                     onBlur={field.onBlur}
@@ -97,23 +101,8 @@ const ImageUploadControlled2 = ({
                                     onClick={() => open?.()}
                                     small={true}
                                     icon={TbPhotoPlus}
-                                    className="
-                        relative
-                        cursor-pointer
-                        hover:opacity-70
-                        transition-opacity
-                        border-dashed
-                        border-2
-                        p-20
-                        border-neutral-300
-                        flex
-                        flex-col
-                        justify-center
-                        items-center
-                        gap-4
-                        text-neutral-600
-                        "
                                     label={"Subir imagen"}
+                                    outline={true}
                                 />
                             </>
                         )

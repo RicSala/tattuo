@@ -1,10 +1,8 @@
-import EmptyState from "@/components/EmptyState";
+import EmptyState from "@/components/ui/EmptyState";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId";
 import TattooListingGrid from "@/components/listings/TattooListingGrid";
-import Link from "next/link";
-import Container from "@/components/Container";
-import Heading from "@/components/Heading";
+import HeadingWithButton from "@/components/ui/HeadingWithButton";
 
 const MyTattoosPage = async ({ params }) => {
 
@@ -36,13 +34,18 @@ const MyTattoosPage = async ({ params }) => {
 
     return (
 
-        <TattooListingGrid listings={tattoos} currentUser={currentUser}
-            actionLabel={'Editar'}
-            secondaryActionLabel={'Eliminar'}
-            listingType={'tattoos'}
-            canLike={false}
-            canSave={false}
-        />
+        <>
+
+            <HeadingWithButton title={'Tus tatuajes publicados'} actionLabel={'Publicar tatuaje'} buttonUrl={'/admin/tatuajes/new'} />
+
+            <TattooListingGrid listings={tattoos} currentUser={currentUser}
+                actionLabel={'Editar'}
+                secondaryActionLabel={'Eliminar'}
+                listingType={'tattoos'}
+                canLike={false}
+                canSave={false}
+            />
+        </>
     )
 
 };

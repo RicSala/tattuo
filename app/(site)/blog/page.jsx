@@ -1,5 +1,4 @@
-import Heading from "@/components/Heading";
-import PostCard from "./components/PostCard";
+import Heading from "@/components/ui/Heading";
 import { getPosts } from "@/libs/posts";
 import PostGrid from "./components/PostGrid";
 

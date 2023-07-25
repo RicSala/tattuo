@@ -1,4 +1,4 @@
-import Container from "../Container";
+import Container from "../ui/Container";
 import Link from "next/link";
 
 
@@ -23,10 +23,10 @@ const footterMenu = [
     {
         title: "Tatuadores en tu ciudad",
         items: [
-            { label: "Tatuadores en Madrid", url: "tatuadores/madrid" },
-            { label: "Tatuadores en Barcelona", url: "/tatuadores-barcelona" },
-            { label: "Tatuadores en Valencia", url: "/tatuadores-valencia" },
-            { label: "Tatuadores en Zaragoza", url: "/tatuadores-zaragoza" },
+            { label: "Tatuadores en Madrid", url: "/tatuadores/madrid" },
+            { label: "Tatuadores en Barcelona", url: "/tatuadores/barcelona" },
+            { label: "Tatuadores en Valencia", url: "/tatuadores/valencia" },
+            { label: "Tatuadores en Zaragoza", url: "/tatuadores/zaragoza" },
         ],
     },
     {
@@ -48,7 +48,7 @@ function Footer({
 
     return (
         // <Container>
-        <div className="w-full bg-white shadow-sm text-black py-4 border-t-[1px]">
+        <div className="w-full bg-background shadow-sm text-foreground border-t-[1px]">
             <div className="py-4 border-b-[1px]">
                 <Container>
                     <div className="flex justify-between items-start">

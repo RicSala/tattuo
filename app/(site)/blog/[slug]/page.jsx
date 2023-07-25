@@ -1,6 +1,8 @@
 import { getPost, getPosts } from "@/libs/posts";
 import PostBody from "../components/PostBody";
 import { notFound } from "next/navigation";
+import Badge from "@/components/ui/Badge";
+
 
 
 
@@ -50,25 +52,26 @@ const PostPage = async ({
 
     return (
         <div>
-            <h1 className="
-            font-semibold text-3xl text-gray-900 dark:text-gray-100
-            ">{post.title}</h1>
+            {/* TITLE */}
+            <h1 className="font-semibold text-3xl text-primary">{post.title}</h1>
 
+
+            {/* TAGS */}
             {
                 tags && tags.length > 0 && (
                     <div className="flex flex-wrap">
                         {
                             tags.map((tag) => (
-                                <div key={tag} className="bg-gray-200 dark:bg-gray-800 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                                <Badge key={tag}>
                                     {tag}
-                                </div>
+                                </Badge>
                             ))
                         }
                     </div>
                 )
             }
 
-
+            {/* BODY */}
             <PostBody>
                 {post.body}
             </PostBody>

@@ -1,10 +1,10 @@
 import { getCurrentUser } from '@/actions/getCurrentUser'
 import getTattoos from '@/actions/getTattoos'
-import Container from '@/components/Container'
-import Heading from '@/components/Heading'
+import Container from '@/components/ui/Container'
+import Heading from '@/components/ui/Heading'
 import Search from '@/components/search/SearchBar'
 import TattooListingGrid from '@/components/listings/TattooListingGrid'
-import EmptyState from '@/components/EmptyState'
+import EmptyState from '@/components/ui/EmptyState'
 import { getStyleList } from '@/libs/getStyleList'
 import { getBodyParts } from '@/libs/getBodyParts'
 export const dynamic = "force-dynamic";

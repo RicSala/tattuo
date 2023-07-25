@@ -1,3 +1,5 @@
+// Seeds the database with fake data
+
 import prisma from "@/libs/prismadb";
 import { fakerES as faker } from '@faker-js/faker';
 import bcrypt from 'bcryptjs';

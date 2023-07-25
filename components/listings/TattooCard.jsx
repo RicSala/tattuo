@@ -1,11 +1,11 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
-import Button from "../Button";
-import HeartButton from "../HeartButton";
-import TattooBoardAdder from "../TattooBoardAdder";
+import Button from "../ui/Button";
+import HeartButton from "../ui/HeartButton";
+import TattooBoardAdder from "../ui/TattooBoardAdder";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
@@ -24,11 +24,37 @@ const TattooCard = ({
     boardAdder = true,
     canLike = true,
     canSave = true,
+    secondaryActionId,
 }) => {
+
+    // used for optimistic deletion
+    const [isDeleting, setIsDeleting] = useState(false)
 
 
     const router = useRouter();
 
+    // TODO: This is a bit hacky, but it works. Need to find a better way to do this
+    // Start of hacky code...
+    const deleteFromBoard = async (tattooId) => {
+        setIsDeleting(true)
+        toast.success('Tattoo removed from board')
+
+
+        await axios.delete(`/api/boards/${secondaryActionId}/tattoos/`, {
+            data: {
+                tattooId: tattooId
+            }
+        })
+            .then(res => {
+                router.refresh()
+                return res.data
+            })
+    }
+
+    if (actionLabel === 'Eliminar de tablero') {
+        onAction = deleteFromBoard
+    }
+    // End of hacky code
 
 
     const translatedResource = useMemo(() => {
@@ -89,6 +115,7 @@ const TattooCard = ({
             )
     }, [])
 
+    if (isDeleting) { return }
 
     return (
         <div
@@ -141,7 +168,7 @@ const TattooCard = ({
                     {
                         canSave && boardAdder &&
                         <div className="absolute bottom-3 left-3
-                        opacity-0 group-hover:opacity-80 transition duration-400 ease-in-out
+                        opacity-0 group-hover:opacity-90 transition duration-400 ease-in-out
 
                         ">
                             <TattooBoardAdder
