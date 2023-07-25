@@ -8,6 +8,7 @@ import TattooCard from "@/components/listings/TattooCard";
 import ArtistSmallCard from "@/components/artist/ArtistSmallCard";
 import ShareButtons from "@/components/ShareButtons";
 import TattooListingGrid from "@/components/listings/TattooListingGrid";
+import { Separator } from "@/components/Separator";
 
 const TattooDetailsPage = async ({ params }) => {
 
@@ -40,32 +41,70 @@ const TattooDetailsPage = async ({ params }) => {
     return (
 
         <Container>
-            <Heading title={tattoo.title} />
-            <TattooCard data={tattoo}
-                currentUser={currentUser}
-                listingType="tattoos"
-            />
-            {
-                <p> {
-                    age === 0 ? 'Publicado hoy' :
+            <div className="
+            flex 
+            flex-row 
+            items-stretch
+            border-border 
+            rounded-lg
+            border-2
+            justify-center
+            max-w-5xl
+            mx-auto
+            ">
+                <div className="flex-grow basis-96">
+                    <TattooCard data={tattoo}
+                        currentUser={currentUser}
+                        listingType="tattoos"
+                    />
+                </div>
+                <div className="flex flex-col justify-between">
+                    <div>
+                        <div className="px-4 pt-4">
+                            <Heading title={tattoo.title} />
+                        </div>
+                        <Separator />
+                        <div className="px-4 pt-4">
+                            <div
+                                className="font-bold"
+                            >Sobre la pieza: </div>
+                            <p className="">{tattoo.description}</p>
+                        </div>
+                        <div>
+                            {/* tags separated by commas */}
+                            <div className="px-4 pt-4">
+                                <div
+                                    className="font-bold"
+                                >Tags: </div>
+                                <p className="">{tattoo.tags?.join(', ')}</p>
+                            </div>
+                        </div>
+                        <div className="p-4 flex flex-row justify-between">
 
-                        age > 1 ? `Publicado hace ${age} días` :
-                            `Publicado ayer`
-                } </p>
-            }
-            <div>
-                {/* { `${tattoo.savesCount} saves}`} */}
-                {
-                    tattoo.likes?.length > 0 && (
-                        <div className="flex flex-row items-center gap-1">
-                            {tattoo.likes?.length} likes
-                        </div>)
+                            {
+                                <p> {
+                                    age === 0 ? 'Publicado hoy' :
+
+                                        age > 1 ? `Publicado hace ${age} días` :
+                                            `Publicado ayer`
+                                } </p>
+                            }
+                            {
+                                tattoo.likes?.length > 0 && (
+                                    <div className="flex flex-row items-center gap-1">
+                                        {tattoo.likes?.length} likes
+                                    </div>)
 
 
-                }
+                            }
+                        </div>
+
+                    </div>
+                    <ShareButtons url={`http://localhost:3000/tatuajes/${tattoo.id}`} />
+                    <ArtistSmallCard artist={tattoo.artistProfile} />
+                </div>
             </div>
-            <ShareButtons url={`http://localhost:3000/tatuajes/${tattoo.id}`} />
-            <ArtistSmallCard artist={tattoo.artistProfile} />
+
 
             <h2 className="mt-20 font-bold text-lg">También te pueden gustar...</h2>
             <TattooListingGrid
@@ -73,6 +112,7 @@ const TattooDetailsPage = async ({ params }) => {
                 currentUser={currentUser}
                 listingType="tattoos"
             />
+
 
         </Container>
     )

@@ -48,7 +48,7 @@ function Footer({
 
     return (
         // <Container>
-        <div className="w-full bg-white shadow-sm text-black py-4 border-t-[1px]">
+        <div className="w-full bg-background shadow-sm text-foreground border-t-[1px]">
             <div className="py-4 border-b-[1px]">
                 <Container>
                     <div className="flex justify-between items-start">

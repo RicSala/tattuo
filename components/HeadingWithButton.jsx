@@ -1,21 +1,30 @@
+'use client'
+
+import { useRouter } from "next/navigation";
+import Button from "./Button";
 import Heading from "./Heading";
-import Link from "next/link";
 
 export default function HeadingWithButton({
     title,
     actionLabel,
-    onAction,
+    buttonUrl,
 }) {
+
+    const router = useRouter()
+
+    const handleOnClick = () => {
+        router.push(buttonUrl)
+    }
+
     return (
         <div className="
     flex flex-row justify-between items-center
     ">
-            <Heading title="Mis tatuajes guardados" />
-            <div className="flex justify-end items-center py-2">
-                <div className="bg-primary p-2 rounded-md text-primary-foreground flex justify-center items-center">
-                    <Link href="/admin/tatuajes/new">Nuevo tatuaje</Link>
-                </div>
-            </div>
+            <Heading title={title} />{
+                actionLabel && buttonUrl &&
+                <div className="flex justify-end items-center py-2">
+                    <Button label={actionLabel} onClick={handleOnClick} />
+                </div>}
         </div>
     );
 }

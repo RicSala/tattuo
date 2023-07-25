@@ -50,6 +50,7 @@ const TattooEditPage = async ({
         <Container>
             <TattooEditPageClient tattoo={tattoo} user={currentUser}
                 styles={styles} bodyParts={bodyParts}
+                isNew={isNew}
             />
         </Container>
     )

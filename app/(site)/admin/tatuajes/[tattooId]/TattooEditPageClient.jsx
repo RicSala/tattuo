@@ -12,15 +12,17 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import ImageUploadControlled2 from "@/components/inputs/ImageUploadControlled2";
 import ImageThumbnails from "@/components/ImageThumbnails";
+import HeadingWithButton from "@/components/HeadingWithButton";
 
 const TattooEditPageClient = ({
     tattoo,
     styles,
     bodyParts,
+    isNew,
 }) => {
 
 
-    const { trigger, setError, clearErrors, control, register, handleSubmit, setValue, getValues, watch, reset, formState: { errors, isSubmitted }, formState } = useForm({
+    const { trigger, setError, clearErrors, control, register, handleSubmit, setValue, getValues, watch, reset, formState: { errors, isSubmitted, isValid }, formState } = useForm({
         defaultValues: {
             title: tattoo.title || "",
             description: tattoo.description || "",
@@ -31,6 +33,9 @@ const TattooEditPageClient = ({
             tags: tattoo.tags?.map(tag => (tag.tag)) || undefined,
         }
     });
+
+    const heading = isNew ? "Nuevo tatuaje" : "Editar tatuaje"
+    const successMessage = isNew ? "Tatuaje creado" : "Tatuaje actualizado"
 
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
@@ -47,7 +52,7 @@ const TattooEditPageClient = ({
         if (data.tattooId === "new") {
             axios.post(`/api/tattoos/`, data) //TODO: change to fetch (from Next)
                 .then(res => {
-                    toast.success("Tatuaje actualizado")
+                    toast.success(successMessage)
                     // after creating the tattoo, we redirect to the edit page,
                     // so the user does not add more tattoos by mistake
                     router.push(`/admin/tatuajes/${res.data.id}`)
@@ -66,7 +71,7 @@ const TattooEditPageClient = ({
         // else we update it
         axios.put(`/api/tattoos/`, data)
             .then(res => {
-                toast.success("Tatuaje actualizado")
+                toast.success(successMessage)
                 router.push(`/admin/tatuajes/${res.data.id}`)
             })
             .catch(err => {
@@ -98,115 +103,130 @@ const TattooEditPageClient = ({
 
     return (
         <div>
-            <Heading title="Editar tatuaje" />
-
+            <HeadingWithButton title={heading} actionLabel="Cancelar" buttonUrl={'/admin/tatuajes'} />
             <form onSubmit={handleSubmit(onSubmit, onError)}
                 //We want to prevent the form from submitting when pressing enter
                 onKeyDown={handleKeyDown}>
 
-                <Input
-                    id="title"
-                    label="Título"
-                    errors={errors}
-                    required
-                    register={register}
-                    disabled={isLoading}
-                />
-                <Input
-                    id="description"
-                    label="Descripción"
-                    errors={errors}
-                    required
-                    register={register}
-                    disabled={isLoading}
+                <div className="flex flex-row justify-between gap-10 mb-5 flex-wrap">
 
-                />
-
-                {/* <TagSelector /> */}
-
-                <TagSelectorControlled
-                    control={control}
-                    name="tags"
-                    trigger={trigger}
-                    errors={errors}
-                    setValue={setValue}
-                    rules={{
-                        required: "Debes seleccionar al menos un tag",
-                        // max lenth of the array is 3
-                        validate: (value) => value.length <= 3 || "Máximo 3 tags"
-                    }}
-                />
+                    <div className="flex flex-col basis-72 flex-grow gap-3">
 
 
-                {
-                    errors.imageSrc &&
-                    <div className="text-red-500">
-                        {errors.imageSrc.message}
+
+                        <Input
+                            id="title"
+                            label="Título"
+                            errors={errors}
+                            required
+                            register={register}
+                            disabled={isLoading}
+                        />
+                        <Input
+                            id="description"
+                            label="Descripción"
+                            errors={errors}
+                            required
+                            register={register}
+                            disabled={isLoading}
+
+                        />
+
+                        {/* <TagSelector /> */}
+
+                        <TagSelectorControlled
+                            control={control}
+                            name="tags"
+                            trigger={trigger}
+                            errors={errors}
+                            setValue={setValue}
+                            rules={{
+                                required: "Debes seleccionar al menos un tag",
+                                // max lenth of the array is 3
+                                validate: (value) => value.length <= 3 || "Máximo 3 tags"
+                            }}
+                        />
+
+                        <Controller
+                            name="style"
+                            control={control}
+                            rules={{
+                                required: "Debes seleccionar un estilo",
+                                // max lenth of the array is 3
+                            }}
+                            render={({ field }) =>
+                                <CustomSelect
+                                    isMulti={false}
+                                    name={field.name}
+                                    options={styles}
+                                    field={field}
+                                    errors={errors}
+                                    placeholder="Selecciona estilo"
+                                />} />
+
+
+                        {
+                            errors.bodyPart &&
+                            <div className="text-red-500">
+                                {errors.bodyPart.message}
+                            </div>
+                        }
+                        <Controller
+                            name="bodyPart"
+                            control={control}
+                            rules={{
+                                required: "Debes seleccionar una parte del cuerpo"
+                            }}
+                            render={({ field }) =>
+                                <CustomSelect
+                                    isMulti={false}
+                                    field={field}
+                                    options={bodyParts}
+                                    errors={errors}
+                                    name={field.name}
+                                    placeholder="Selecciona parte del cuerpo"
+                                />} />
                     </div>
-                }
+                    <div className="flex flex-col flex-grow items-center gap-3">
+                        {
+                            errors.imageSrc &&
+                            <div className="text-red-500">
+                                {errors.imageSrc.message}
+                            </div>
+                        }
+                        {
+                            !getValues("imageSrc") &&
+                            <ImageUploadControlled2
+                                control={control}
+                                maxFiles={1}
+                                name="imageSrc"
+                                trigger={trigger}
+                                errors={errors}
+                                rules={{
+                                    required: "Debes subir una imagen",
+                                }}
+                            />}
+                        <div className="max-w-lg">
+                            <ImageThumbnails imageSrc={getValues("imageSrc") || null} setValue={setValue} />
+                        </div>
 
 
-                <ImageThumbnails imageSrc={getValues("imageSrc") || null} setValue={setValue} />
-                <ImageUploadControlled2
-                    control={control}
-                    maxFiles={1}
-                    name="imageSrc"
-                    trigger={trigger}
-                    errors={errors}
-                    rules={{
-                        required: "Debes subir al menos una imagen",
-                        // at least 3 images required
-                        // validate: (value) => value.length >= 3 || "Mínimo 3 imágenes"
-                    }}
-                />
-
-
-                {/* {
+                        {/* {
                     errors.style &&
                     <div className="text-red-500">
                         {errors.style.message}
                     </div>
                 } */}
-                <Controller
-                    name="style"
-                    control={control}
-                    rules={{
-                        required: "Debes seleccionar un estilo",
-                        // max lenth of the array is 3
-                    }}
-                    render={({ field }) =>
-                        <CustomSelect
-                            isMulti={false}
-                            name={field.name}
-                            // The next three lines are the same as doing: ...field
-                            // value={field.value}
-                            // onChange={(option) => field.onChange(option)}
-                            // onBlur={field.onBlur}
-                            options={styles}
-                            field={field}
-                            errors={errors}
-                        />} />
 
+                    </div>
+
+
+                </div>
 
                 {
-                    errors.bodyPart &&
-                    <div className="text-red-500">
-                        {errors.bodyPart.message}
-                    </div>
+                    <Button type="submit" label={isLoading ? "Guardando..." : "Guardar"} disabled={isLoading || !isValid} />
                 }
-                <Controller
-                    name="bodyPart"
-                    control={control}
-                    rules={{
-                        required: "Debes seleccionar una parte del cuerpo"
-                    }}
-                    render={({ field }) =>
-                        <CustomSelect
-                            isMulti={false}
-                            field={field}
-                            options={bodyParts}
-                        />} />
-                <Button type="submit" label={isLoading ? "Guardando..." : "Guardar"} disabled={isLoading} />
+
             </form>
 
         </div >

@@ -6,6 +6,7 @@ import Heading from '@/components/Heading'
 import TattooListingGrid from '@/components/listings/TattooListingGrid'
 import ListingGrid from '@/components/listings/ListingGrid'
 import ArtistCard from '@/components/listings/ArtistCard'
+import HeadingWithButton from '@/components/HeadingWithButton'
 export const dynamic = "force-dynamic";
 
 
@@ -26,14 +27,14 @@ export default async function Home({ searchParams }) {
         <Container>
             <div>
                 <div className='mt-6'>
-                    <Heading title={'Descubre Tatuajes'} />
+                    <HeadingWithButton title={'Descubre Tatuajes!'} />
                     <TattooListingGrid
                         listings={tattoos}
                         currentUser={currentUser}
                         listingType="tattoos" />
                 </div>
                 <div className='mt-6'>
-                    <Heading title={'Tatuador@s'} />
+                    <HeadingWithButton title={'Descubre tatuador@s!'} />
                     <ListingGrid>
                         {filteredArtists.map((artist) => (
                             <ArtistCard key={artist.id} artist={artist} currentUser={currentUser} />

@@ -32,7 +32,7 @@ const ImageThumbnails = ({
                 }
                 className="absolute right-[-0.5em] top-[-0.5em] cursor-pointer">
                 <TiDelete size={25} className="
-                text-red-600
+                text-primary
                 "/>
 
             </div>

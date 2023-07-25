@@ -31,6 +31,7 @@ const ImageUploadControlled2 = ({
                                 field.onChange(result.info.secure_url)
                                 trigger(name)
                             }
+                            console.log("result", result)
                         }}
                     uploadPreset="lbgb29le"
                     onBlur={field.onBlur}
@@ -97,23 +98,8 @@ const ImageUploadControlled2 = ({
                                     onClick={() => open?.()}
                                     small={true}
                                     icon={TbPhotoPlus}
-                                    className="
-                        relative
-                        cursor-pointer
-                        hover:opacity-70
-                        transition-opacity
-                        border-dashed
-                        border-2
-                        p-20
-                        border-neutral-300
-                        flex
-                        flex-col
-                        justify-center
-                        items-center
-                        gap-4
-                        text-neutral-600
-                        "
                                     label={"Subir imagen"}
+                                    outline={true}
                                 />
                             </>
                         )
