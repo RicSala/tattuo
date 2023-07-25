@@ -86,7 +86,7 @@ const ArtistDetailsPage = async ({ params }) => {
                     </div>
 
 
-                    <div class="text-center mt-12">
+                    <div className="text-center mt-12">
                         <h3 className="text-4xl font-semibold leading-normal text-blueGray-700 mb-2">
                             {artist.artisticName}
                         </h3>
