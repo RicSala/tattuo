@@ -6,8 +6,16 @@ import { useState } from "react";
 import Button from "../ui/Button";
 import { DevTool } from "@hookform/devtools";
 import RadioGroup from "../ui/RadioGroup";
+import { Textarea } from "../inputs/TextArea";
+import { getStyleList } from "@/libs/getStyleList";
+import ImageUploadControlled2 from "../inputs/ImageUploadControlled2";
+import ImageThumbnails from "../ui/ImageThumbnails";
+import Stepper from "./Stepper";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import CustomAsyncSelect from "../inputs/AsyncSelect";
 
-
+//TODO: Add google analytics
 
 const STEPS = {
     ADDRESS: 0,
@@ -34,15 +42,23 @@ const sizeOptions = [
     { label: 'Muy grande', value: 'xlarge' },
 ]
 
+const colorOptions = [
+    { label: 'Blanco y Negro', value: 'blackandwhite' },
+    { label: 'A color', value: 'color' },
+    { label: 'No lo sé aún', value: 'dontknow' }
+]
+
+const styleOptions = getStyleList()
+
 export default function MultiStep({
     children,
+    setResults,
     ...props
 }) {
 
     const [isLoading, setIsLoading] = useState(false);
-    const [step, setStep] = useState(STEPS.ADDRESS);
-
-
+    const [step, setStep] = useState(STEPS.IMAGES);
+    //TODO: Image to delete as in profilepageclient
 
 
     const {
@@ -54,9 +70,21 @@ export default function MultiStep({
         trigger,
         formState: { errors } } = useForm({
             defaultValues: {
-                address: null,
-                when: null,
+                // address: null,
+                // when: null,
+                // size: null, //TODO: Until I fix the validation issue, I'm setting a default value 
+                // description: null,
+                // color: null,
+                // style: null,
+                // images: null,
+                address: 'Barcelona',
+                when: 'soonest',
                 size: 'medium', //TODO: Until I fix the validation issue, I'm setting a default value 
+                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla placeat, commodi cumque laboriosam adipisci animi perspiciatis ducimus officia aperiam quod maiores nam similique, dolore error pariatur inventore. Sit, assumenda aut?',
+                color: 'color',
+                style: 'Anime',
+                images: 'https://picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U',
+
             },
         });
 
@@ -80,8 +108,16 @@ export default function MultiStep({
             descriptionIsValid && setStep((prev) => prev + 1);
         }
 
+        if (step === STEPS.COLOR) {
+            const colorIsValid = await trigger('color');
+            colorIsValid && setStep((prev) => prev + 1);
+        }
 
-        console.log('invalid');
+        if (step === STEPS.STYLE) {
+            const styleIsValid = await trigger('style');
+            styleIsValid && setStep((prev) => prev + 1);
+        }
+
 
 
     };
@@ -95,132 +131,179 @@ export default function MultiStep({
 
     const onSubmit = (data) => {
         console.log(data);
+        setIsLoading(true);
+        toast.success('Solicitud enviada');
+        axios.post('/api/artists/finder', data)
+            .then(res => {
+                console.log(res);
+                setIsLoading(false);
+                toast.success(`Artistas seleccionados`);
+                setResults(res.data);
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err);
+                setIsLoading(false);
+                toast.error('Error al enviar la información');
+            }
+            )
 
-        if (step !== STEPS.IMAGES) {
-            // We don't submit yet, just go to the next step
-
-        }
     };
 
     const onError = (errors, e) => console.log(errors, e);
 
-    const body = () => {
 
-        switch (step) {
 
-            case STEPS.ADDRESS: {
-                return (
-                    <>
 
+
+    return (
+        <>
+            <Stepper steps={STEPS} activeStep={step} setStep={setStep} />
+
+            <form onSubmit={handleSubmit(onSubmit, onError)}>
+                <p>STEP: {step}</p>
+
+
+                <>
+
+                    <div className={`
+                     ${step === STEPS.ADDRESS ? `block` : `hidden`}
+                    `}>
                         <p className="text-lg font-semibold">Información básica</p>
-
-                        <Input
-                            id="address"
-                            label="Dirección"
-                            disable={isLoading}
-                            errors={errors}
-                            required={true}
-                            register={register}
-                        />
-                    </>
-                )
-            }
-
-            //TODO: For some reason, validation is not working on the second radio group...
-            // it's not the first time I have this issue
-            case STEPS.SIZE: {
-                return (
-                    <>
-                        <p className="text-lg font-semibold">¿Cuál es el tamaño aproximado del tatuaje?</p>
                         {
-                            errors.size && (<p className="text-sm text-rose-500">Campo requerido</p>)
+                            errors.address && (<p className="text-sm text-rose-500">
+                                {errors.address.message}
+                            </p>)
                         }
-                        <RadioGroup
-                            id="size"
-                            name="size"
-                            control={control}
-                            trigger={trigger}
-                            rules={{ required: true }}
-                            options={sizeOptions}
-                        />
-                    </>
-                )
-            }
 
-            case STEPS.WHEN: {
-                return (
-                    <>
+
+                        <Controller
+                            name="address"
+                            control={control}
+                            rules={{
+                                required: 'Campo requerido',
+                            }}
+                            render={({ field }) =>
+                                <CustomAsyncSelect
+                                    resources="cities"
+                                    field={field}
+                                    placeholder="Selecciona tu ciudad"
+                                    noOptionsMessage={() => "Teclea para buscar tu ciudad"}
+                                />
+                            } />
+
+                    </div>
+
+                    <div className={` ${step === STEPS.WHEN ? `block` : `hidden`}`}>
                         <p className="text-lg font-semibold">¿Cuándo tienes pensado tatuarte?</p>
                         {
-                            errors.when && (<p className="text-sm text-rose-500">Campo requerido</p>)
+                            errors.when && (<p className="text-sm text-rose-500">
+                                {errors.when.message}
+                            </p>)
                         }
                         <RadioGroup
                             id="when"
                             name="when"
                             control={control}
                             trigger={trigger}
-                            rules={{ required: 'Campo requerido' }}
+                            rules={{ required: true }}
                             options={whenOptions}
                         />
-                    </>
-                )
-            }
+                    </div>
 
 
+                    <div className={` ${step === STEPS.SIZE ? `block` : `hidden`}`}>
+                        <p className="text-lg font-semibold">¿Cuál es el tamaño aproximado del tatuaje?</p>
+                        {
+                            errors.size && (<p className="text-sm text-rose-500">
+                                {errors.size.message}
+                            </p>)
+                        }
+                        <RadioGroup
+                            id="size"
+                            name="size"
+                            control={control}
+                            trigger={trigger}
+                            rules={{ required: 'Campo requerido' }}
+                            options={sizeOptions}
+                        />
+                    </div>
 
-            case STEPS.DESCRIPTION: {
-                return (
-                    <>
+                    <div className={` ${step === STEPS.DESCRIPTION ? `block` : `hidden`}`}>
                         <p className="text-lg font-semibold">Descripción</p>
-                        <Input
+                        {
+                            errors.description && (<p className="text-sm text-rose-500">{
+                                errors.description.message
+                            }</p>)
+                        }
+                        <Textarea
                             id="description"
                             label="Descripción"
-                            disable={isLoading}
-                            errors={errors}
-                            required={true}
-                            register={register}
-                        />
-                    </>
-                )
-            }
+                            {...register('description', {
+                                required: 'Campo requerido',
+                                minLength: {
+                                    value: 50,
+                                    message: 'Mínimo 50 caracteres'
+                                },
+                            })} />
+                    </div>
 
-
-            case STEPS.COLOR: {
-                return (
-                    <>
+                    <div className={` ${step === STEPS.COLOR ? `block` : `hidden`}`}>
                         <p className="text-lg font-semibold">¿Qué colores te gustaría que tuviera?</p>
-                        <Input
+                        {
+                            errors.color && (<p className="text-sm text-rose-500">Campo requerido</p>)
+                        }
+                        <RadioGroup
                             id="color"
-                            label="Colores"
-                            disable={isLoading}
-                            errors={errors}
-                            required={true}
-                            register={register}
+                            name="color"
+                            control={control}
+                            trigger={trigger}
+                            rules={{ required: 'Campo requerido' }}
+                            options={colorOptions}
                         />
-                    </>
-                )
+                    </div>
 
-            }
+                    <div className={` ${step === STEPS.STYLE ? `block` : `hidden`}`}>
+                        <p className="text-lg font-semibold">¿Qué estilo te gustaría?</p>
+                        {
+                            errors.style && (<p className="text-sm text-rose-500">Campo requerido</p>)
+                        }
+                        <RadioGroup
+                            id="style"
+                            name="style"
+                            options={styleOptions}
+                            control={control}
+                            trigger={trigger}
+                            rules={{ required: 'Campo requerido' }}
 
-            case STEPS.STYLE: { }
+                        />
+                    </div>
 
-            case STEPS.IMAGES: { }
+                    <div className={` ${step === STEPS.IMAGES ? `block` : `hidden`}`}>
+                        <p className="text-lg font-semibold">Imágenes de referencia</p>
+                        {
+                            errors.images && (<p className="text-sm text-rose-500">Campo requerido</p>)
+                        }
+                        <ImageUploadControlled2
+                            id="images"
+                            name="images"
+                            maxFiles={5}
+                            control={control}
+                            trigger={trigger}
+                            rules={{ required: 'Campo requerido' }}
+                        />
 
-            default:
-                return null;
+                        <ImageThumbnails
+                            imageSrc={getValues("images")}
+                            setValue={setValue}
+                            fieldName="images"
+                        />
+                    </div>
 
-        }
-
-    }
 
 
-    return (
-        <>
 
-            <form onSubmit={handleSubmit(onSubmit, onError)}>
-                <p>STEP: {step}</p>
-                {body()}
-
+                </>
                 <div className={`
                     flex
                     flex-row
@@ -237,6 +320,15 @@ export default function MultiStep({
                         </div>
                     )}
                 </div>
+                {step === STEPS.IMAGES && (
+                    <div className="">
+                        <Button type="submit"
+                            label={isLoading ? 'Seleccionando...' : 'Enviar'}
+                            className={''}
+                            disabled={isLoading}
+                        />
+                    </div>
+                )}
 
             </form>
             {/* <DevTool control={control} /> */}
