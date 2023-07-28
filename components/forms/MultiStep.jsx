@@ -15,7 +15,14 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import CustomAsyncSelect from "../inputs/AsyncSelect";
 
+
+//TODO: change isLoading to be = isSubmitting 
+
 //TODO: Add google analytics
+//TODO: Image inside a div with relative position
+//TODO: Add breadcrumbs
+// https://freefrontend.com/tailwind-code-examples/
+// https://www.hyperui.dev/
 
 const STEPS = {
     ADDRESS: 0,
