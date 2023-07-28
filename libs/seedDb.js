@@ -11,6 +11,7 @@ const numSaves = 200;
 const numLikes = 200;
 const numBoards = 50;
 const onlyDelete = false;
+const building = false;
 
 
 // pics a random element from an array
@@ -52,6 +53,8 @@ const tagIds = await prisma.tag.findMany().then(tags => tags.map(tag => tag.id))
 const bodyPartIds = await prisma.bodyPart.findMany().then(bodyParts => bodyParts.map(bodyPart => bodyPart.id));
 
 export const seedDb = async () => {
+
+    if (building) { return; }
 
     if (onlyDelete) {
         await prisma.savedTattoo.deleteMany({});
