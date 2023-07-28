@@ -99,7 +99,7 @@ const TattooCard = ({
             }
             )
 
-    }, [])
+    }, [router])
 
     const onBoardSelect = useCallback((tattoo, board) => {
         // add the tattoo to the board
