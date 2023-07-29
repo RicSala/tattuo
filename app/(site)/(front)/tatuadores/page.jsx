@@ -8,6 +8,10 @@ import Search from '@/components/search/SearchBar'
 import { getStyleList } from '@/libs/getStyleList'
 import { getCities } from '@/libs/getCities'
 import ListingGrid from '@/components/listings/ListingGrid'
+import { InfiniteScrollReal } from '@/components/InfiniteScrollReal'
+import CustomQueryClientProvider from '@/providers/QueryClientProvider'
+import axios from 'axios'
+import ListingGridWithInfinite from '@/components/listings/ListingGridWithInfinite'
 export const dynamic = "force-dynamic";
 
 
@@ -18,11 +22,14 @@ export const dynamic = "force-dynamic";
 const styles = getStyleList()
 const cities = getCities()
 
+const endpoint = 'http://localhost:3000/api/artists/infinite'
 
 export default async function ArtistPage({ searchParams }) {
 
     const artists = await getArtist(searchParams)
     const currentUser = await getCurrentUser()
+
+    const firstTenArtists = artists.slice(0, 10)
 
     const filtro1 = {
         label: 'Estilos',
@@ -52,18 +59,18 @@ export default async function ArtistPage({ searchParams }) {
     }
 
     return (
-        <>
-            <Container>
-                <Search filtro1={filtro1} filtro2={filtro2} />
-                <Heading title="Tatuadores" />
-                <ListingGrid>
-                    {artists.map((artist) => {
-                        return (
-                            <ArtistCard key={artist.id} artist={artist} currentUser={currentUser} />
-                        )
-                    })}
-                </ListingGrid>
-            </Container>
-        </>
+        <Container>
+            <Search filtro1={filtro1} filtro2={filtro2} />
+            <Heading title="Tatuadores" />
+            <ListingGridWithInfinite // to render an infinite scroll we need...
+                initialData={firstTenArtists} // the initial data coming from the server
+                endpoint={endpoint}  // the endpoint to fetch more data in a client component
+                Component={ArtistCard} // the component to render for each item
+                keyProp="artist" // the key prop to use to identify each item
+                currentUser={currentUser} // the current user to check if the user is logged in
+            >
+
+            </ListingGridWithInfinite>
+        </Container>
     )
 }
