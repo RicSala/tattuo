@@ -48,7 +48,10 @@ export async function GET(req) {
     // get the items of the current page
     const artists = await prisma.artistProfile.findMany({
         skip,
-        take
+        take,
+        orderBy: {
+            createdAt: 'asc'
+        },
     })
 
     // get the next cursor

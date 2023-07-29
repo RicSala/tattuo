@@ -59,7 +59,7 @@ export async function getArtist(searchParams) { // I would call the args "filter
         const artists = await prisma.artistProfile.findMany({
             where: query,
             orderBy: {
-                createdAt: "desc"
+                createdAt: 'asc'
             },
         });
 

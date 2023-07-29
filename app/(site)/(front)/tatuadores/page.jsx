@@ -29,7 +29,11 @@ export default async function ArtistPage({ searchParams }) {
     const artists = await getArtist(searchParams)
     const currentUser = await getCurrentUser()
 
-    const firstTenArtists = artists.slice(0, 10)
+    const numberOfPagesToLoad = 1
+    const sizePerPage = 10 // Do not change. The call to the API is made with this value
+    const initialDataSize = numberOfPagesToLoad * sizePerPage
+
+    const serverLoadedArtists = artists.slice(0, initialDataSize)
 
     const filtro1 = {
         label: 'Estilos',
@@ -63,7 +67,8 @@ export default async function ArtistPage({ searchParams }) {
             <Search filtro1={filtro1} filtro2={filtro2} />
             <Heading title="Tatuadores" />
             <ListingGridWithInfinite // to render an infinite scroll we need...
-                initialData={firstTenArtists} // the initial data coming from the server
+                initialData={serverLoadedArtists} // the initial data coming from the server
+                sizePerPage={sizePerPage} // the size of each page
                 endpoint={endpoint}  // the endpoint to fetch more data in a client component
                 Component={ArtistCard} // the component to render for each item
                 keyProp="artist" // the key prop to use to identify each item

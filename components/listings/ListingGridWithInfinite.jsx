@@ -9,6 +9,7 @@ const ListingGridWithInfinite = ({
     Component,
     endpoint,
     initialData,
+    sizePerPage,
     keyProp, // new prop for the dynamic key
     currentUser,
 
@@ -31,6 +32,7 @@ const ListingGridWithInfinite = ({
                 <InfiniteScrollReal
                     endpoint={endpoint}
                     initialData={initialData}
+                    sizePerPage={sizePerPage}
                     keyProp={keyProp}
                     Component={Component}
                     currentUser={currentUser}
