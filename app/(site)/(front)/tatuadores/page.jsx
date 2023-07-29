@@ -7,10 +7,6 @@ import EmptyState from '@/components/ui/EmptyState'
 import Search from '@/components/search/SearchBar'
 import { getStyleList } from '@/libs/getStyleList'
 import { getCities } from '@/libs/getCities'
-import ListingGrid from '@/components/listings/ListingGrid'
-import { InfiniteScrollReal } from '@/components/InfiniteScrollReal'
-import CustomQueryClientProvider from '@/providers/QueryClientProvider'
-import axios from 'axios'
 import ListingGridWithInfinite from '@/components/listings/ListingGridWithInfinite'
 export const dynamic = "force-dynamic";
 
@@ -29,8 +25,8 @@ export default async function ArtistPage({ searchParams }) {
     const artists = await getArtist(searchParams)
     const currentUser = await getCurrentUser()
 
-    const numberOfPagesToLoad = 1
-    const sizePerPage = 10 // Do not change. The call to the API is made with this value
+    const numberOfPagesToLoad = 2
+    const sizePerPage = 2
     const initialDataSize = numberOfPagesToLoad * sizePerPage
 
     const serverLoadedArtists = artists.slice(0, initialDataSize)

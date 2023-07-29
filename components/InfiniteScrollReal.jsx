@@ -16,7 +16,7 @@ export function InfiniteScrollReal({
 
 
     const realFetch = async (page = 0) => {
-        const response = await axios.get(`${endpoint}?pageParam=${page}`)
+        const response = await axios.get(`${endpoint}?page=${page}&pageSize=${sizePerPage}`)
             .then(res => res.data)
             .catch(err => console.log(err))
         return response
@@ -80,14 +80,13 @@ export function InfiniteScrollReal({
         pagination: { nextPage: index + 2 }
     }))
 
-    console.log("initialData 🟦: ", initialData)
-    console.log("sizePerPage 🟦: ", sizePerPage)
-    console.log("pages", data.pages)
-    console.log("ARRAY 🟨: ", array)
+    // console.log("initialData 🟦: ", initialData)
+    // console.log("sizePerPage 🟦: ", sizePerPage)
+    // console.log("pages", data.pages)
+    // console.log("ARRAY 🟨: ", array)
 
     useEffect(() => {
         if (entry?.isIntersecting) { // if the last post is intersecting
-            console.log("pages", data.pages)
             fetchNextPage()
         }
     }, [entry, fetchNextPage])
@@ -104,13 +103,9 @@ export function InfiniteScrollReal({
 
                 return (
                     // if it's the last post of the last page, we set the ref
-                    <div className={`min-h-[100px] border-2 rounded-lg p-4 mb-4 max-w-xs
-                            ${i === data.pages.length - 1 && j === page.data.length - 1 ? 'bg-red-700' : 'bg-white'}
-                            // border conditional too
-                            ${i === data.pages.length - 1 && j === page.data.length - 1 ? 'border-red-700' : 'border-black'}
-                            
-                            `}
-                        key={element.id} ref={i === data.pages.length - 1 && j === page.data.length - 1 ? ref : null}>
+                    <div key={element.id} ref={i === data.pages.length - 1 && j === page.data.length - 1 ? ref : null}
+                        className="inline"
+                    >
                         <Component {...childProps} />
 
                     </div>

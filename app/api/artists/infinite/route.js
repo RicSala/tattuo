@@ -5,24 +5,23 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req) {
 
-    console.log("GET OF ENDPOINT: /artists/infinite")
-    console.log("NEXTURL: ", req.nextUrl)
-
     const url = new URL(req.nextUrl) // Create a URL object
 
     const searchparamsObj = Object.fromEntries(url.searchParams)
 
     // requested page
-    const { pageParam = 1 } = searchparamsObj
+    const page = parseInt(searchparamsObj.page)
 
     // number of items per page
-    const { pageSize = 10 } = searchparamsObj
+    const pageSize = parseInt(searchparamsObj.pageSize)
+
+
 
     // number of items to skip
-    const { skip = (pageParam - 1) * pageSize } = searchparamsObj
+    const skip = parseInt(searchparamsObj.skip) || (page - 1) * pageSize
 
     // number of items to take
-    const { take = pageSize } = searchparamsObj
+    const take = parseInt(searchparamsObj.take) || pageSize
 
     // get the total number of items
     const total = await prisma.artistProfile.count()
@@ -31,7 +30,7 @@ export async function GET(req) {
     const totalPages = Math.ceil(total / pageSize)
 
     // get the current page
-    const currentPage = pageParam
+    const currentPage = page
 
     // get the next page
     const nextPage = currentPage < totalPages ? currentPage * 1 + 1 : undefined
@@ -47,14 +46,14 @@ export async function GET(req) {
 
     // get the items of the current page
     const artists = await prisma.artistProfile.findMany({
+        orderBy: [ // REVIEW: As we are seeding the database programatically, the createdAt is the same for almost all, so...
+            { createdAt: 'asc' },
+            { id: 'asc' }, // ...we need to order by id too. This should not be a problem in production, but do we need to order by id in production too?
+        ],
         skip,
         take,
-        orderBy: {
-            createdAt: 'asc'
-        },
     })
 
-    // get the next cursor
     const nextCursor = artists.length ? artists[artists.length - 1].id : undefined
 
     try {
