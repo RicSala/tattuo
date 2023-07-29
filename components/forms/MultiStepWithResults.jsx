@@ -18,7 +18,7 @@ export default function MultiStepWithResults(props) {
             {profileMatches.map((profile) => (
                 <ArtistCard
                     key={profile.id}
-                    artist={profile}
+                    data={profile}
                 />
             ))}
 

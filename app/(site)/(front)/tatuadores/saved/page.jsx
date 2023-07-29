@@ -36,7 +36,7 @@ const SavedTattoosPage = async ({ params }) => {
                 <ListingGrid>
                     {artists.map((artist) => {
                         return (
-                            <ArtistCard key={artist.id} artist={artist} currentUser={currentUser} />
+                            <ArtistCard key={artist.id} data={artist} currentUser={currentUser} />
                         )
                     })}
                 </ListingGrid>

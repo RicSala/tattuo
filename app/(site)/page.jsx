@@ -36,7 +36,7 @@ export default async function Home({ searchParams }) {
                     <HeadingWithButton title={'Descubre tatuador@s!'} />
                     <ListingGrid>
                         {filteredArtists.map((artist) => (
-                            <ArtistCard key={artist.id} artist={artist} currentUser={currentUser} />
+                            <ArtistCard key={artist.id} data={artist} currentUser={currentUser} />
                         ))}
                     </ListingGrid>
                 </div>

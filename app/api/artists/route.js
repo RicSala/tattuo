@@ -60,7 +60,7 @@ export async function GET(req) {
 
 
         return NextResponse.json({
-            artists,
+            data: artists,
             // sorting by created date
             sort: {
                 field: 'createdAt',

@@ -7,7 +7,7 @@ import SaveButton from "../ui/SaveButton";
 import { useRouter } from "next/navigation";
 
 const ArtistCard = ({
-    artist,
+    data,
     currentUser
 }) => {
 
@@ -17,7 +17,7 @@ const ArtistCard = ({
     return (
 
         <div
-            onClick={() => router.push(`/tatuadores/profile/${artist.id}`)}
+            onClick={() => router.push(`/tatuadores/profile/${data.id}`)}
 
             className="
          border
@@ -35,12 +35,12 @@ const ArtistCard = ({
             <div
                 className="relative">
                 <div className="absolute top-3 right-3 z-[3]">
-                    <HeartButton listingId={artist.id} currentUser={currentUser}
+                    <HeartButton listingId={data.id} currentUser={currentUser}
                         listingType="artists" />
                 </div>
 
                 <div className="absolute top-3 left-3 z-[3]">
-                    <SaveButton listingId={artist.id} currentUser={currentUser}
+                    <SaveButton listingId={data.id} currentUser={currentUser}
                         listingType="artists" />
                 </div>
 
@@ -49,7 +49,7 @@ const ArtistCard = ({
                         <Image
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             fill={true}
-                            src={artist.mainImage}
+                            src={data.mainImage}
                             alt="profile picture"
                             className="object-cover"
                         />
@@ -58,8 +58,8 @@ const ArtistCard = ({
 
             </div>
             <div className="py-3 px-5 flex flex-row justify-start gap-6 items-center">
-                <Avatar user={artist} isArtist />
-                <p>{artist.artisticName}</p>
+                <Avatar user={data} isArtist />
+                <p>{data.artisticName}</p>
             </div>
             <div className="py-3 px-5">
                 Precios:

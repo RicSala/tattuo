@@ -28,7 +28,7 @@ const CityPage = async ({ params }) => {
             <ListingGrid items={artists}>
                 {
                     artists.map((artist) => {
-                        return <ArtistCard key={artist.id} artist={artist} currentUser={currentUser} />
+                        return <ArtistCard key={artist.id} data={artist} currentUser={currentUser} />
                     }
                     )
                 }

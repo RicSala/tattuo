@@ -121,7 +121,7 @@ export function InfiniteScroll({
                             
                             `}
                                     key={element.id} ref={i === data.pages.length - 1 && j === page.data.length - 1 ? ref : null}>
-                                    <ArtistCard artist={element} />
+                                    <ArtistCard data={element} />
 
                                 </div>
                             ))}

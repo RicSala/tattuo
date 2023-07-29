@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 const styles = getStyleList()
 const cities = getCities()
 
-const endpoint = 'http://localhost:3000/api/artists/infinite'
+const endpoint = 'http://localhost:3000/api/artists'
 
 export default async function ArtistPage({ searchParams }) {
 

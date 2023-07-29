@@ -9,7 +9,6 @@ export function InfiniteScrollReal({
     initialData,
     sizePerPage,
     endpoint,
-    keyProp,
     Component,
     currentUser,
 }) {
@@ -47,7 +46,7 @@ export function InfiniteScrollReal({
             console.log("response: ", response)
             const { pagination } = response
             console.log("pagination: ", pagination)
-            return { data: response.artists, pageParam, pagination }
+            return { data: response.data, pageParam, pagination }
         },
         {
             // This function can be set to automatically get the next cursor for infinite queries.
@@ -97,7 +96,7 @@ export function InfiniteScrollReal({
 
             page.data.map((element, j) => {
                 // Create a new props object with the dynamic key and the data
-                const childProps = { [keyProp]: element };
+                const childProps = { data: element };
                 // add the currrnt user to the props
                 childProps.currentUser = currentUser;
 

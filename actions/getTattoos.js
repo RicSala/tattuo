@@ -67,9 +67,7 @@ export default async function getTattoos(searchParams) { // I would call the arg
         // GET ALL LISTINGS using prisma
         const listings = await prisma.tattoo.findMany({
             where: query,
-            orderBy: {
-                createdAt: "desc"
-            },
+            orderBy: [{ createdAt: "asc" }, { id: "asc" },],
         });
 
         return listings;
