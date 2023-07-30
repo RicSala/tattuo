@@ -12,7 +12,7 @@ import { toast } from "react-hot-toast";
 
 const TattooCard = ({
     data,
-    listingType,
+    listingType = 'tattoos',
     onAction,
     test,
     actionLabel,
@@ -158,14 +158,6 @@ const TattooCard = ({
                         }
 
                     </div>
-                    {/* <div className="absolute top-3 left-3">
-                        <SaveButton
-                            listingId={data.id}
-                            currentUser={currentUser}
-                            listingType={listingType}
-                        />
-
-                    </div> */}
                     {
                         canSave && boardAdder &&
                         <div className="absolute bottom-3 left-3

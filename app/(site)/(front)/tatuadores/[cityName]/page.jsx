@@ -16,19 +16,15 @@ const CityPage = async ({ params }) => {
     if (!artists || artists.length === 0) {
         notFound()
     }
-    console.log(artists)
     const currentUser = getCurrentUser();
 
-
-
-    console.log(cityName)
     return (
         <Container>
             <Heading title={`Tatuadores en ${cityName || 'Madrid'}`} />
             <ListingGrid items={artists}>
                 {
                     artists.map((artist) => {
-                        return <ArtistCard key={artist.id} artist={artist} currentUser={currentUser} />
+                        return <ArtistCard key={artist.id} data={artist} currentUser={currentUser} />
                     }
                     )
                 }

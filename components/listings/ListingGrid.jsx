@@ -1,4 +1,8 @@
-const ListingGrid = ({ children }) => {
+'use client'
+
+import { forwardRef } from "react";
+
+const ListingGrid = forwardRef(({ children }, ref) => {
     return (
 
         <div className="
@@ -10,11 +14,16 @@ const ListingGrid = ({ children }) => {
             lg:grid-cols-4
             xl:grid-cols-5
             2xl:grid-cols-6
-            ">
+            "
+            ref={ref}
+        >
             {children}
         </div>
 
 
     )
-};
+})
+
+ListingGrid.displayName = "ListingGrid"
+
 export default ListingGrid;

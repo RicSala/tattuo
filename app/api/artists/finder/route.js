@@ -15,16 +15,12 @@ export async function POST(request, { params }) {
 
     const profileMatches = await getMatches(currentUser, body);
 
-    console.log('RECEIVED!', profileMatches)
-
     return NextResponse.json(profileMatches)
 }
 
 const getMatches = async (currentUser, body) => {
 
     const { styles, address } = body;
-
-    console.log('city', address)
 
     try {
         const city = await prisma.city.findFirst({
@@ -40,8 +36,6 @@ const getMatches = async (currentUser, body) => {
             console.log(`No city found with label: ${address}`);
             return;
         }
-
-        console.log('CITY ID', city.id)
 
         const matchedArtists = await prisma.artistProfile.findMany({
             where: {

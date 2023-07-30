@@ -73,9 +73,7 @@ export function InfiniteScroll({
         async ({ pageParam = 1 }) => //mockFetch(pageParam), // query function. receives a queryFunctionContext object: https://tanstack.com/query/v4/docs/react/guides/query-functions#queryfunctioncontext
         {
             const response = await realFetch(pageParam)
-            console.log("response: ", response)
             const { pagination } = response
-            console.log("pagination: ", pagination)
             return { data: response.artists, pageParam, pagination }
         },
         {
@@ -121,7 +119,7 @@ export function InfiniteScroll({
                             
                             `}
                                     key={element.id} ref={i === data.pages.length - 1 && j === page.data.length - 1 ? ref : null}>
-                                    <ArtistCard artist={element} />
+                                    <ArtistCard data={element} />
 
                                 </div>
                             ))}

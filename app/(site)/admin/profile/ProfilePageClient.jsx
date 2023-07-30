@@ -39,8 +39,6 @@ const ProfilePageClient = ({
 
 
 
-    console.log("ProfilePageClient - artist", artist)
-
     const [isLoading, setIsLoading] = useState(false)
     // create a ref with a list of the images when the component mounts
     // so we delete them only when the form is submitted
@@ -89,11 +87,6 @@ const ProfilePageClient = ({
         const mainImageToDelete = mainImageRef.current !== data.mainImage ? mainImageRef.current : null
 
         const arrayToDelete = [...imagesToDelete, mainImageToDelete].filter(img => img)
-
-        console.log("imagesToDelete", imagesToDelete)
-        console.log("mainImageToDelete", mainImageToDelete)
-
-        console.log("arrayToDelete", arrayToDelete)
 
         // delete images from cloudinary
         if (arrayToDelete.length > 0) {

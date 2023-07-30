@@ -78,7 +78,8 @@ model ArtistProfile {
   tiktok          String?
   mainImage       String?
   images          String[]
-  styles          Style[]
+  stylesIds       String[]      @db.ObjectId
+  styles          Style[]       @relation(fields: [stylesIds], references: [id])
   pricePerHour    Int?
   pricePerSession Int?
   minWorkPrice    Int?
@@ -229,9 +230,9 @@ model Style {
   label String
   value String
 
-  tattoos         Tattoo[]
-  artistProfile   ArtistProfile? @relation(fields: [artistProfileId], references: [id])
-  artistProfileId String?        @db.ObjectId
+  tattoos          Tattoo[]
+  artistProfileIds String[]        @db.ObjectId
+  artistProfiles   ArtistProfile[] @relation(fields: [artistProfileIds], references: [id])
 }
 
 model Tag {

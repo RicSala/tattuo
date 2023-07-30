@@ -13,9 +13,6 @@ export async function DELETE(request, { params }) {
 
     const { imageId } = params
 
-    console.log("imageId FROM API", imageId)
-
-
     if (!currentUser) {
         return NextResponse.json({ error: 'Not logged in' }, { status: 401 })
     }
@@ -38,9 +35,6 @@ export async function DELETE(request, { params }) {
             api_secret: process.env.CLOUDINARY_API_SECRET,
         }
     );
-
-    // Log the configuration
-    console.log(cloudinary.config());
 
     // Delete an image
 

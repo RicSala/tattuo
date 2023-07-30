@@ -29,7 +29,15 @@ const SearchFilterButton = ({
     const applyFilters = () => {
         setShow(false);
         if (selected.length === 0) {
-            return router.push(pathname)
+            // remove the search param from the url
+            const currentQuery = qs.parse(searchParams.toString());
+            delete currentQuery[searchParamName];
+            const url = qs.stringifyUrl({
+                url: pathname,
+                query: currentQuery
+            },
+                { skipNull: true })
+            return router.push(url)
         }
 
         let currentQuery = {};
