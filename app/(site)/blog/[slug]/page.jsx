@@ -10,8 +10,6 @@ export const generateStaticParams = async () => {
 
     const posts = await getPosts();
 
-    console.log("🟨 posts: ", posts)
-
     return posts.map((post) => ({
         slug: post.slug,
     }))

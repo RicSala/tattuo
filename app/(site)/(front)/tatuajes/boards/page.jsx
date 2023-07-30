@@ -11,12 +11,15 @@ import { getTattoosByBoardId } from '@/actions/getTattoosByBoardId';
 
 export default async function BoardsPage({ searchParams }) {
 
-    console.log('searchParams', searchParams)
-
     const currentUser = await getCurrentUser()
-    const boards = currentUser?.boards
 
-    console.log('boards', boards)
+    if (!currentUser) {
+        return (
+            <EmptyState title="No estás autorizado. Por favor, loguéate" />
+        )
+    }
+
+    const boards = currentUser?.boards
 
 
     // add the first tattoo of each board to the board object as a promise to be resolved

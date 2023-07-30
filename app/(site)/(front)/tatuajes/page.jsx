@@ -1,5 +1,4 @@
 import { getCurrentUser } from '@/actions/getCurrentUser'
-import getTattoos from '@/actions/getTattoos'
 import Container from '@/components/ui/Container'
 import Heading from '@/components/ui/Heading'
 import Search from '@/components/search/SearchBar'
@@ -8,6 +7,7 @@ import { getStyleList } from '@/libs/getStyleList'
 import { getBodyParts } from '@/libs/getBodyParts'
 import ListingGridWithInfinite from '@/components/listings/ListingGridWithInfinite'
 import TattooCard from '@/components/listings/TattooCard'
+import { getTattoos } from '@/actions/getTattoos'
 export const dynamic = "force-dynamic";
 
 
@@ -30,20 +30,22 @@ const filtro2 = {
 }
 
 const endpoint = 'http://localhost:3000/api/tattoos'
-const sizePerPage = 5
+const sizePerPage = 10
 const numberOfPagesToLoad = 1
 const initialDataSize = numberOfPagesToLoad * sizePerPage
 
 export default async function TattoosPage({ searchParams }) {
 
-    const tattoos = await getTattoos(searchParams)
-    const serverLoadedTattoos = tattoos.slice(0, initialDataSize)
+    const serverLoadedTattoos = await getTattoos(
+        searchParams,
+        0,
+        initialDataSize
+    )
+
     const currentUser = await getCurrentUser()
 
-    if (tattoos.length < 1) {
+    if (serverLoadedTattoos.length < 1) {
         return (
-
-
             <Container>
                 <Search filtro1={filtro1} filtro2={filtro2} />
                 <EmptyState title="No se han encontrado tatuajes con esos filtros"

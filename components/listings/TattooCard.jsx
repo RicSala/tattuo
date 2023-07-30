@@ -91,6 +91,7 @@ const TattooCard = ({
         return axios.post('/api/boards', { title: title })
             .then(res => {
                 toast.success('Board created')
+                router.refresh()
                 return res.data
             })
             .catch(err => {
@@ -98,7 +99,7 @@ const TattooCard = ({
             }
             )
 
-    }, [])
+    }, [router])
 
     const onBoardSelect = useCallback((tattoo, board) => {
         // add the tattoo to the board

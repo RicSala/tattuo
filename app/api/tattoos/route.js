@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import getArtistProfile from "@/actions/getArtistProfile";
 import prisma from "@/libs/prismadb";
+import { getTattoos } from "@/actions/getTattoos";
 
 
 
@@ -11,72 +12,45 @@ export async function GET(req) {
 
     const searchparamsObj = Object.fromEntries(url.searchParams)
 
-    // requested page
-    const page = parseInt(searchparamsObj.page)
 
-    // number of items per page
-    const pageSize = parseInt(searchparamsObj.pageSize)
+    const originalTake = parseInt(searchparamsObj.pageSize) || 10
+    const take = originalTake + 1 // we add one to the take to know if there are more pages
+    const skip = (searchparamsObj.page - 1) * searchparamsObj.pageSize
 
+    const currentPage = parseInt(searchparamsObj.page) || 1
 
+    const tattoos = await getTattoos(
+        searchparamsObj,
+        skip,
+        take
+    )
 
-    // number of items to skip
-    const skip = parseInt(searchparamsObj.skip) || (page - 1) * pageSize
+    // if original take is 10 and we get 11 items, we know there are more pages
+    let hasMorePages = false
+    if (tattoos.length > originalTake) {
+        hasMorePages = true
+        tattoos.pop() // remove the extra item
+    }
 
-    // number of items to take
-    const take = parseInt(searchparamsObj.take) || pageSize
-
-    // get the total number of items
-    const total = await prisma.artistProfile.count()
-
-    // get the total number of pages
-    const totalPages = Math.ceil(total / pageSize)
-
-    // get the current page
-    const currentPage = page
-
-    // get the next page
-    const nextPage = currentPage < totalPages ? currentPage * 1 + 1 : undefined
-
-    // get the previous page
     const previousPage = currentPage > 1 ? currentPage * 1 - 1 : undefined
 
-    // get the first page
-    const firstPage = 1
 
-    // get the last page
-    const lastPage = totalPages
+    const nextPage = hasMorePages ? currentPage * 1 + 1 : undefined
 
-    // get the items of the current page
-    const tattoos = await prisma.tattoo.findMany({
-        orderBy: [ // REVIEW: As we are seeding the database programatically, the createdAt is the same for almost all, so...
-            { createdAt: 'asc' },
-            { id: 'asc' }, // ...we need to order by id too. This should not be a problem in production, but do we need to order by id in production too?
-        ],
-        skip,
-        take,
-    })
-
-    const nextCursor = tattoos.length ? tattoos[tattoos.length - 1].id : undefined
 
     try {
 
 
         return NextResponse.json({
             data: tattoos,
-            // sorting by created date
             sort: {
                 field: 'createdAt',
-                order: 'asc'
+                order: 'desc'
             },
             pagination: {
-                total,
-                totalPages,
-                currentPage,
                 nextPage,
                 previousPage,
-                firstPage,
-                lastPage,
-                nextCursor
+                hasMorePages
             }
         })
     } catch (error) {

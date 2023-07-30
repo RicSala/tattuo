@@ -7,14 +7,9 @@ export async function POST(req) {
     try {
         const body = await req.json();
 
-        console.log("body", body)
-
-        console.log("start 🟩")
-
         const user = await getCurrentUser();
-        console.log("user", user)
-        // check if the a board with the same title and the same user already exists
 
+        // check if the a board with the same title and the same user already exists
         const board = await prisma.board.findFirst({
             where: {
                 title: body.title,
@@ -22,8 +17,6 @@ export async function POST(req) {
             }
         })
 
-
-        console.log("board", board)
 
         if (board) {
             console.log("Board Already exist")

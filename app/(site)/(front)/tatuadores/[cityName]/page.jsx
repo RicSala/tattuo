@@ -16,12 +16,8 @@ const CityPage = async ({ params }) => {
     if (!artists || artists.length === 0) {
         notFound()
     }
-    console.log(artists)
     const currentUser = getCurrentUser();
 
-
-
-    console.log(cityName)
     return (
         <Container>
             <Heading title={`Tatuadores en ${cityName || 'Madrid'}`} />

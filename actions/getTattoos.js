@@ -1,50 +1,48 @@
 import prisma from "@/libs/prismadb";
-export const dynamic = "force-dynamic";
 
-
-
-export default async function getTattoos(searchParams) { // I would call the args "filters", because actually the function could without "searchParams" specifically
-
+export async function getTattoos(searchParams, skip = 0, take = undefined) {
+    // chatgpt, write the whole function
     try {
 
-        let query = {};
-
-
-
         const {
+            userId,
             style,
             bodyPart,
-            freeSearch
-        } = searchParams
+            freeSearch,
+        } = searchParams;
 
-        const styleArray = style?.split(',')
-        const styleEnums = styleArray?.map(style => {
-            //replace ALL spaces with underscores
-            return style.replace(/\s/g, '_')
 
-        })
+        // ### SEARCH FUNCTIONALITY ###
+        // // we are building the query object for prisma
+        let query = {};
 
-        if (styleArray && styleArray.length > 0) {
-            query = {
-                ...query,
-                style: {
-                    in: styleEnums
+        // // conditionally add properties to the query object...
+
+        const stylesArray = style?.split(",").map(style => style.trim())
+
+        if (stylesArray && stylesArray.length > 0) {
+
+            query.style = {
+                label: {
+                    in: stylesArray
                 }
             }
         }
 
-        const bodyPartArray = bodyPart?.split(',')
-        if (bodyPartArray && bodyPartArray.length > 0) {
-            query = {
-                ...query,
-                bodyPart: {
-                    in: bodyPartArray
+        const bodyPartsArray = bodyPart?.split(",").map(bodyPart => bodyPart.trim())
+
+        if (bodyPartsArray && bodyPartsArray.length > 0) {
+            query.bodyPart = {
+                label: {
+                    in: bodyPartsArray,
+                    mode: "insensitive"
                 }
             }
         }
 
         // create a query that returns the tattoos that match the search in the title or description
         if (freeSearch) {
+
             query = {
                 ...query,
                 OR: [
@@ -59,21 +57,26 @@ export default async function getTattoos(searchParams) { // I would call the arg
                             contains: freeSearch,
                             mode: "insensitive"
                         }
-                    },
+                    }
                 ]
             }
         }
 
-        // GET ALL LISTINGS using prisma
-        const listings = await prisma.tattoo.findMany({
+        // ### END OF SEARCH FUNCTIONALITY ###
+
+        const tattoos = await prisma.tattoo.findMany({
             where: query,
-            orderBy: [{ createdAt: "asc" }, { id: "asc" },],
+            orderBy: [
+                { createdAt: 'asc' },
+                { id: 'asc' },
+            ],
+            skip,
+            take: take, // fetch 'take + 1' items, so we know if there are more items to fetch
         });
 
-        return listings;
+        return tattoos;
 
     } catch (error) {
-        console.log('ERROR - getTattoos', error);
-        return []
+        throw new Error(error); // TODO: where does this error go?
     }
-}
+} 

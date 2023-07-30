@@ -9,9 +9,6 @@ export async function POST(req, { params }) {
     try {
         const body = await req.json();
 
-        console.log("POST OF ENDPOINT: /boards/[boardId]/tattoos")
-
-
         const user = await getCurrentUser();
 
         const board = await as.board.findFirst({
@@ -64,7 +61,6 @@ export async function POST(req, { params }) {
         console.log(error, 'ADD TATTTOO TO BOARD_ERROR');
         console.log(error.code, '<---here');
         if (error.code === 'P2002') {
-            console.log("INSIDE")
             return NextResponse.json({ error: 'Ese tatuaje ya está en el tablero' }, { status: 500 })
         }
         return NextResponse.json({ error: 'Something went wrong' }, { status: 500 })

@@ -1,11 +1,11 @@
-import { getArtist } from '@/actions/getArtists'
+import { getArtists } from '@/actions/getArtists'
 import { getCurrentUser } from '@/actions/getCurrentUser'
-import getTattoos from '@/actions/getTattoos'
 import Container from '@/components/ui/Container'
 import TattooListingGrid from '@/components/listings/TattooListingGrid'
 import ListingGrid from '@/components/listings/ListingGrid'
 import ArtistCard from '@/components/listings/ArtistCard'
 import HeadingWithButton from '@/components/ui/HeadingWithButton'
+import { getTattoos } from '@/actions/getTattoos'
 export const dynamic = "force-dynamic";
 
 
@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 export default async function Home({ searchParams }) {
 
     const tattoos = await getTattoos(searchParams)
-    const artists = await getArtist(searchParams)
+    const artists = await getArtists(searchParams)
     const filteredArtists = artists.filter(artist => artist.isComplete)
     const currentUser = await getCurrentUser()
 

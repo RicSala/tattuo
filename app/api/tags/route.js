@@ -7,7 +7,6 @@ export async function POST(req) {
     try {
         const body = await req.json();
 
-        console.log("start 🟩")
         // check if the tag already exists
         const tag = await prisma.tag.findUnique({
             where: {
@@ -16,11 +15,9 @@ export async function POST(req) {
         })
 
         if (tag) {
-            console.log("tag found 🟩")
             return NextResponse.json({ error: 'Tag already exists' }, { status: 400 })
         }
 
-        console.log("tag NOT found 🟩")
         const newTag = await prisma.tag.create({
             data: {
                 label: body.label,
@@ -57,8 +54,6 @@ export async function GET(request, something) {
     });
 
 
-
-    // console.log("FILTERED CITIES", cities);
 
     return NextResponse.json(tags, { status: 200 });
 

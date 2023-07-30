@@ -36,10 +36,6 @@ const ArtistDetailsPage = async ({ params }) => {
         )
     }
 
-    console.log("ARTIST", artist)
-    console.log("ARTIST TATTOOS", artistTattoos)
-    console.log("CURRENT USER", currentUser)
-
     const numberOfTattoos = artistTattoos.length;
 
     return (

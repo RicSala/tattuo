@@ -22,11 +22,9 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
     // I am letting the useEffect of the context the update the global state when the currentUser changes
     // but on a local level, I am updating the state of the boards immediately after the user clicks on the button
     // so the pattern is:
-    // - We use a local state to update the UI immediately
-    // - that local state is initialized with the global state
+    // - local state is initialized with the global state
     // - when the user clicks, we update the local state and send the request to the server
     // - if the request is succesful, the currentUser will be updated and the "data" of the session will change
-    // - the useEffect of the context (that depends on the data( will update the global state with the new data
 
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -71,13 +69,14 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
                 setShowInput(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+
 
     return (
         <div
