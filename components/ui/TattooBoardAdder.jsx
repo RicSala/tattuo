@@ -46,8 +46,6 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
         // We send the request to the server to create the board in the database after we have added it to the user
         onBoardCreate(data.title)
             .then((newBoard) => {
-
-                // We select the board
                 onBoardSelect(tattoo, newBoard)
             })
             .catch((error) => {
@@ -136,7 +134,7 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
                                 event.stopPropagation()
                                 setShowInput(true);
                             }}
-                            label="Create new board"
+                            label="+ Crear tablero"
                         />
                     </div>
                 )}
