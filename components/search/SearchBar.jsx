@@ -98,15 +98,30 @@ const Search = ({
             justify-between
             gap-6
             my-8
+            flex-wrap
         "
         >
-            <div className='relative flex flex-row flex-1'>
+            <div className='
+            flex 
+            flex-row 
+            flex-1
+            gap-2
+            items-center
+            
+            '>
                 <input
-                    className='block flex-1
-                px-5 py-2 rounded-md font-bold
-                border-gray-200
+                    className='
+                    block
+                    flex-1
+                    basis-30
+                    max-w-[400px]
+                    px-5
+                    py-2
+                    rounded-md
+                    font-bold
+                    border-gray-200
                 items-start
-                border w-full'
+                border'
                     name="location"
                     type="text"
                     placeholder="Búsqueda libre"
@@ -120,21 +135,27 @@ const Search = ({
                         }
                     }}
                 />
-                <div className=''>
-                    <button className='bg-gray-200 p-2 rounded-md'
-                        onClick={() => {
-                            onFreeSearchClick()
-                        }}
-                    >
-                        Buscar <BiSearch className="inline" size={20} />
-                    </button>
-                </div>
+                <button className='
+                bg-gray-200
+                p-2
+                rounded-md
+                flex flex-row
+                flex-nowrap
+                gap-1
+                items-center
+                '
+                    onClick={() => {
+                        onFreeSearchClick()
+                    }}
+                >
+                    Buscar <BiSearch className="inline" size={20} />
+                </button>
 
             </div>
-            <SearchFilterButton title={filtro1.label} options={filtro1.options} onClick={toggleSelectedFiltro1} selected={selectedFiltro1} searchParamName={filtro1.value} />
-            <SearchFilterButton title={filtro2.label} options={filtro2.options} onClick={toggleSelectedFiltro2} selected={selectedFiltro2} searchParamName={filtro2.value} />
-            {/* <SearchFilterButton title='Estilos' /> */}
-
+            <div className='flex flex-row gap-2'>
+                <SearchFilterButton title={filtro1.label} options={filtro1.options} onClick={toggleSelectedFiltro1} selected={selectedFiltro1} searchParamName={filtro1.value} />
+                <SearchFilterButton title={filtro2.label} options={filtro2.options} onClick={toggleSelectedFiltro2} selected={selectedFiltro2} searchParamName={filtro2.value} />
+            </div>
 
         </div>
     )

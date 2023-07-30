@@ -67,13 +67,7 @@ const UserMenu = ({
                 }}
                 label="Mi perfil de tatuador"
             />
-            <MenuItem
-                onMouseEnter={() => router.prefetch("/blog")}
-                onClick={() => {
-                    setIsOpen(false)
-                    router.push("/blog")
-                }} label="Blog · Marketing para tatuadores"
-            />
+
         </>
     )
 
@@ -123,6 +117,14 @@ const UserMenu = ({
             /> */}
 
             <MenuItem
+                onMouseEnter={() => router.prefetch("/blog")}
+                onClick={() => {
+                    setIsOpen(false)
+                    router.push("/blog")
+                }} label="Blog · Todo sobre tatuajes"
+            />
+
+            <MenuItem
                 onClick={onOpenRentModal}
                 label="Mi perfil"
             />
@@ -148,6 +150,8 @@ const UserMenu = ({
 
     return (
         <div className="relative flex flex-col" ref={menuRef}>
+
+            {/* MENUBUTTON */}
             <div className="flex flex-row items-center gap-3">
                 <div
                     onClick={onOpenRegisterArtistModal}
@@ -193,7 +197,6 @@ const UserMenu = ({
                     </div>
 
                 </div>
-
             </div>
 
             {
@@ -202,8 +205,8 @@ const UserMenu = ({
                 absolute
                 rounded-xl
                 shadow-md
-                w-[40vw]
-                md:w-[20vw]
+                w-[90vw]
+                sm:w-[30vw]
                 bg-white
                 overflow-hidden
                 right-0

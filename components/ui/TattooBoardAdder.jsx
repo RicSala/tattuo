@@ -82,12 +82,14 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
             className="tattoo-board-adder
             bg-white
             rounded-lg
+            overflow-y-auto
+            [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']
             "
             onMouseEnter={() => setShowBoards(true)}
             onMouseLeave={() => setShowBoards(false)}
         >
             {
-                // Adder button -> show list of boards
+                // "+"" button -> show list of boards
                 !showBoards && !showInput && (
                     <div className="heart-icon rounded-full">
                         <svg
@@ -105,31 +107,40 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
 
 
             {
-                // Tattoo board list
+                // Tattoo board list + button to create a new board
                 showBoards && !showInput && (
                     <div className="boards-list
                     border-border
                     p-2
+                    max-h-[200px]
+                    m-2
+                    relative
                     ">
-                        {userFromContext && boards.map((board) => (
-                            <div
-                                key={board.id}
-                                onClick={(event) => {
-                                    event.stopPropagation()
-                                    onBoardSelect(tattoo, board);
-                                    setShowBoards(false);
-                                }}
-                                className='
+                        <p className='font-bold border-b-stone-700 border-b text-center'>Tus tableros</p>
+                        {userFromContext &&
+                            boards.map((board) => (
+                                <div
+                                    key={board.id}
+                                    onClick={(event) => {
+                                        event.stopPropagation()
+                                        onBoardSelect(tattoo, board);
+                                        setShowBoards(false);
+                                    }}
+                                    className='
                                 hover:bg-slate-200
                                 cursor-pointer
                                 p-2
                                 rounded-lg
                                 '
-                            >
-                                {board.title}
-                            </div>
-                        ))}
+                                >
+                                    {board.title}
+                                </div>
+                            ))}
                         <Button
+                            className={`mb-2
+                            sticky
+                            bottom-2
+                            `}
                             onClick={(event) => {
                                 event.stopPropagation()
                                 setShowInput(true);
@@ -140,10 +151,9 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
                 )}
 
             {
-                // Dashboard input to create a new board
-                showInput && <div className="board-adder-input
-            
-            ">
+
+                // Input to create a new board
+                showInput && <div className="board-adder-input">
                     <form onSubmit={handleSubmit(onSubmit)}
                         onClick={(event) => {
                             event.stopPropagation()

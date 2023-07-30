@@ -161,7 +161,8 @@ const TattooCard = ({
                     {
                         canSave && boardAdder &&
                         <div className="absolute bottom-3 left-3
-                        opacity-0 group-hover:opacity-90 transition duration-400 ease-in-out
+                        opacity-0
+                        group-hover:opacity-90 transition duration-400 ease-in-out
 
                         ">
                             <TattooBoardAdder

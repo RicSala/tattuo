@@ -63,12 +63,26 @@ const SearchFilterButton = ({
 
     return (
         <div className="relative z-10">
-            <div className="  border-gray-200 cursor-pointer relative
-    border w-auto px-5 py-2 rounded-md font-bold flex flex-row juify-between gap-2 items-center
-    select-none"
+            <div className="  
+                border-border 
+                cursor-pointer 
+                relative
+                border 
+                w-auto 
+                px-5 
+                py-2 
+                rounded-md 
+                font-bold 
+                flex flex-row 
+                justify-center 
+                gap-2 items-center
+                select-none
+                flex-wrap
+                
+                "
                 onClick={() => setShow(!show)}
             >
-                <p className='hidden sm:block'>
+                <p className=''>
                     {title}
                 </p>
                 <BsFilter size={20} />
