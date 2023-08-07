@@ -66,7 +66,9 @@ export async function getTattoos(searchParams, skip = 0, take = undefined) {
                             some: {
                                 tag: {
                                     label: {
-                                        contains: freeSearch
+                                        contains: freeSearch,
+                                        mode: "insensitive"
+
                                     }
                                 }
                             }
@@ -77,23 +79,23 @@ export async function getTattoos(searchParams, skip = 0, take = undefined) {
             }
         }
 
-        console.log("CONTENT SLUG", contentSlug)
-
         if (contentSlug) {
             query = {
-                tags: {
-                    some: {
-                        tag: {
-                            label: {
-                                contains: contentSlug,
-                                mode: "insensitive"
+                AND: [{ ...query },
+                {
+                    tags: {
+                        some: {
+                            tag: {
+                                label: {
+                                    contains: contentSlug,
+                                    mode: "insensitive"
 
+                                }
                             }
                         }
+
                     }
-
-                }
-
+                }]
             }
         }
 
@@ -108,6 +110,10 @@ export async function getTattoos(searchParams, skip = 0, take = undefined) {
             skip,
             take: take, // fetch 'take + 1' items, so we know if there are more items to fetch
         });
+
+        console.log("QUERY", query)
+
+        console.log("TATTOOS!", tattoos)
 
         return tattoos;
 

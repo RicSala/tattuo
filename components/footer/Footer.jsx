@@ -34,7 +34,7 @@ const footterMenu = [
         title: "Principales temáticas",
         items: [
             { label: "Tatuajes de Mariposas", url: "/tatuajes/mariposas" },
-            { label: "Tatuajes de Mariposas", url: "/tatuajes/mariposas" },
+            { label: "Tatuajes de Tribales", url: "/tatuajes/tribales" },
             { label: "Tatuajes de Mariposas", url: "/tatuajes/mariposas" },
             { label: "Tatuajes de Mariposas", url: "/tatuajes/mariposas" },
             { label: "Tatuajes de Mariposas", url: "/tatuajes/mariposas" },

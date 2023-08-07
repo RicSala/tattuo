@@ -14,6 +14,7 @@ import { DevTool } from "@hookform/devtools";
 import CustomSelect from "@/components/inputs/CustomSelect";
 import ImageThumbnails from "@/components/ui/ImageThumbnails";
 import HeadingWithButton from "@/components/ui/HeadingWithButton";
+import { Textarea } from "@/components/inputs/TextArea";
 
 // Not sure I want to use this
 const inputFields = [
@@ -122,219 +123,243 @@ const ProfilePageClient = ({
         <>
 
             <HeadingWithButton title={'Editar perfil'} actionLabel={'Cancelar'} buttonUrl={'/admin/tatuajes'} />
-            <form onSubmit={handleSubmit(onSubmit, onError)}>
-                <>
+            <form onSubmit={handleSubmit(onSubmit, onError)} className="flex flex-col mx-auto ">
+                <div className="flex flex-row gap-10 justify-center flex-wrap">
+                    <div className="w-full md:w-1/2">
 
-                    {/* BASIC INFO */}
-                    <p className="text-lg font-semibold">Información básica</p>
+                        {/* BASIC INFO */}
+                        <div className="mb-5">
+                            <p className="text-lg font-semibold">Información básica</p>
+                            <div className="grid sm:grid-cols-2 grid-cols-1 gap-3">
+                                <Input
+                                    id="artisticName"
+                                    label="Nombre artistico"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    required
+                                    register={register}
+                                />
 
-                    <Input
-                        id="artisticName"
-                        label="Nombre artistico"
-                        disable={isLoading}
-                        errors={errors}
-                        required
-                        register={register}
-                    />
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    label="Email"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    required='Campo requerido'
+                                    register={register}
+                                />
 
-                    <Input
-                        id="email"
-                        type="email"
-                        label="Email"
-                        disable={isLoading}
-                        errors={errors}
-                        required='Campo requerido'
-                        register={register}
-                    />
-                    <Input
-                        id="bio"
-                        label="Bio"
-                        disable={isLoading}
-                        errors={errors}
-                        required='Campo requerido'
-                        validation={{
-                            maxLength: { value: 500, message: "Máximo 500 caracteres" }
-                        }}
-                        register={register}
-                    />
-
-                    <Input
-                        id="phone"
-                        label="Telefono"
-                        disable={isLoading}
-                        errors={errors}
-                        register={register}
-                    />
-
-                    {/* PRICES */}
-                    <p className="text-lg font-semibold">Precios</p>
-                    <Input
-                        id="minWorkPrice"
-                        label="Precio mínimo"
-                        disable={isLoading}
-                        errors={errors}
-                        required='Campo requerido'
-                        register={register}
-                        formatPrice
-                    />
-
-                    <Input
-                        id="pricePerHour"
-                        label="Precio por hora"
-                        disable={isLoading}
-                        errors={errors}
-                        required='Campo requerido'
-                        register={register}
-                        formatPrice
-                    />
-
-                    <Input
-                        id="pricePerSession"
-                        label="Precio por sesion"
-                        disable={isLoading}
-                        errors={errors}
-                        required='Campo requerido'
-                        register={register}
-                        formatPrice
-                    />
+                                <Input
+                                    id="phone"
+                                    label="Telefono"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    register={register}
+                                />
 
 
-                    {/* SOCIAL PROFILES */}
-                    <p className="text-lg font-semibold">Redes sociales</p>
-                    <Input
-                        id="facebook"
-                        label="Facebook"
-                        disable={isLoading}
-                        errors={errors}
-                        register={register}
-                    />
+                                <Textarea
+                                    id="bio"
+                                    label="Bio"
+                                    errors={errors}
+                                    required='Campo requerido'
+                                    validation={{
+                                        maxLength: { value: 500, message: "Máximo 500 caracteres" }
+                                    }}
+                                    className="bg-white"
+                                    {...register('bio', {
+                                        required: 'Campo requerido',
+                                        minLength: {
+                                            value: 50,
+                                            message: 'Mínimo 50 caracteres'
+                                        },
+                                    })}
+                                />
 
-                    <Input
-                        id="instagram"
-                        label="Instagram"
-                        disable={isLoading}
-                        errors={errors}
-                        register={register}
-                    />
-
-                    <Input
-                        id="tiktok"
-                        label="Tiktok"
-                        disable={isLoading}
-                        errors={errors}
-                        register={register}
-                    />
-
-                    <Input
-                        id="twitter"
-                        label="Twitter"
-                        disable={isLoading}
-                        errors={errors}
-                        register={register}
-                    />
-
-                    <Input
-                        id="website"
-                        label="Website"
-                        disable={isLoading}
-                        errors={errors}
-                        register={register}
-                    />
-
-                    <Input
-                        id="youtube"
-                        label="Youtube"
-                        disable={isLoading}
-                        errors={errors}
-                        register={register}
-                    />
+                                <Controller
+                                    name="city"
+                                    control={control}
+                                    rules={{
+                                        required: 'Campo requerido',
+                                    }}
+                                    render={({ field }) =>
+                                        <CustomAsyncSelect
+                                            resources="cities"
+                                            field={field}
+                                        />
+                                    } />
 
 
+                                <Controller
+                                    name="styles"
+                                    control={control}
+                                    rules={{
+                                        required: "Debes seleccionar un estilo",
+                                        // max lenth of the array is 3
+                                        validate: (value) => value.length <= 3 || "Máximo 3 estilos"
+                                    }}
+                                    render={({ field }) =>
+                                        <CustomSelect
+                                            isMulti={true}
+                                            options={styles}
+                                            field={field}
+                                        />} />
+                            </div>
+                        </div>
 
-                </>
+
+                        {/* PRICES */}
+                        <div className="mb-5">
+                            <p className="text-lg font-semibold">Precios</p>
+                            <div className="grid sm:grid-cols-2 grid-cols-1 gap-3">
+
+                                <Input
+                                    id="minWorkPrice"
+                                    label="Precio mínimo"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    required='Campo requerido'
+                                    register={register}
+                                    formatPrice
+                                />
+
+                                <Input
+                                    id="pricePerHour"
+                                    label="Precio por hora"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    required='Campo requerido'
+                                    register={register}
+                                    formatPrice
+                                />
+
+                                <Input
+                                    id="pricePerSession"
+                                    label="Precio por sesion"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    required='Campo requerido'
+                                    register={register}
+                                    formatPrice
+                                />
 
 
-                <ImageUploadControlled2
-                    control={control}
-                    maxFiles={1}
-                    name="mainImage"
-                    trigger={trigger}
-                    errors={errors}
-                    rules={{ required: 'Campo requerido' }}
-                />
+                            </div>
+                        </div>
 
-                <ImageThumbnails
-                    imageSrc={getValues("mainImage")}
-                    setValue={setValue}
-                    fieldName="mainImage"
-                />
+                        {/* SOCIAL PROFILES */}
+                        <div className="mb-5">
+                            <p className="text-lg font-semibold">Redes sociales</p>
+                            <div className="grid sm:grid-cols-2 grid-cols-1 gap-3">
 
-                {
-                    errors.images &&
-                    <div className="text-red-500">
-                        {errors.images.message}
+                                <Input
+                                    id="facebook"
+                                    label="Facebook"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    register={register}
+                                />
+
+                                <Input
+                                    id="instagram"
+                                    label="Instagram"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    register={register}
+                                />
+
+                                <Input
+                                    id="tiktok"
+                                    label="Tiktok"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    register={register}
+                                />
+
+                                <Input
+                                    id="twitter"
+                                    label="Twitter"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    register={register}
+                                />
+
+                                <Input
+                                    id="website"
+                                    label="Website"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    register={register}
+                                />
+
+                                <Input
+                                    id="youtube"
+                                    label="Youtube"
+                                    disable={isLoading}
+                                    errors={errors}
+                                    register={register}
+                                />
+                            </div>
+                        </div>
+
+
+
                     </div>
-                }
 
-                <ImageUploadControlled2
-                    control={control}
-                    maxFiles={3}
-                    name="images"
-                    trigger={trigger}
-                    errors={errors}
-                    rules={{
-                        // at least 3 images required
-                        validate: (value) => value.length >= 3 || "Mínimo 3 imágenes"
-                    }}
-                />
-                <ImageThumbnails
-                    imageSrc={getValues("images")}
-                    setValue={setValue}
-                    fieldName="images"
+                    <div className="max-w-md">
 
-                />
-
-                {
-                    errors.styles &&
-                    <div className="text-red-500">
-                        {errors.styles.message}
-                    </div>
-
-                }
-
-                <Controller
-                    name="city"
-                    control={control}
-                    rules={{
-                        required: 'Campo requerido',
-                    }}
-                    render={({ field }) =>
-                        <CustomAsyncSelect
-                            resources="cities"
-                            field={field}
+                        <ImageUploadControlled2
+                            control={control}
+                            maxFiles={1}
+                            name="mainImage"
+                            trigger={trigger}
+                            errors={errors}
+                            rules={{ required: 'Campo requerido' }}
                         />
-                    } />
+
+                        <ImageThumbnails
+                            imageSrc={getValues("mainImage")}
+                            setValue={setValue}
+                            fieldName="mainImage"
+                        />
+
+                        {
+                            errors.images &&
+                            <div className="text-red-500">
+                                {errors.images.message}
+                            </div>
+                        }
+
+                        <ImageUploadControlled2
+                            control={control}
+                            maxFiles={3}
+                            name="images"
+                            trigger={trigger}
+                            errors={errors}
+                            rules={{
+                                // at least 3 images required
+                                validate: (value) => value.length >= 3 || "Mínimo 3 imágenes"
+                            }}
+                        />
+                        <ImageThumbnails
+                            imageSrc={getValues("images")}
+                            setValue={setValue}
+                            fieldName="images"
+
+                        />
 
 
-                <Controller
-                    name="styles"
-                    control={control}
-                    rules={{
-                        required: "Debes seleccionar un estilo",
-                        // max lenth of the array is 3
-                        validate: (value) => value.length <= 3 || "Máximo 3 estilos"
-                    }}
-                    render={({ field }) =>
-                        <CustomSelect
-                            isMulti={true}
-                            options={styles}
-                            field={field}
-                        />} />
 
-                <Button type="submit" isLoading={isLoading} disabled={isLoading}
-                    label={isLoading ? "Guardando..." : "Guardar"} />
+                    </div>
+                </div>
+                <div className="flex flex-row justify-end">
+                    <div className="">
+                        <Button type="submit" isLoading={isLoading} disabled={isLoading}
+                            label={isLoading ? "Guardando..." : "Guardar"} />
 
-
+                    </div>
+                </div>
             </form>
             {/* Dev tools for React Hook Forms  */}
             {/* <DevTool control={control} /> */}

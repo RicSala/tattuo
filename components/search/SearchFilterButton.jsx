@@ -2,9 +2,10 @@
 
 import clsx from "clsx";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { BsFilter } from "react-icons/bs";
 import qs from "query-string";
+import Button from "../ui/Button";
 
 const SearchFilterButton = ({
     title = 'Filtros',
@@ -13,6 +14,9 @@ const SearchFilterButton = ({
     onClick,
     searchParamName
 }) => {
+
+
+    const menuRef = useRef(null);
 
 
     const [show, setShow] = useState(false);
@@ -25,6 +29,20 @@ const SearchFilterButton = ({
         onClick(option.label);
 
     };
+
+    const handleClickOutside = useCallback((event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+            setShow(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside);
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [handleClickOutside]);
+    // End of snippet (ref added to the div below)
 
     const applyFilters = () => {
         setShow(false);
@@ -62,7 +80,9 @@ const SearchFilterButton = ({
     }
 
     return (
-        <div className="relative z-10">
+        <div className="relative z-10"
+            ref={menuRef}
+        >
             <div className="  
                 border-border 
                 cursor-pointer 
@@ -114,21 +134,10 @@ const SearchFilterButton = ({
                             {option.label}
                         </div>
                     ))}
-                    <button className="
-                    w-full
-                    bg-white 
-                    border-gray-200
-                     border 
-                    rounded-md
-                    shadow-md
-                    px-5 
-                    py-2
-                    hover:bg-gray-100
-                    cursor-pointer"
+                    <Button
                         onClick={() => applyFilters()}
-                    >
-                        Aplicar filtros
-                    </button>
+                        label="Aplicar filtros"
+                    />
                 </div>}
 
 

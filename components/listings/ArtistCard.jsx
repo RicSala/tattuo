@@ -61,9 +61,9 @@ const ArtistCard = ({
                 <Avatar user={data} isArtist />
                 <p>{data.artisticName}</p>
             </div>
-            <div className="py-3 px-5">
-                Precios:
-            </div>
+            {/* <div className="py-3 px-5">
+                €€€
+            </div> */}
         </div>
     )
 };

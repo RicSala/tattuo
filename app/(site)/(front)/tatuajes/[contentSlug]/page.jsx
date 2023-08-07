@@ -8,6 +8,7 @@ import { getBodyParts } from '@/libs/getBodyParts'
 import ListingGridWithInfinite from '@/components/listings/ListingGridWithInfinite'
 import TattooCard from '@/components/listings/TattooCard'
 import { getTattoos } from '@/actions/getTattoos'
+import { Josefin_Sans } from 'next/font/google'
 export const dynamic = "force-dynamic";
 
 
@@ -42,14 +43,15 @@ export default async function TattoosPage({ params, searchParams }) {
     console.log("search", searchParams.freeSearch)
 
     // This is a bit hacky but...it works...
-    const contentSlug = params.contentSlug || undefined
-    searchParams.contentSlug = contentSlug
+    const filter = params.contentSlug ? { contentSlug: params.contentSlug } : null
+    searchParams.contentSlug = params.contentSlug
 
     const serverLoadedTattoos = await getTattoos(
         searchParams,
         0,
         initialDataSize
     )
+
 
     const currentUser = await getCurrentUser()
 
@@ -77,7 +79,7 @@ export default async function TattoosPage({ params, searchParams }) {
                 Component={TattooCard} // the component to render for each item
                 keyProp="tattoo" // the key prop to use to identify each item
                 currentUser={currentUser} // the current user to check if the user is logged in
-                filter={{ contentSlug: contentSlug }}
+                filter={filter}
             />
         </Container>
     )

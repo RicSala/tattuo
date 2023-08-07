@@ -15,6 +15,7 @@ export function InfiniteScrollReal({
     endpoint,
     Component,
     currentUser,
+    filter,
 }) {
 
     const searchParams = useSearchParams()
@@ -37,7 +38,8 @@ export function InfiniteScrollReal({
     }
 
     const realFetch = async (page = 1) => {
-        const response = await axios.get(`${endpoint}?page=${page}&pageSize=${sizePerPage}&${searchParams.toString()}`)
+        const response = await axios.get(`${endpoint}?page=${page}&pageSize=${sizePerPage}&${searchParams.toString()}${filter ? `&contentSlug=${filter.contentSlug}` : ""}
+        `)
             .then(res => res.data)
             .catch(err => {
                 console.log(err)
