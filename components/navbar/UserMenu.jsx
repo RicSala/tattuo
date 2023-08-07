@@ -124,10 +124,10 @@ const UserMenu = ({
                 }} label="Blog · Todo sobre tatuajes"
             />
 
-            <MenuItem
+            {/* <MenuItem
                 onClick={onOpenRentModal}
                 label="Mi perfil"
-            />
+            /> */}
 
         </>
     )
@@ -177,15 +177,11 @@ const UserMenu = ({
                     p-4
                     md:py-1
                     md:px-2
-                    border-[1px]
-                    border-border
                     flex
                     flex-row
                     items-center
                     gap-3
-                    rounded-full
                     cursor-pointer
-                    hover:shadow-md
                     transition
                     "
                 >

@@ -12,6 +12,7 @@ const ListingGridWithInfinite = ({
     sizePerPage,
     keyProp, // new prop for the dynamic key
     currentUser,
+    filter,
 
 }) => {
 
@@ -36,6 +37,7 @@ const ListingGridWithInfinite = ({
                     keyProp={keyProp}
                     Component={Component}
                     currentUser={currentUser}
+                    filter={filter}
                 />
             </CustomQueryClientProvider>
 

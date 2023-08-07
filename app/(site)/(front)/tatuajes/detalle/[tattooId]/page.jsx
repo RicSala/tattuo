@@ -43,6 +43,8 @@ const TattooDetailsPage = async ({ params }) => {
 
     const age = Math.floor((new Date() - new Date(tattoo.createdAt)) / (1000 * 60 * 60 * 24));
 
+    console.log("tattoo!", tattoo.tags[1].tag.label)
+
     return (
 
         <Container>
@@ -50,7 +52,7 @@ const TattooDetailsPage = async ({ params }) => {
                 <div className="flex flex-col overflow-hidden sm:flex-row">
 
                     <div className="relative order-first ml-auto h-48 w-full bg-gray-700 sm:order-none sm:h-auto sm:w-1/2">
-                        <Image alt="tattoo" fill src={tattoo.imageSrc} loading="lazy" />
+                        <Image alt="tattoo" fill src={tattoo.imageSrc} loading="lazy" className="object-cover" />
                     </div>
 
                     <div className="flex w-full flex-col sm:w-1/2">
@@ -72,7 +74,11 @@ const TattooDetailsPage = async ({ params }) => {
                                         <div
                                             className="font-bold"
                                         >Tags: </div>
-                                        <p className="">{tattoo.tags?.join(', ')}</p>
+                                        <p className="">{
+                                            (tattoo.tags.map((el) => (
+                                                `#${el.tag.label.toLowerCase()}`
+                                            ))).join(", ")
+                                        }</p>
                                     </div>
                                 </div>
                                 <div className="p-4 flex flex-row justify-between">

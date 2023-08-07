@@ -9,6 +9,7 @@ export async function getTattoos(searchParams, skip = 0, take = undefined) {
             style,
             bodyPart,
             freeSearch,
+            contentSlug,
         } = searchParams;
 
 
@@ -73,6 +74,26 @@ export async function getTattoos(searchParams, skip = 0, take = undefined) {
                         }
                     }
                 ]
+            }
+        }
+
+        console.log("CONTENT SLUG", contentSlug)
+
+        if (contentSlug) {
+            query = {
+                tags: {
+                    some: {
+                        tag: {
+                            label: {
+                                contains: contentSlug,
+                                mode: "insensitive"
+
+                            }
+                        }
+                    }
+
+                }
+
             }
         }
 

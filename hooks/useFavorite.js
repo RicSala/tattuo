@@ -25,10 +25,6 @@ const useFavorite = ({
         return currentUser?.favoriteIds?.includes(listingId)
     }, [currentUser, listingId])
 
-    console.log("hasFavorited: ", hasFavorited)
-    console.log("currentUser: ", currentUser)
-    console.log("listingId: ", listingId)
-
     const toggleFavorite = useCallback(async (event) => {
         event.stopPropagation()
 

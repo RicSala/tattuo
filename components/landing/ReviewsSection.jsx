@@ -20,7 +20,7 @@ export default function ReviewsSection({
                         overflow-hidden
                         ">
                             <Image src="/images/hero-bg.jpeg" fill alt="review image" className="absolute top-0 left-0 object-cover" />
-                            <div class="absolute top-0 left-0 w-full h-full bg-primary/60"></div>
+                            <div className="absolute top-0 left-0 w-full h-full bg-primary/60"></div>
 
 
                             {/* RATING */}
