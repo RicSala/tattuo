@@ -4,6 +4,8 @@ import { getCurrentUser } from "@/actions/getCurrentUser"
 import { getSavedTattoosByUserId } from "@/actions/getSavedTattoosByUserId"
 import Container from "@/components/ui/Container"
 import Heading from "@/components/ui/Heading"
+import ListingGrid from "@/components/listings/ListingGrid"
+import TattooCard from "@/components/listings/TattooCard"
 
 export default async function SavedArtistsPage() {
 
@@ -30,9 +32,13 @@ export default async function SavedArtistsPage() {
 
         <Container>
             <Heading title="Tatuajes guardados" subtitle="Estos son los tatuajes que has guardado" />
-            <TattooListingGrid listings={tattoos} currentUser={currentUser}
-                listingType="tattoos"
-            />
+            <ListingGrid>
+                {
+                    tattoos.map(
+                        (tattoo) => (<TattooCard data={tattoo} currentUser={currentUser} key={tattoo.id} />)
+                    )
+                }
+            </ListingGrid>
         </Container>
 
     )

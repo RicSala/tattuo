@@ -38,8 +38,6 @@ const TattooCard = ({
     const deleteFromBoard = async (tattooId) => {
         setIsDeleting(true)
         toast.success('Tattoo removed from board')
-
-
         await axios.delete(`/api/boards/${secondaryActionId}/tattoos/`, {
             data: {
                 tattooId: tattooId
@@ -54,6 +52,30 @@ const TattooCard = ({
     if (actionLabel === 'Eliminar de tablero') {
         onAction = deleteFromBoard
     }
+
+    const deleteTattoo = async (tattooId) => {
+        setIsDeleting(true)
+        toast.success('Tatuaje eliminado')
+        await axios.delete(`/api/tattoos/${tattooId}`)
+            .then(res => {
+                router.refresh()
+                return res.data
+            }
+            )
+    }
+
+    if (secondaryActionLabel === 'Eliminar') {
+        onSecondaryAction = deleteTattoo
+    }
+
+    const goToEditPage = (tattooId) => {
+        router.push(`/admin/tatuajes/${tattooId}`)
+    }
+
+    if (actionLabel === 'Editar') {
+        onAction = goToEditPage
+    }
+
     // End of hacky code
 
 
@@ -122,11 +144,12 @@ const TattooCard = ({
         <div
             onMouseEnter={() => router.prefetch(`/${translatedResource}/${data.id}`)} // With Link, the prefetch is automatic, with router is not
             onClick={() => router.push(`/${translatedResource}/${data.id}`)}
-            className="col-span-1 cursor-pointer group"
+            className="col-span-1 cursor-pointer group
+            "
         >
             <div className="flex flex-col gap-2 w-full">
                 <div className="
-                                    min-w-[200px]
+                                    min-w-[150px]
                 aspect-square w-full relative overflow-hidden rounded-xl
                 ">
                     <Image
@@ -140,7 +163,6 @@ const TattooCard = ({
                     object-cover
                     h-full
                     w-full
-                    group-hover:scale-110
                     transition
                     "
 
@@ -165,6 +187,7 @@ const TattooCard = ({
                         group-hover:opacity-90 transition duration-400 ease-in-out
 
                         ">
+
                             <TattooBoardAdder
                                 key={data.id}
                                 tattoo={data}

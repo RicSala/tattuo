@@ -6,6 +6,7 @@ import Link from "next/link";
 import ListingGrid from '@/components/listings/ListingGrid'
 import Image from 'next/image'
 import { getTattoosByBoardId } from '@/actions/getTattoosByBoardId';
+import BoardCard from '@/components/boards/BoardCard';
 
 
 
@@ -49,32 +50,14 @@ export default async function BoardsPage({ searchParams }) {
     return (
         <>
             <Container>
-                <Heading title={'Tus tableros'} />
+                <Heading title={'Tus tableros'}
+                    subtitle={'Guarda tus tatuajes en tableros y no los pierdas de vista!'}
+                />
                 <ListingGrid>
 
                     {
                         boardsWithFirstTattoo.map(board => (
-                            <Link key={board.id} href={`/tatuajes/boards/${board.id}`}>
-                                <div className="
-                        bg-white
-                        rounded-lg
-                        p-4
-                        shadow-md
-                        hover:shadow-lg
-                        transition-shadow
-                        duration-200
-                        ">
-
-                                    <div key={board.id}>
-                                        <h2>{board.title}</h2>
-                                    </div>
-                                    {/* show the imageSrc of tattoo */}
-                                    <Image
-                                        src={board.firstTattoo || '/images/placeholder.png'}
-                                        alt="image" width={100} height={200}
-                                        style={{ width: 'auto' }} />
-                                </div>
-                            </Link>
+                            <BoardCard board={board} key={board.id} />
                         ))
 
                     }

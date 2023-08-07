@@ -40,6 +40,8 @@ export async function getTattoos(searchParams, skip = 0, take = undefined) {
             }
         }
 
+
+
         // create a query that returns the tattoos that match the search in the title or description
         if (freeSearch) {
 
@@ -56,6 +58,18 @@ export async function getTattoos(searchParams, skip = 0, take = undefined) {
                         description: {
                             contains: freeSearch,
                             mode: "insensitive"
+                        }
+                    },
+                    {
+                        tags: {
+                            some: {
+                                tag: {
+                                    label: {
+                                        contains: freeSearch
+                                    }
+                                }
+                            }
+
                         }
                     }
                 ]

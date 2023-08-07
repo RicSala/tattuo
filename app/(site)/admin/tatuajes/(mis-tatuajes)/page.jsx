@@ -3,6 +3,8 @@ import { getCurrentUser } from "@/actions/getCurrentUser";
 import { getTattoosByArtistId } from "@/actions/getTattoosByArtistId";
 import TattooListingGrid from "@/components/listings/TattooListingGrid";
 import HeadingWithButton from "@/components/ui/HeadingWithButton";
+import ListingGrid from "@/components/listings/ListingGrid";
+import TattooCard from "@/components/listings/TattooCard";
 
 const MyTattoosPage = async ({ params }) => {
 
@@ -38,13 +40,25 @@ const MyTattoosPage = async ({ params }) => {
 
             <HeadingWithButton title={'Tus tatuajes publicados'} actionLabel={'Publicar tatuaje'} buttonUrl={'/admin/tatuajes/new'} />
 
-            <TattooListingGrid listings={tattoos} currentUser={currentUser}
-                actionLabel={'Editar'}
-                secondaryActionLabel={'Eliminar'}
-                listingType={'tattoos'}
-                canLike={false}
-                canSave={false}
-            />
+            <ListingGrid>
+                {
+                    tattoos.map(
+                        (tattoo) => (
+                            <TattooCard
+                                data={tattoo}
+                                currentUser={currentUser}
+                                key={tattoo.id}
+                                actionLabel={"Editar"}
+                                onAction={"Editar"}
+                                secondaryActionLabel={"Eliminar"}
+                                onSecondaryAction={"Eliminar"}
+                                actionId={tattoo.id}
+                                canLike={false}
+                                canSave={false}
+                            />)
+                    )
+                }
+            </ListingGrid>
         </>
     )
 

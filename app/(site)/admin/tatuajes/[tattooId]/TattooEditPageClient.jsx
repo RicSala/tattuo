@@ -55,6 +55,7 @@ const TattooEditPageClient = ({
                     // after creating the tattoo, we redirect to the edit page,
                     // so the user does not add more tattoos by mistake
                     router.push(`/admin/tatuajes/${res.data.id}`)
+                    router.refresh()
                 })
                 .catch(err => {
                     console.log("ERROR - TattooEditPageClient", err)
@@ -72,6 +73,7 @@ const TattooEditPageClient = ({
             .then(res => {
                 toast.success(successMessage)
                 router.push(`/admin/tatuajes/${res.data.id}`)
+                router.refresh()
             })
             .catch(err => {
                 console.log("ERROR - TattooEditPageClient", err)
@@ -206,7 +208,9 @@ const TattooEditPageClient = ({
                                 }}
                             />}
                         <div className="max-w-lg">
-                            <ImageThumbnails imageSrc={getValues("imageSrc") || null} setValue={setValue} />
+                            <ImageThumbnails imageSrc={getValues("imageSrc") || null} setValue={setValue}
+                                fieldName={"imageSrc"}
+                            />
                         </div>
 
 
@@ -223,7 +227,7 @@ const TattooEditPageClient = ({
                 </div>
 
                 {
-                    <Button type="submit" label={isLoading ? "Guardando..." : "Guardar"} disabled={isLoading || !isValid} />
+                    <Button type="submit" label={isLoading ? "Guardando..." : "Guardar"} disabled={isLoading} />
                 }
 
             </form>

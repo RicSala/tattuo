@@ -16,7 +16,7 @@ const CityPage = async ({ params }) => {
     if (!artists || artists.length === 0) {
         notFound()
     }
-    const currentUser = getCurrentUser();
+    const currentUser = await getCurrentUser();
 
     return (
         <Container>

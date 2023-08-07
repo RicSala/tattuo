@@ -28,9 +28,9 @@ const Button = ({
         transition
         w-full
         px-2
-        ${outline ? `bg-white` : `bg-primary`}
-        ${outline ? `border-black` : `border-primary`}
-        ${outline ? `text-black` : `text-primary-foreground`}
+        ${outline ? `bg-transparent` : `bg-primary`}
+        ${outline ? `border-border` : `border-primary`}
+        ${outline ? `text-primary` : `text-primary-foreground`}
         ${small ? `py-1` : `py-3`}
         ${small ? `text-sm` : `text-md`}
         ${small ? `font-light` : `font-semibold`}

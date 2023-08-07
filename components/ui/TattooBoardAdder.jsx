@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { UiContext } from '@/providers/ui/UiProvider';
 import { AuthContext } from '@/providers/auth/AuthProvider';
 import Button from './Button';
+import { ScrollArea } from './ScrollableArea';
 
 const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser }) => {
 
@@ -77,17 +78,28 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
 
 
     return (
-        <div
+
+        <ScrollArea
+        onMouseEnter={() => setShowBoards(true)}
+        onMouseLeave={() => setShowBoards(false)}
+        ref={containerRef}
+        className='
+        bg-white
+        rounded-lg
+        '
+
+            >
+        {/* <div
             ref={containerRef}
             className="tattoo-board-adder
             bg-white
-            rounded-lg
+            rounded-lg          
             overflow-y-auto
             [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']
             "
             onMouseEnter={() => setShowBoards(true)}
             onMouseLeave={() => setShowBoards(false)}
-        >
+        > */}
             {
                 // "+"" button -> show list of boards
                 !showBoards && !showInput && (
@@ -177,7 +189,8 @@ const TattooBoardAdder = ({ tattoo, onBoardCreate, onBoardSelect, currentUser })
                     </form>
                 </div>
             }
-        </div>
+        {/* </div> */}
+        </ScrollArea>
     );
 };
 

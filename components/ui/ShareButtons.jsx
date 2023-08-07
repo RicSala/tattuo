@@ -13,36 +13,43 @@ const ShareButtons = ({
     pinterestDescription,
 }) => {
     return (
-        <div className='
+        <div>
+
+            <div className='flex justify-center items-center mb-2'>
+                <p>
+                    Compártelo!
+                </p>
+            </div>
+            <div className='
         flex flex-row justify-center items-center gap-3
         '>
+                <FacebookShareButton
+                    url={url}
+                    quote={"Check out this awesome article!"}
+                    hashtag={"#tattoo"}
+                >
+                    <BsFacebook size={20} />
 
-            <FacebookShareButton
-                url={url}
-                quote={"Check out this awesome article!"}
-                hashtag={"#tattoo"}
-            >
-                <BsFacebook size={20} />
+                </FacebookShareButton>
 
-            </FacebookShareButton>
+                <WhatsappShareButton
+                    url={url}
+                    title={whatsappTitle}
+                    separator=':: '
+                >
+                    <BsWhatsapp size={20} />
+                </WhatsappShareButton>
 
-            <WhatsappShareButton
-                url={url}
-                title={whatsappTitle}
-                separator=':: '
-            >
-                <BsWhatsapp size={20} />
-            </WhatsappShareButton>
-
-            <PinterestShareButton
-                media={pinterestImage}
-                description={pinterestDescription}
-            >
-                <BsPinterest size={20} />
-            </PinterestShareButton>
-
+                <PinterestShareButton
+                    media={pinterestImage}
+                    description={pinterestDescription}
+                >
+                    <BsPinterest size={20} />
+                </PinterestShareButton>
 
 
+
+            </div>
         </div>
     )
 };

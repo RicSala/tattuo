@@ -70,6 +70,7 @@ const TagSelectorControlled = ({
                     value={value}
                     isMulti={true}
                     isClearable={true}
+                    loadingMessage={() => { return "...Cargando" }}
                 />)
             }
         />

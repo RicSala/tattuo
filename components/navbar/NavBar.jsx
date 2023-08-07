@@ -1,15 +1,11 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Container from "../ui/Container";
 import Logo from "./Logo";
 import UserMenu from "./UserMenu";
-import { getServerSession } from "next-auth";
 
 
 async function NavBar({
     currentUser,
 }) {
-
-    const session = await getServerSession(authOptions)
 
     // Create a navBar component that will be used in the layout.js file
     return (
